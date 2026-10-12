@@ -10,3 +10,6 @@ streamlit>=1.31.0
 
 # Mathematical Testing & Validation
 pytest>=8.0.0
+
+# Document & Mathematical Notes PDF Generation
+reportlab>=5.0.0
