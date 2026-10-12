@@ -52,12 +52,9 @@ Financial-Decision-Support-System/
 │   ├── test_capital_budgeting.py   # Root-finding convergence & tolerance checks
 │   └── test_monte_carlo.py         # Seed reproducibility & statistical validation
 │
-├── docs/                           # Academic papers, derivations, and convention notes
-│   ├── mathematical_specifications.md
-│   └── avishkar_synopsis.md
-│
-└── Project_Idea/                   # Initial project proposal and planning dossiers
-    └── Avishkar_Financial_Decision_Support_System_Roadmap.pdf
+└── docs/                           # Academic papers, derivations, and convention notes
+    ├── mathematical_specifications.md
+    └── avishkar_synopsis.md
 ```
 
 ---
