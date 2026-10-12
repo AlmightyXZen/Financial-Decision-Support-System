@@ -52,6 +52,13 @@ Financial-Decision-Support-System/
 │   ├── test_capital_budgeting.py   # Root-finding convergence & tolerance checks
 │   └── test_monte_carlo.py         # Seed reproducibility & statistical validation
 │
+├── theory_and_derivations/         # 12-chapter textbook mathematical reference series
+│   ├── chapters/                   # Modular chapter generator scripts (Ch01 - Ch12)
+│   ├── build_all_chapters.py       # Master monograph compilation engine
+│   ├── styles.py                   # Textbook typography & layout framework
+│   ├── README.md                   # Syllabus, proofs, and theory-to-software mapping
+│   └── *.pdf                       # 12 production-grade textbook PDFs (56 pages total)
+│
 └── docs/                           # Academic papers, derivations, and convention notes
     ├── mathematical_specifications.md
     └── avishkar_synopsis.md
@@ -90,6 +97,30 @@ By generating $M = 10,000+$ independent stochastic paths, the system computes:
 2. **Empirical Probability of Target Achievement:**
    $$\hat{P}(S_T \ge \text{Target}) = \frac{1}{M}\sum_{m=1}^M \mathbf{1}_{\{S_{T, m} \ge \text{Target}\}}$$
 3. **Downside Risk & Value at Risk (VaR):** Quantifying maximum expected loss at the 95th percentile confidence level.
+
+### Dedicated Mathematical Monograph Series (`theory_and_derivations/`)
+
+The theoretical proofs, ODE derivations, and step-by-step arithmetic hand solutions for every algorithm are compiled into a standalone 12-chapter textbook monograph series in [`theory_and_derivations/`](theory_and_derivations/README.md) (56 pages total):
+
+| Chapter | Document Title | Pages | Key Proofs & Analytical Contributions |
+| :---: | :--- | :---: | :--- |
+| **01** | [Simple Interest & Linear Accumulation](theory_and_derivations/01_Simple_Interest.pdf) | 4 | ODE $dA/dt = Pr$, Bernoulli convexity theorem, non-subadditivity proof |
+| **02** | [Compound Interest & Geometric Accumulation](theory_and_derivations/02_Compound_Interest.pdf) | 5 | Geometric progression, frequency arbitrage proof, binomial expansions |
+| **03** | [Continuous Compounding & Infinitesimal Calculus](theory_and_derivations/03_Continuous_Compounding.pdf) | 4 | Euler's limit $\lim (1+r/m)^{mt} = e^{rt}$, homogeneous ODE $dA/dt = rA$ |
+| **04** | [Present Value, Future Value & Discounting](theory_and_derivations/04_Present_Value_and_Future_Value.pdf) | 4 | Stochastic discount factor $v(t)$, negative exponential asymptotic decay |
+| **05** | [Nominal vs. Effective Annual Rate (EAR)](theory_and_derivations/05_Effective_Annual_Rate.pdf) | 4 | Frequency divergence spread, APY regulatory standardization |
+| **06** | [Equated Monthly Installment (EMI) & Debt Amortization](theory_and_derivations/06_Equated_Monthly_Installment_EMI.pdf) | 6 | Annuity discounting, finite geometric sum proof, negative amortization bounds |
+| **07** | [Systematic Investment Plan (SIP) & Annuity Wealth Accumulation](theory_and_derivations/07_Systematic_Investment_Plan_SIP.pdf) | 6 | Annuity-due future value, Dollar-Cost Averaging, harmonic mean pricing advantage |
+| **08** | [Inflation, Real Purchasing Power & The Fisher Equation](theory_and_derivations/08_Inflation_and_Purchasing_Power.pdf) | 4 | Exact Fisher relation $(1+r_n)=(1+r_r)(1+i)$, purchasing power half-life $t_{1/2}$ |
+| **09** | [Net Present Value (NPV) & Capital Budgeting](theory_and_derivations/09_Net_Present_Value_NPV.pdf) | 4 | Multi-period DCF, Hurdle rate / WACC, convexity of NPV curve |
+| **10** | [Internal Rate of Return (IRR) & Root Finding](theory_and_derivations/10_Internal_Rate_of_Return_IRR.pdf) | 5 | Abel-Ruffini theorem, Newton-Raphson iteration, Descartes' rule of signs |
+| **11** | [Geometric Brownian Motion (GBM) & Itô's Lemma](theory_and_derivations/11_Geometric_Brownian_Motion.pdf) | 4 | Continuous SDE $dS = \mu S dt + \sigma S dW$, Itô's Lemma, Volatility drag $\Delta \mu = -\sigma^2/2$ |
+| **12** | [Monte Carlo Simulation & Quantitative Risk Analysis](theory_and_derivations/12_Monte_Carlo_Simulation.pdf) | 6 | SLLN, Central Limit Theorem $\mathcal{O}(1/\sqrt{M})$, Empirical VaR & CVaR |
+
+To build or recompile all 12 chapters locally:
+```bash
+python theory_and_derivations/build_all_chapters.py
+```
 
 ---
 
