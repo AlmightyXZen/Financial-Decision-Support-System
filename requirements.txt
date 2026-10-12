@@ -1,0 +1,12 @@
+# Core Numerical & Data Science Libraries
+numpy>=1.26.0
+pandas>=2.1.0
+scipy>=1.12.0
+
+# Visualization & Interactive Dashboard
+matplotlib>=3.8.0
+plotly>=5.18.0
+streamlit>=1.31.0
+
+# Mathematical Testing & Validation
+pytest>=8.0.0
