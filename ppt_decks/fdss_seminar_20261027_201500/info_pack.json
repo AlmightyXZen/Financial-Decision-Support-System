@@ -1,0 +1,21 @@
+{
+  "project_title": "Financial Decision Support System (FDSS)",
+  "investigator": "Atharv Ranade",
+  "department": "Department of Mathematics & Statistics, University of Mumbai",
+  "category": "Pure Sciences (Category 3: Mathematics & Statistics)",
+  "source_materials": [
+    "docs/avishkar_synopsis.md",
+    "docs/mathematical_specifications.md",
+    "theory_and_derivations/README.md"
+  ],
+  "core_theorems": [
+    "Jensen's Inequality: E[g(X)] != g(E[X]) for non-linear multi-period compounding",
+    "Autonomous vs Linear ODEs: dA/dt = rA(t) vs dA/dt = Pr",
+    "Euler's Infinitesimal Limit: lim (1 + r/m)^(mt) = e^(rt)",
+    "Negative Amortization Boundary: Debt amortizes iff E > P * (r/12)",
+    "Abel-Ruffini Impossibility Theorem: Non-solvability by radicals for IRR degree T >= 5",
+    "Newton-Raphson Quadratic Convergence: O(e_k^2) with Bisection fallback",
+    "Itô's Lemma & Volatility Drag: d(ln S) = (mu - 0.5*sigma^2)dt + sigma*dW",
+    "Central Limit Theorem: Monte Carlo standard error O(1/sqrt(M))"
+  ]
+}

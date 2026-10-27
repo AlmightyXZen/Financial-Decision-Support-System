@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Financial Decision Support System (FDSS) — Research Seminar</title>
+  
+  <!-- KaTeX for Flawless Mathematical Typography -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+          onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+
+  <!-- Google Fonts: Outfit (Headings), Manrope (Body), JetBrains Mono (Math/Code) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Manrope:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-primary: #060D19;
+      --bg-card: rgba(13, 27, 48, 0.72);
+      --bg-card-hover: rgba(18, 38, 68, 0.85);
+      --border-subtle: rgba(56, 189, 248, 0.16);
+      --border-focus: rgba(56, 189, 248, 0.45);
+      --ink-primary: #F8FAFC;
+      --ink-secondary: #94A3B8;
+      --ink-muted: #64748B;
+      --accent-cyan: #38BDF8;
+      --accent-blue: #0284C7;
+      --accent-emerald: #10B981;
+      --accent-amber: #F59E0B;
+      --accent-rose: #F43F5E;
+      --font-display: 'Outfit', -apple-system, sans-serif;
+      --font-body: 'Manrope', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: var(--bg-primary);
+      font-family: var(--font-body);
+      color: var(--ink-primary);
+      user-select: none;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Ambient Dynamic Canvas Background */
+    #bg-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.65;
+    }
+    #bg-canvas {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Stage: Fixed Centered Flex Container */
+    .stage {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Deck: Fixed 1280x720 16:9 Design Canvas */
+    .deck {
+      position: relative;
+      width: 1280px;
+      height: 720px;
+      overflow: hidden;
+      background: radial-gradient(circle at 50% 15%, rgba(14, 38, 74, 0.45) 0%, rgba(6, 13, 25, 0.95) 75%);
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.06);
+      transform-origin: center center;
+    }
+
+    /* Slide Layout & Transitions */
+    .slide {
+      position: absolute;
+      inset: 0;
+      padding: 44px 64px 56px 64px;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(14px) scale(0.99);
+      transition: opacity 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+                  visibility 0.42s;
+    }
+
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+    }
+
+    /* Top Running Academic Header */
+    .slide-meta-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .meta-brand {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+    }
+
+    .meta-category {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: var(--ink-secondary);
+    }
+
+    /* Slide Titles */
+    .slide-heading {
+      margin-bottom: 18px;
+    }
+
+    .slide-title {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.22;
+      color: var(--ink-primary);
+    }
+
+    .slide-subtitle {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.4;
+      color: var(--ink-secondary);
+      margin-top: 5px;
+    }
+
+    /* Hero Formula Showcase Block */
+    .formula-hero {
+      background: rgba(14, 30, 54, 0.85);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 14px 22px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(12px);
+    }
+
+    .formula-hero .katex-display {
+      margin: 4px 0 6px 0;
+      color: var(--accent-cyan);
+      font-size: 1.25em;
+    }
+
+    .formula-caption {
+      font-size: 12px;
+      color: var(--ink-secondary);
+      text-align: center;
+    }
+
+    /* Dual Column Layout */
+    .columns-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      flex: 1;
+    }
+
+    /* Tri Column Layout */
+    .columns-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 18px;
+      flex: 1;
+    }
+
+    /* Academic Cards */
+    .academic-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 18px 22px;
+      display: flex;
+      flex-direction: column;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.25);
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink-primary);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-title .tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .tag-blue { background: rgba(56, 189, 248, 0.15); color: var(--accent-cyan); border: 1px solid rgba(56, 189, 248, 0.3); }
+    .tag-green { background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald); border: 1px solid rgba(16, 185, 129, 0.3); }
+    .tag-amber { background: rgba(245, 158, 11, 0.15); color: var(--accent-amber); border: 1px solid rgba(245, 158, 11, 0.3); }
+    .tag-rose { background: rgba(244, 63, 94, 0.15); color: var(--accent-rose); border: 1px solid rgba(244, 63, 94, 0.3); }
+
+    .bullet-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .bullet-list li {
+      font-size: 13.5px;
+      line-height: 1.45;
+      color: var(--ink-secondary);
+      position: relative;
+      padding-left: 18px;
+    }
+
+    .bullet-list li strong {
+      color: var(--ink-primary);
+    }
+
+    .bullet-list li::before {
+      content: "•";
+      position: absolute;
+      left: 2px;
+      color: var(--accent-cyan);
+      font-size: 18px;
+      line-height: 1;
+      top: -1px;
+    }
+
+    /* Embedded Visual Canvas / SVG Chart Area */
+    .chart-container {
+      width: 100%;
+      height: 160px;
+      background: rgba(8, 18, 34, 0.7);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      margin-top: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* HUD Controls & Progress Bar */
+    .hud {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 44px;
+      padding: 0 44px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(6, 13, 25, 0.9);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      z-index: 10;
+    }
+
+    .hud-left {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-muted);
+    }
+
+    .progress-bar-container {
+      position: absolute;
+      top: -2px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 10%;
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-emerald));
+      transition: width 0.35s ease;
+    }
+
+    .hud-controls {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .hud-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-subtle);
+      color: var(--ink-primary);
+      width: 26px;
+      height: 26px;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.2s;
+    }
+
+    .hud-btn:hover {
+      background: rgba(56, 189, 248, 0.2);
+      border-color: var(--accent-cyan);
+    }
+
+    .slide-counter {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent-cyan);
+    }
+
+    /* Slide 1 Cover Specifics */
+    .cover-layout {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 20px;
+    }
+
+    .cover-pill {
+      align-self: flex-start;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      color: var(--accent-cyan);
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      padding: 5px 12px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+
+    .cover-title {
+      font-family: var(--font-display);
+      font-size: 44px;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      color: #FFFFFF;
+      margin-bottom: 14px;
+    }
+
+    .cover-subtitle {
+      font-size: 20px;
+      color: var(--ink-secondary);
+      font-weight: 400;
+      line-height: 1.4;
+      margin-bottom: 40px;
+      max-width: 900px;
+    }
+
+    .cover-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 25px;
+    }
+
+    .meta-col .label {
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 4px;
+      letter-spacing: 0.05em;
+    }
+
+    .meta-col .value {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink-primary);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Volatility Canvas -->
+  <div id="bg-layer">
+    <canvas id="bg-canvas"></canvas>
+  </div>
+
+  <div class="stage">
+    <div class="deck" id="deck">
+
+      <!-- ==================== SLIDE 01: COVER ==================== -->
+      <section class="slide active" data-slide="1">
+        <div class="cover-layout">
+          <div class="cover-pill">Avishkar Research Convention • Category 3: Pure Sciences</div>
+          <h1 class="cover-title">Financial Decision Support System</h1>
+          <p class="cover-subtitle">A Mathematical &amp; Stochastic Framework for Retail Financial Risk Modeling</p>
+          
+          <div class="cover-meta-grid">
+            <div class="meta-col">
+              <div class="label">Investigator</div>
+              <div class="value">Atharv Ranade</div>
+              <div style="font-size: 12px; color: var(--ink-secondary); margin-top:2px;">BSc Mathematics with Statistics</div>
+            </div>
+            <div class="meta-col">
+              <div class="label">Affiliation</div>
+              <div class="value">Department of Mathematics &amp; Statistics</div>
+              <div style="font-size: 12px; color: var(--ink-secondary); margin-top:2px;">University of Mumbai</div>
+            </div>
+            <div class="meta-col">
+              <div class="label">Mathematical Angle</div>
+              <div class="value">ODEs, Root-Finding &amp; Itô Calculus</div>
+              <div style="font-size: 12px; color: var(--ink-secondary); margin-top:2px;">Vectorized Monte Carlo Simulation</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== SLIDE 02: THE CORE PROBLEM ==================== -->
+      <section class="slide" data-slide="2">
+        <div class="slide-meta-header">
+          <div class="meta-brand">FDSS • Research Foundations</div>
+          <div class="meta-category">Problem Statement</div>
+        </div>
+        <div class="slide-heading">
+          <h2 class="slide-title">The Core Problem: Why Retail Calculators Lie</h2>
+          <p class="slide-subtitle">The dangerous mathematical gap between static expectation and volatile capital markets</p>
+        </div>
+
+        <div class="formula-hero">
+          <div class="formula-math">$$\mathbb{E}[g(X)] \neq g(\mathbb{E}[X]) \quad \implies \quad \text{Deterministic linear compounding hides downside tail risk}$$</div>
+          <div class="formula-caption"><strong>Jensen's Inequality:</strong> In non-linear multi-period compounding, expected wealth does not equal the compound average.</div>
+        </div>
+
+        <div class="columns-2">
+          <div class="academic-card" style="border-left: 3px solid var(--accent-amber);">
+            <div class="card-title">
+              <span>Conventional Retail Projection</span>
+              <span class="tag tag-amber">Deterministic</span>
+            </div>
+            <ul class="bullet-list">
+              <li>Assumes invariant annual return: $A(t) = P(1+r)^t$.</li>
+              <li>Projects lifetime wealth as an unrealistic straight line.</li>
+              <li>Completely ignores volatility ($\sigma = 0$ implicit assumption).</li>
+              <li>Fails to inform citizens about downside portfolio ruin.</li>
+            </ul>
+          </div>
+
+          <div class="academic-card" style="border-left: 3px solid var(--accent-emerald);">
+            <div class="card-title">
+              <span>Stochastic Capital Market Reality</span>
+              <span class="tag tag-green">Stochastic</span>
+            </div>
+            <ul class="bullet-list">
+              <li>Asset prices fluctuate under continuous Brownian motion.</li>
+              <li>Volatility exerts a structural negative drag on compounded returns.</li>
+              <li>The typical median trajectory strictly lags the arithmetic mean.</li>
+              <li>Over 50% of real investors underperform advertised averages.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== SLIDE 03: HYPOTHESIS & OBJECTIVES ==================== -->
+      <section class="slide" data-slide="3">
+        <div class="slide-meta-header">
+          <div class="meta-brand">FDSS • Theoretical Framework</div>
+          <div class="meta-category">Research Hypothesis</div>
+        </div>
+        <div class="slide-heading">
+          <h2 class="slide-title">Research Hypothesis &amp; Applied Mathematics Approach</h2>
+          <p class="slide-subtitle">Grounding retail financial planning in rigorous numerical analysis and stochastic calculus</p>
+        </div>
+
+        <div class="formula-hero" style="border-color: rgba(56, 189, 248, 0.35); background: rgba(8, 26, 48, 0.85);">
+          <div style="font-size: 15px; font-weight: 500; text-align: center; color: var(--ink-primary); line-height: 1.5; font-style: italic;">
+            "Replacing static scalar expectations with numerical root-finding and continuous stochastic processes equips retail investors with true distribution-aware risk modeling."
+          </div>
+          <div class="formula-caption" style="margin-top: 6px;">Central Research Hypothesis • Department of Mathematics &amp; Statistics, University of Mumbai</div>
+        </div>
+
+        <div class="columns-3">
+          <div class="academic-card">
+            <div class="card-title">
+              <span>1. Analytical Theory</span>
+              <span class="tag tag-blue">Analysis</span>
+            </div>
+            <ul class="bullet-list">
+              <li>Formulate capital accumulation using classical ODEs.</li>
+              <li>Derive continuous compounding via Euler limits.</li>
+              <li>Quantify consumer credit traps using EAR spreads.</li>
+            </ul>
+          </div>
+
+          <div class="academic-card">
+            <div class="card-title">
+              <span>2. Numerical Optimization</span>
+              <span class="tag tag-amber">Galois</span>
+            </div>
+            <ul class="bullet-list">
+              <li>Overcome polynomial insolvability (Abel–Ruffini).</li>
+              <li>Implement Newton–Raphson with exact first derivatives.</li>
+              <li>Guarantee convergence using Bisection fallback.</li>
+            </ul>
+          </div>
+
+          <div class="academic-card">
+            <div class="card-title">
+              <span>3. Stochastic Calculus</span>
+              <span class="tag tag-green">Itô SDE</span>
+            </div>
+            <ul class="bullet-list">
+              <li>Model continuous prices via Geometric Brownian Motion.</li>
+              <li>Derive analytical volatility drag via Itô's Lemma.</li>
+              <li>Vectorize 10,000-path Monte Carlo ensembles.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== SLIDE 04: PILLAR 1 - TIME VALUE ODES ==================== -->
+      <section class="slide" data-slide="4">
+        <div class="slide-meta-header">
+          <div class="meta-brand">FDSS • Theoretical Pillar 1</div>
+          <div class="meta-category">Differential Equations</div>
+        </div>
+        <div class="slide-heading">
+          <h2 class="slide-title">Theoretical Pillar 1: Time Value &amp; Governing ODEs</h2>
+          <p class="slide-subtitle">Linear accumulation versus infinitesimal autonomous growth in continuous time</p>
+        </div>
+
+        <div class="columns-2" style="margin-bottom: 16px;">
+          <div class="academic-card">
+            <div class="card-title">
+              <span>Simple Interest: Linear ODE</span>
+              <span class="tag tag-amber">Non-Autonomous</span>
+            </div>
+            <div style="text-align: center; margin: 8px 0;">$$\frac{dA}{dt} = P \cdot r, \quad A(0) = P \implies A(t) = P(1 + rt)$$</div>
+            <ul class="bullet-list">
+              <li>Constant growth rate depending only on original principal $P$.</li>
+              <li>Violates subadditivity: $A(t_1 + t_2) < A(t_1)A(t_2)/P$.</li>
+              <li>Restricted to money markets with tenors under one year.</li>
+            </ul>
+          </div>
+
+          <div class="academic-card">
+            <div class="card-title">
+              <span>Continuous Compounding: Autonomous ODE</span>
+              <span class="tag tag-blue">Exponential</span>
+            </div>
+            <div style="text-align: center; margin: 8px 0;">$$\frac{dA}{dt} = r \cdot A(t), \quad A(0) = P \implies A(t) = P e^{rt}$$</div>
+            <ul class="bullet-list">
+              <li>Instantaneous rate of growth proportional to current wealth.</li>
+              <li>Euler's infinitesimal limit: $\lim_{m \to \infty} P(1 + r/m)^{mt} = P e^{rt}$.</li>
+              <li>Semigroup property: continuously compounded log-returns add linearly.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="formula-hero" style="margin-bottom: 0;">
+          <div class="formula-math">$$\text{EAR} = \left(1 + \frac{r_{\text{nom}}}{m}\right)^m - 1 \quad \bullet \quad r_c = m \cdot \ln\left(1 + \frac{r_d}{m}\right)$$</div>
+          <div class="formula-caption"><strong>Regulatory &amp; Quantitative Parity:</strong> Eliminating nominal APR illusions and converting discrete yields into continuous drift rates.</div>
+        </div>
+      </section>
+
+      <!-- ==================== SLIDE 05: PILLAR 2 - CONSUMER DEBT ==================== -->
+      <section class="slide" data-slide="5">
+        <div class="slide-meta-header">
+          <div class="meta-brand">FDSS • Theoretical Pillar 2</div>
+          <div class="meta-category">Debt Analytics</div>
+        </div>
+        <div class="slide-heading">
+          <h2 class="slide-title">Theoretical Pillar 2: Consumer Debt Analytics</h2>
+          <p class="slide-subtitle">Finite geometric series summation and the negative amortization boundary theorem</p>
+        </div>
+
+        <div class="formula-hero">
+          <div class="formula-math">$$P = \sum_{k=1}^n E (1+R)^{-k} \quad \implies \quad E = P \cdot \frac{R(1+R)^n}{(1+R)^n - 1} \quad \left(R = \frac{r}{12}\right)$$</div>
+          <div class="formula-caption"><strong>Equated Monthly Installment (EMI):</strong> Derived via closed-form inversion of a finite geometric progression of discounted cash flows.</div>
+        </div>
+
+        <div class="columns-2">
+          <div class="academic-card">
+            <div class="card-title">
+              <span>Amortization Dynamics</span>
+              <span class="tag tag-blue">Geometric Progression</span>
+            </div>
+            <ul class="bullet-list">
+              <li>Monthly accrued interest: $I_k = B_{k-1} \cdot R$.</li>
+              <li>Principal repaid: $P_k = E - I_k = P_1(1+R)^{k-1}$.</li>
+              <li>Principal repayments form an escalating geometric progression.</li>
+              <li>Early prepayments collapse total interest exponentially.</li>
+            </ul>
+          </div>
+
+          <div class="academic-card" style="border-left: 3px solid var(--accent-rose); background: rgba(30, 15, 25, 0.65);">
+            <div class="card-title">
+              <span>Negative Amortization Boundary Theorem</span>
+              <span class="tag tag-rose">Critical Trap</span>
+            </div>
+            <div style="text-align: center; margin: 4px 0;">$$\text{Debt Amortizes} \iff E > P \cdot R \iff E > P \cdot \frac{r}{12}$$</div>
+            <ul class="bullet-list">
+              <li>If $E \le P \cdot R$, principal reduction is zero or negative.</li>
+              <li>Debt balance diverges monotonically: $\lim_{n \to \infty} B_n = +\infty$.</li>
+              <li>Exposes predatory credit cards and deceptive teaser-rate loans.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== SLIDE 06: PILLAR 3 - NUMERICAL ROOT-FINDING ==================== -->
+      <section class="slide" data-slide="6">
+        <div class="slide-meta-header">
+          <div class="meta-brand">FDSS • Theoretical Pillar 3</div>
+          <div class="meta-category">Numerical Optimization</div>
+        </div>
+        <div class="slide-heading">
+          <h2 class="slide-title">Theoretical Pillar 3: Numerical Yield Optimization</h2>
+          <p class="slide-subtitle">Why Galois theory mandates numerical analysis for multi-period financial yields</p>
+        </div>
+
+        <div class="formula-hero">
+          <div class="formula-math">$$\text{NPV}(r) = \sum_{t=0}^T \frac{C_t}{(1+r)^t} = 0 \quad \iff \quad \sum_{t=0}^T C_t x^t = 0 \quad \left(x = \frac{1}{1+r}\right)$$</div>
+          <div class="formula-caption"><strong>Internal Rate of Return (IRR):</strong> Finding the yield root of a high-degree polynomial equation.</div>
+        </div>
+
+        <div class="columns-2">
+          <div class="academic-card">
+            <div class="card-title">
+              <span>Galois Theory &amp; Abel–Ruffini Theorem</span>
+              <span class="tag tag-amber">Insolvability</span>
+            </div>
+            <ul class="bullet-list">
+              <li>Polynomials of degree $T \ge 5$ have <strong>no general algebraic solution in radicals</strong>.</li>
+              <li>Financial cash flows regularly span 5, 10, or 20 multi-period tenors.</li>
+              <li>Closed-form high-school algebra is mathematically impossible.</li>
+              <li>Evaluating multi-year investment yields fundamentally mandates numerical methods.</li>
+            </ul>
+          </div>
+
+          <div class="academic-card">
+            <div class="card-title">
+              <span>Dual-Engine Numerical Root Solver</span>
+              <span class="tag tag-green">Quadratic Rate</span>
+            </div>
+            <div style="text-align: center; margin: 4px 0;">$$r_{k+1} = r_k - \frac{\text{NPV}(r_k)}{f'(r_k)}, \quad f'(r) = -\sum_{t=1}^T \frac{t \cdot C_t}{(1+r)^{t+1}}$$</div>
+            <ul class="bullet-list">
+              <li><strong>Newton–Raphson Method:</strong> Quadratic convergence rate $|e_{k+1}| \le M |e_k|^2$.</li>
+              <li>Analytical first derivative avoids finite-difference precision loss.</li>
+              <li><strong>Bisection Fallback:</strong> Guarantees convergence if derivatives oscillate or approach zero.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== SLIDE 07: PILLAR 4 - STOCHASTIC ASSET DYNAMICS ==================== -->
+      <section class="slide" data-slide="7">
+        <div class="slide-meta-header">
+          <div class="meta-brand">FDSS • Theoretical Pillar 4</div>
+          <div class="meta-category">Stochastic Calculus</div>
+        </div>
+        <div class="slide-heading">
+          <h2 class="slide-title">Theoretical Pillar 4: Stochastic Asset Dynamics &amp; Itô's Lemma</h2>
+          <p class="slide-subtitle">Continuous-time Brownian motion and the mathematical proof of volatility drag</p>
+        </div>
+
+        <div class="formula-hero">
+          <div class="formula-math">$$dS_t = \mu S_t dt + \sigma S_t dW_t \quad \implies \quad d(\ln S_t) = \left(\mu - \frac{1}{2}\sigma^2\right)dt + \sigma dW_t$$</div>
+          <div class="formula-caption"><strong>Itô's Lemma Proof:</strong> Non-zero quadratic variation $(dW_t)^2 = dt$ introduces structural volatility drag $-\frac{1}{2}\sigma^2$.</div>
+        </div>
+
+        <div class="columns-2">
+          <div class="academic-card">
+            <div class="card-title">
+              <span>Itô Stochastic Calculus</span>
+              <span class="tag tag-blue">Brownian Motion</span>
+            </div>
+            <ul class="bullet-list">
+              <li>Brownian paths have infinite variation: $(dW_t)^2 = dt$.</li>
+              <li>Taylor expansion includes second derivative: $f''(S) = -1/S^2$.</li>
+              <li>Closed-form discrete solution across time step $\Delta t$:
+                $$S_{t+\Delta t} = S_t \exp\left[\left(\mu - \frac{1}{2}\sigma^2\right)\Delta t + \sigma \sqrt{\Delta t} Z\right]$$
+              </li>
+            </ul>
+          </div>
+
+          <div class="academic-card" style="border-left: 3px solid var(--accent-amber);">
+            <div class="card-title">
+              <span>The Volatility Drag Divergence</span>
+              <span class="tag tag-amber">Mean vs Median</span>
+            </div>
+            <ul class="bullet-list">
+              <li><strong>Arithmetic Expected Mean:</strong> $\mathbb{E}[S_t] = S_0 e^{\mu t}$ (skewed upward).</li>
+              <li><strong>Typical Median Trajectory:</strong> $S_{\text{med}}(t) = S_0 e^{(\mu - \frac{1}{2}\sigma^2)t}$.</li>
+              <li><strong>Annual Drag Penalty:</strong> $\Delta \mu = -\frac{1}{2}\sigma^2$.</li>
+              <li>For $\mu=12\%, \sigma=20\%$, drag is $-2.00\%$ per year, lagging arithmetic mean by ₹6.01 Lakhs per Million over 10 years!</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== SLIDE 08: PILLAR 5 - MONTE CARLO SIMULATION ==================== -->
+      <section class="slide" data-slide="8">
+        <div class="slide-meta-header">
+          <div class="meta-brand">FDSS • Theoretical Pillar 5</div>
+          <div class="meta-category">Quantitative Risk</div>
+        </div>
+        <div class="slide-heading">
+          <h2 class="slide-title">Theoretical Pillar 5: Monte Carlo Simulation &amp; Risk Estimation</h2>
+          <p class="slide-subtitle">Vectorized stochastic ensembles, Central Limit Theorem bounds, and Value at Risk</p>
+        </div>
+
+        <div class="formula-hero">
+          <div class="formula-math">$$\text{Standard Error} = \frac{\sigma_{\text{sample}}}{\sqrt{M}} = \mathcal{O}\left(\frac{1}{\sqrt{M}}\right) \quad \bullet \quad \hat{\mathbb{P}}(S_T \ge \text{Goal}) = \frac{1}{M} \sum_{m=1}^M \mathbf{1}_{\{S_{T,m} \ge \text{Goal}\}}$$</div>
+          <div class="formula-caption"><strong>Central Limit Theorem:</strong> For $M = 10,000$ simulated paths, estimation error bounds narrow to within $\pm 1\%$ of sample variance.</div>
+        </div>
+
+        <div class="columns-2">
+          <div class="academic-card">
+            <div class="card-title">
+              <span>Vectorized Ensemble Convergence</span>
+              <span class="tag tag-blue">NumPy Engine</span>
+            </div>
+            <ul class="bullet-list">
+              <li>Generates $M = 10,000+$ independent stochastic price paths in sub-second vectorized runtime.</li>
+              <li>Strong Law of Large Numbers (SLLN): sample mean converges almost surely to true expectation.</li>
+              <li>Yields full empirical probability density function of terminal wealth.</li>
+              <li>Replaces blind single-point estimates with actionable probability distributions.</li>
+            </ul>
+          </div>
+
+          <div class="academic-card">
+            <div class="card-title">
+              <span>Downside Tail Risk Metrics</span>
+              <span class="tag tag-rose">Capital Preservation</span>
+            </div>
+            <ul class="bullet-list">
+              <li><strong>Goal Attainment Probability:</strong> Empirical probability of achieving retirement target corpus.</li>
+              <li><strong>Value at Risk (VaR 95%):</strong> Maximum expected loss at 95% confidence level over horizon $T$.</li>
+              <li><strong>Conditional VaR (Expected Shortfall):</strong> Quantifies average catastrophic loss in the worst 5% tail scenarios.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== SLIDE 09: ARCHITECTURE & VERIFICATION ==================== -->
+      <section class="slide" data-slide="9">
+        <div class="slide-meta-header">
+          <div class="meta-brand">FDSS • Engineering Standards</div>
+          <div class="meta-category">System Architecture</div>
+        </div>
+        <div class="slide-heading">
+          <h2 class="slide-title">System Architecture &amp; Mathematical Verification</h2>
+          <p class="slide-subtitle">Zero-black-box design, modular computation pipeline, and strict floating-point validation</p>
+        </div>
+
+        <div class="formula-hero">
+          <div class="formula-math">|\text{Computed Solution} - \text{Analytical Truth}| \le 10^{-7} \quad \bullet \quad \text{Automated Pytest Suite Passing}</div>
+          <div class="formula-caption"><strong>Scientific Precision Standard:</strong> All financial functions verified against analytical hand vectors and Microsoft Excel IEEE 754 benchmarks.</div>
+        </div>
+
+        <div class="columns-2">
+          <div class="academic-card">
+            <div class="card-title">
+              <span>Three-Tier Computational Architecture</span>
+              <span class="tag tag-blue">Modular Pipeline</span>
+            </div>
+            <ul class="bullet-list">
+              <li><strong>Mathematical Engine (<code>models/</code>):</strong> Pure functional implementations of TVM, amortizations, Newton-Raphson solvers, and GBM simulations.</li>
+              <li><strong>Verification Suite (<code>tests/</code>):</strong> Automated unit tests verifying convergence and boundaries.</li>
+              <li><strong>Interactive UI (<code>app.py</code>):</strong> Streamlit dashboard rendering dynamic probability densities and sensitivity sliders.</li>
+              <li><strong>Zero Black Boxes:</strong> Every single algorithm maps 1:1 to an axiomatic chapter in our theoretical monograph.</li>
+            </ul>
+          </div>
+
+          <div class="academic-card">
+            <div class="card-title">
+              <span>Verification Methodology</span>
+              <span class="tag tag-green">Reproducibility</span>
+            </div>
+            <ul class="bullet-list">
+              <li><strong>Excel Parity:</strong> Deterministic routines cross-benchmarked against standard PMT, PV, and IRR functions.</li>
+              <li><strong>Boundary Value Analysis:</strong> Verified at zero interest ($r \to 0$), zero time ($t \to 0$), and infinite compounding ($m \to \infty$).</li>
+              <li><strong>Domain Guardrails:</strong> Strict raising of <code>ValueError</code> on negative parameters, nonsensical loan tenors, and division by zero.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== SLIDE 10: CONCLUSION & VIVA ==================== -->
+      <section class="slide" data-slide="10">
+        <div class="slide-meta-header">
+          <div class="meta-brand">FDSS • Research Contributions</div>
+          <div class="meta-category">Conclusion &amp; Defense</div>
+        </div>
+        <div class="slide-heading">
+          <h2 class="slide-title">Academic Contributions &amp; Societal Impact</h2>
+          <p class="slide-subtitle">Completed research milestones, consumer protection relevance, and open-source availability</p>
+        </div>
+
+        <div class="columns-2" style="margin-bottom: 20px;">
+          <div class="academic-card">
+            <div class="card-title">
+              <span>Completed Research Milestones</span>
+              <span class="tag tag-green">Delivered</span>
+            </div>
+            <ul class="bullet-list">
+              <li><strong>12-Volume Reference Monograph (56 Pages):</strong> Complete theoretical foundations authored and compiled in <code>theory_and_derivations/</code>.</li>
+              <li><strong>Analytical Case Studies:</strong> 24 fully worked hand solutions with complete step-by-step arithmetic.</li>
+              <li><strong>Open-Source Repository:</strong> Publicly hosted on GitHub under MIT License with conventional semantic commits.</li>
+            </ul>
+          </div>
+
+          <div class="academic-card">
+            <div class="card-title">
+              <span>Societal Relevance &amp; Consumer Protection</span>
+              <span class="tag tag-blue">Impact</span>
+            </div>
+            <ul class="bullet-list">
+              <li><strong>Democratizing Institutional Math:</strong> Equipping ordinary Indian citizens with hedge-fund grade stochastic risk metrics.</li>
+              <li><strong>Debt Trap Prevention:</strong> Exposing predatory negative amortization structures before borrowers sign loan contracts.</li>
+              <li><strong>Informed Wealth Planning:</strong> Revealing actual probability densities of achieving financial independence.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="formula-hero" style="background: rgba(10, 36, 68, 0.85); border-color: rgba(56, 189, 248, 0.4);">
+          <div style="font-family: var(--font-display); font-size: 20px; font-weight: 700; color: #FFFFFF; margin-bottom: 4px;">
+            Thank You! • Open for Faculty Questions &amp; Mathematical Defense
+          </div>
+          <div class="formula-caption">Atharv Ranade • Department of Mathematics &amp; Statistics • University of Mumbai</div>
+        </div>
+      </section>
+
+      <!-- ==================== HUD: Controls & Progress ==================== -->
+      <div class="hud">
+        <div class="progress-bar-container">
+          <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <div class="hud-left">
+          <span>FDSS Research Seminar</span> &nbsp;|&nbsp; <span>Category 3: Pure Sciences</span>
+        </div>
+        <div class="hud-controls">
+          <button class="hud-btn" id="btn-prev" title="Previous Slide (← / PageUp)">◀</button>
+          <div class="slide-counter"><span id="curr-slide">1</span> / 10</div>
+          <button class="hud-btn" id="btn-next" title="Next Slide (→ / Space / PageDown)">▶</button>
+          <button class="hud-btn" id="btn-fs" title="Toggle Fullscreen (F)">⛶</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // -------------------------------------------------------------
+    // Dynamic Canvas: Subtle Mathematical Lattice Animation
+    // -------------------------------------------------------------
+    (function initCanvas() {
+      const canvas = document.getElementById('bg-canvas');
+      const ctx = canvas.getContext('2d');
+      let w, h, particles = [];
+      const count = 38;
+
+      function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          vx: (Math.random() - 0.5) * 0.35,
+          vy: (Math.random() - 0.5) * 0.35,
+          radius: Math.random() * 1.8 + 0.8
+        });
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, w, h);
+        ctx.fillStyle = 'rgba(56, 189, 248, 0.25)';
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.05)';
+
+        for (let i = 0; i < count; i++) {
+          const p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < 0) p.x = w;
+          if (p.x > w) p.x = 0;
+          if (p.y < 0) p.y = h;
+          if (p.y > h) p.y = 0;
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fill();
+
+          for (let j = i + 1; j < count; j++) {
+            const p2 = particles[j];
+            const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+            if (dist < 130) {
+              ctx.lineWidth = 1 - dist / 130;
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(animate);
+      }
+      animate();
+    })();
+
+    // -------------------------------------------------------------
+    // Deck Navigation & Responsive Auto-Scaler
+    // -------------------------------------------------------------
+    (function initDeck() {
+      const deck = document.getElementById('deck');
+      const slides = document.querySelectorAll('.slide');
+      const progressBar = document.getElementById('progress-bar');
+      const currSlideEl = document.getElementById('curr-slide');
+      const totalSlides = slides.length;
+      let currentIdx = 0;
+
+      function updateScale() {
+        const designWidth = 1280;
+        const designHeight = 720;
+        const scaleX = window.innerWidth / designWidth;
+        const scaleY = window.innerHeight / designHeight;
+        const scale = Math.min(scaleX, scaleY);
+        deck.style.transform = `scale(${scale})`;
+      }
+      window.addEventListener('resize', updateScale);
+      updateScale();
+
+      function goToSlide(idx) {
+        if (idx < 0 || idx >= totalSlides) return;
+        slides[currentIdx].classList.remove('active');
+        currentIdx = idx;
+        slides[currentIdx].classList.add('active');
+        
+        currSlideEl.textContent = currentIdx + 1;
+        progressBar.style.width = `${((currentIdx + 1) / totalSlides) * 100}%`;
+      }
+
+      function nextSlide() { goToSlide(currentIdx + 1); }
+      function prevSlide() { goToSlide(currentIdx - 1); }
+
+      document.getElementById('btn-next').addEventListener('click', nextSlide);
+      document.getElementById('btn-prev').addEventListener('click', prevSlide);
+      document.getElementById('btn-fs').addEventListener('click', () => {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(() => {});
+        } else {
+          document.exitFullscreen().catch(() => {});
+        }
+      });
+
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+          e.preventDefault();
+          nextSlide();
+        } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+          e.preventDefault();
+          prevSlide();
+        } else if (e.key === 'Home') {
+          e.preventDefault();
+          goToSlide(0);
+        } else if (e.key === 'End') {
+          e.preventDefault();
+          goToSlide(totalSlides - 1);
+        } else if (e.key === 'f' || e.key === 'F') {
+          if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(() => {});
+          } else {
+            document.exitFullscreen().catch(() => {});
+          }
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
