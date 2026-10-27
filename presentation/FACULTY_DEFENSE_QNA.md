@@ -1,22 +1,22 @@
 # Faculty Defense & Viva Voce Q&A Guide
 ### Project Title: *Financial Decision Support System (FDSS)*
-**Candidate:** Atharv Ranade  
-**Department:** Department of Mathematics & Statistics, University of Mumbai  
-**Evaluation Focus:** Avishkar Category 3 (Pure Sciences — Mathematics & Statistics)
+**Subtitle:** *Numerical Methods and Monte Carlo Simulation*  
+**Team Members:** Atharv Ranade • Danish Shaikh • Abhijeet  
+**Presenter:** Danish Shaikh  
 
 ---
 
-## 📌 Defense Rules for the Candidate
+## 📌 Defense Rules for Danish
 * **Lead with the Theorem:** Always state the mathematical theorem first before explaining practical details.
 * **Keep it Under 30 Seconds:** Clear, punchy, bulleted answers. Zero hesitation.
 * **Point to the Proofs:** Mention our 12-volume reference monograph (`theory_and_derivations/`) as proof of rigorous first-principles derivations.
 
 ---
 
-### Q1: "Why is this project in Pure Sciences (Category 3) instead of Commerce, Management, or Computer Science?"
+### Q1: "Why is this project an applied mathematics and numerical analysis project rather than a commercial financial calculator?"
 * **Direct Answer:**
-  * *"Because the core scientific contribution is the **mathematical modeling of capital accumulation under uncertainty and numerical convergence bounds**—not a commercial app."*
-  * *"We prove the mathematical breakdown of deterministic expectations under **Jensen's Inequality**."*
+  * *"Because the core scientific contribution is the **mathematical modeling of capital accumulation under uncertainty and numerical convergence bounds**—not a commercial application."*
+  * *"We mathematically prove why deterministic expectations break down under **Jensen's Inequality**."*
   * *"We apply **Galois Theory (the Abel–Ruffini Theorem)** to demonstrate the non-existence of radical solutions for multi-period yields, mandating numerical analysis."*
   * *"We derive the volatility drag correction $-\frac{1}{2}\sigma^2$ strictly via **Itô's Lemma in Stochastic Calculus**."*
 

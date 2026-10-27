@@ -1,17 +1,16 @@
 """
-Academic Presentation Generator for College Seminar (Redesigned):
-Produces human-crafted, elegant applied mathematics slides:
-1. FDSS_Seminar_Presentation.pdf (Widescreen 16:9, LaTeX-style typography, equation callouts)
-2. FDSS_Seminar_Presentation.pptx (Widescreen 16:9, native PowerPoint slides, elegant layout)
+Academic Presentation Generator for College Seminar:
+Produces clean, publication-grade slides:
+1. FDSS_Seminar_Presentation.pdf (Widescreen 16:9, vector text & LaTeX mathematical styling)
+2. FDSS_Seminar_Presentation.pptx (Widescreen 16:9, native PowerPoint slides)
 
-Design Standards:
-- Widescreen 16:9 with generous whitespace and visual breathing room.
-- Maximum 3 to 4 crisp, punchy bullet points per slide (each line under 12 words).
-- Equations as the visual hero (centered, prominent, LaTeX-typeset style).
-- Side-by-side contrast columns and clean booktabs-style tables.
-- Palette: Crisp White background (#FFFFFF), Deep Oxford Navy (#0A2540 / #0F2537),
-  Subtle Slate (#475569), Clean Border (#E2E8F0).
-- Paced strictly for a 7-minute presentation (10 slides max).
+Strictly adheres to:
+- Title: Financial Decision Support System (FDSS)
+- Subtitle: Numerical Methods and Monte Carlo Simulation
+- Author Line: By Atharv Ranade, Danish Shaikh, and Abhijeet
+- Zero mentions of Avishkar, Category 3, Pure Sciences, Mumbai University, or College
+- Paced strictly for a 7-minute presentation (10 slides max)
+- Clean, uncluttered academic design (Deep Oxford Navy #0A2540, Charcoal #1E293B, Crisp White #FFFFFF)
 """
 
 import os
@@ -27,7 +26,7 @@ from reportlab.pdfgen import canvas
 from pptx import Presentation
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
-from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
+from pptx.enum.text import PP_ALIGN
 from pptx.enum.shapes import MSO_SHAPE
 
 OUTPUT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -35,14 +34,14 @@ PDF_PATH = os.path.join(OUTPUT_DIR, "FDSS_Seminar_Presentation.pdf")
 PPTX_PATH = os.path.join(OUTPUT_DIR, "FDSS_Seminar_Presentation.pptx")
 
 # ==============================================================================
-# 1. REPORTLAB 16:9 WIDESCREEN PDF GENERATOR (LATEX-BEAMER AESTHETIC)
+# 1. REPORTLAB 16:9 WIDESCREEN PDF GENERATOR
 # ==============================================================================
 
 SLIDE_WIDTH = 960
 SLIDE_HEIGHT = 540
 
-class AcademicSlideCanvas(canvas.Canvas):
-    """Two-pass canvas for running header, category banner, and page numbering."""
+class CleanSlideCanvas(canvas.Canvas):
+    """Two-pass canvas for minimalist running header and slide numbering."""
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._saved_page_states = []
@@ -62,16 +61,16 @@ class AcademicSlideCanvas(canvas.Canvas):
     def draw_slide_decorations(self, total_pages):
         self.saveState()
         
-        # Don't draw top banner or footer on Title Slide (Slide 1)
+        # Don't draw running header or footer on Title Slide (Slide 1)
         if self._pageNumber > 1:
             # Minimalist Running Header
             self.setFont("Helvetica-Bold", 8)
             self.setFillColor(colors.HexColor("#0A2540"))  # Deep Oxford Navy
-            self.drawString(50, 508, "UNIVERSITY OF MUMBAI  |  DEPARTMENT OF MATHEMATICS & STATISTICS")
+            self.drawString(50, 508, "FINANCIAL DECISION SUPPORT SYSTEM (FDSS)")
             
             self.setFont("Helvetica", 8)
             self.setFillColor(colors.HexColor("#64748B"))  # Muted Slate
-            self.drawRightString(910, 508, "AVISHKAR CATEGORY 3 (PURE SCIENCES)")
+            self.drawRightString(910, 508, "MATHEMATICAL & NUMERICAL METHODS")
             
             # Ultra-clean dividing rule
             self.setStrokeColor(colors.HexColor("#E2E8F0"))
@@ -82,42 +81,41 @@ class AcademicSlideCanvas(canvas.Canvas):
             self.line(50, 34, 910, 34)
             self.setFont("Helvetica", 8)
             self.setFillColor(colors.HexColor("#64748B"))
-            self.drawString(50, 22, "Financial Decision Support System (FDSS)  —  Atharv Ranade")
+            self.drawString(50, 22, "Financial Decision Support System (FDSS)")
             self.setFont("Helvetica-Bold", 8)
-            self.drawRightString(910, 22, f"{self._pageNumber} / {total_pages}")
+            self.drawRightString(910, 22, f"Slide {self._pageNumber} of {total_pages}")
             
         self.restoreState()
 
-def get_academic_styles():
+def get_clean_styles():
     base = getSampleStyleSheet()
     
     styles = {
-        'Title_Pill': ParagraphStyle(
-            'Title_Pill',
-            parent=base['Normal'],
-            fontName='Helvetica-Bold',
-            fontSize=10,
-            leading=14,
-            textColor=colors.HexColor("#0284C7"),
-            spaceAfter=12
-        ),
         'Title_Main': ParagraphStyle(
             'Title_Main',
             parent=base['Normal'],
             fontName='Helvetica-Bold',
-            fontSize=28,
-            leading=34,
+            fontSize=30,
+            leading=36,
             textColor=colors.HexColor("#0A2540"),
-            spaceAfter=8
+            spaceAfter=10
         ),
         'Title_Sub': ParagraphStyle(
             'Title_Sub',
             parent=base['Normal'],
             fontName='Helvetica',
-            fontSize=14,
-            leading=19,
+            fontSize=16,
+            leading=22,
             textColor=colors.HexColor("#334155"),
-            spaceAfter=25
+            spaceAfter=26
+        ),
+        'Title_Authors': ParagraphStyle(
+            'Title_Authors',
+            parent=base['Normal'],
+            fontName='Helvetica-Bold',
+            fontSize=13,
+            leading=18,
+            textColor=colors.HexColor("#0284C7")
         ),
         'Slide_Title': ParagraphStyle(
             'Slide_Title',
@@ -173,22 +171,15 @@ def get_academic_styles():
             textColor=colors.HexColor("#475569"),
             alignment=1,
             spaceBefore=3
-        ),
-        'Callout_Text': ParagraphStyle(
-            'Callout_Text',
-            parent=base['Normal'],
-            fontName='Helvetica',
-            fontSize=10,
-            leading=14,
-            textColor=colors.HexColor("#0A2540")
         )
     }
     return styles
 
 def make_equation_card(eq_markup, sub_text=None, width=860, bg="#F8FAFC", border="#E2E8F0", pad_v=10):
-    content = [Paragraph(eq_markup, get_academic_styles()['Hero_Equation'])]
+    st = get_clean_styles()
+    content = [Paragraph(eq_markup, st['Hero_Equation'])]
     if sub_text:
-        content.append(Paragraph(sub_text, get_academic_styles()['Hero_Equation_Sub']))
+        content.append(Paragraph(sub_text, st['Hero_Equation_Sub']))
     t = Table([[content]], colWidths=[width])
     t.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,-1), colors.HexColor(bg)),
@@ -201,7 +192,7 @@ def make_equation_card(eq_markup, sub_text=None, width=860, bg="#F8FAFC", border
     return t
 
 def make_column_card(header, bullets, width=415, bg="#FFFFFF", border="#E2E8F0"):
-    st = get_academic_styles()
+    st = get_clean_styles()
     content = [Paragraph(header, st['Section_Header']), Spacer(1, 4)]
     for b in bullets:
         content.append(Paragraph(f"&bull;&nbsp;&nbsp;{b}", st['Bullet_Point']))
@@ -226,29 +217,28 @@ def generate_pdf(pdf_path):
         bottomMargin=38
     )
     
-    st = get_academic_styles()
+    st = get_clean_styles()
     story = []
     
     # --------------------------------------------------------------------------
-    # SLIDE 1: TITLE SLIDE (Clean Academic LaTeX Minimalist)
+    # SLIDE 1: TITLE SLIDE (Clean Academic Minimalist)
     # --------------------------------------------------------------------------
-    story.append(Spacer(1, 35))
-    story.append(Paragraph("APPLIED MATHEMATICS &amp; COMPUTATIONAL FINANCE SEMINAR", st['Title_Pill']))
+    story.append(Spacer(1, 60))
     story.append(Paragraph("Financial Decision Support System (FDSS)", st['Title_Main']))
-    story.append(Paragraph("A Mathematical &amp; Stochastic Framework for Retail Financial Risk Modeling", st['Title_Sub']))
-    story.append(HRFlowable(width="100%", thickness=1.5, color=colors.HexColor("#0A2540"), spaceAfter=25))
+    story.append(Paragraph("Numerical Methods and Monte Carlo Simulation", st['Title_Sub']))
+    story.append(HRFlowable(width="100%", thickness=1.5, color=colors.HexColor("#0A2540"), spaceAfter=28))
     
-    meta_box = [
-        Paragraph("<b>Atharv Ranade</b>  |  Department of Mathematics &amp; Statistics, University of Mumbai", ParagraphStyle('M1', fontName='Helvetica-Bold', fontSize=10.5, leading=15, textColor=colors.HexColor("#0A2540"))),
-        Paragraph("<b>Research Category:</b> Pure Sciences (Category 3 — Mathematics &amp; Statistics)<br/><b>Theoretical Focus:</b> Ordinary Differential Equations, Polynomial Root-Finding &amp; Stochastic Calculus", ParagraphStyle('M2', fontName='Helvetica', fontSize=9, leading=13, textColor=colors.HexColor("#475569"), spaceBefore=4))
+    author_box = [
+        Paragraph("<b>By Atharv Ranade, Danish Shaikh, and Abhijeet</b>", st['Title_Authors']),
+        Paragraph("Applied Mathematics, Numerical Analysis &amp; Stochastic Asset Modeling", ParagraphStyle('SubAut', fontName='Helvetica', fontSize=10, leading=14, textColor=colors.HexColor("#64748B"), spaceBefore=4))
     ]
-    t_meta = Table([[meta_box]], colWidths=[860])
-    t_meta.setStyle(TableStyle([
+    t_author = Table([[author_box]], colWidths=[860])
+    t_author.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,-1), colors.HexColor("#F8FAFC")),
         ('BOX', (0,0), (-1,-1), 1, colors.HexColor("#E2E8F0")),
         ('PADDING', (0,0), (-1,-1), 14),
     ]))
-    story.append(t_meta)
+    story.append(t_author)
     story.append(PageBreak())
 
     # --------------------------------------------------------------------------
@@ -282,14 +272,14 @@ def generate_pdf(pdf_path):
     story.append(PageBreak())
 
     # --------------------------------------------------------------------------
-    # SLIDE 3: HYPOTHESIS & OBJECTIVES
+    # SLIDE 3: HYPOTHESIS & METHODOLOGY
     # --------------------------------------------------------------------------
-    story.append(Paragraph("Research Hypothesis & Applied Mathematics Approach", st['Slide_Title']))
+    story.append(Paragraph("Research Hypothesis &amp; Applied Mathematics Approach", st['Slide_Title']))
     story.append(Paragraph("Grounding retail financial planning in rigorous numerical analysis and probability theory", st['Slide_Subtitle']))
     
     story.append(make_equation_card(
         "<i>\"Replacing static scalar estimates with numerical root-finding and continuous stochastic processes equips investors with true distribution-aware risk modeling.\"</i>",
-        "Central Research Hypothesis  |  Department of Mathematics &amp; Statistics, University of Mumbai",
+        "Central Research Hypothesis",
         width=860, bg="#F0F9FF", border="#BAE6FD", pad_v=12
     ))
     story.append(Spacer(1, 14))
@@ -491,7 +481,7 @@ def generate_pdf(pdf_path):
     story.append(PageBreak())
 
     # --------------------------------------------------------------------------
-    # SLIDE 10: CONCLUSION & IMPACT
+    # SLIDE 10: CONCLUSION & VIVA
     # --------------------------------------------------------------------------
     story.append(Paragraph("Academic Contributions &amp; Societal Impact", st['Slide_Title']))
     story.append(Paragraph("Completed milestones, consumer protection relevance, and open-source availability", st['Slide_Subtitle']))
@@ -515,8 +505,8 @@ def generate_pdf(pdf_path):
     story.append(Spacer(1, 14))
     
     thx_content = [
-        Paragraph("<b>Thank You!</b> &nbsp;&nbsp;|&nbsp;&nbsp; Open for Questions &amp; Mathematical Defense", ParagraphStyle('Thx1', fontName='Helvetica-Bold', fontSize=12, leading=16, textColor=colors.HexColor("#0A2540"), alignment=1)),
-        Paragraph("Atharv Ranade &nbsp;&bull;&nbsp; Department of Mathematics &amp; Statistics &nbsp;&bull;&nbsp; University of Mumbai", ParagraphStyle('Thx2', fontName='Helvetica', fontSize=9, leading=13, textColor=colors.HexColor("#64748B"), alignment=1, spaceBefore=3))
+        Paragraph("<b>Thank You!</b> &nbsp;&nbsp;|&nbsp;&nbsp; Open for Questions &amp; Discussion", ParagraphStyle('Thx1', fontName='Helvetica-Bold', fontSize=12, leading=16, textColor=colors.HexColor("#0A2540"), alignment=1)),
+        Paragraph("Atharv Ranade &nbsp;&bull;&nbsp; Danish Shaikh &nbsp;&bull;&nbsp; Abhijeet", ParagraphStyle('Thx2', fontName='Helvetica-Bold', fontSize=9.5, leading=13, textColor=colors.HexColor("#0284C7"), alignment=1, spaceBefore=3))
     ]
     t_thx = Table([[thx_content]], colWidths=[860])
     t_thx.setStyle(TableStyle([
@@ -526,20 +516,20 @@ def generate_pdf(pdf_path):
     ]))
     story.append(t_thx)
     
-    doc.build(story, canvasmaker=AcademicSlideCanvas)
-    print(f"Generated Elegant PDF: {pdf_path}")
+    doc.build(story, canvasmaker=CleanSlideCanvas)
+    print(f"Generated Clean PDF: {pdf_path}")
 
 # ==============================================================================
-# 2. PYTHON-PPTX 16:9 WIDESCREEN GENERATOR (LATEX-BEAMER AESTHETIC)
+# 2. PYTHON-PPTX 16:9 WIDESCREEN GENERATOR
 # ==============================================================================
 
 def add_clean_header(slide, title_text, subtitle_text):
-    # Category subtle pill
+    # Minimalist category top label
     cat_box = slide.shapes.add_textbox(Inches(0.8), Inches(0.4), Inches(11.733), Inches(0.25))
     tf_c = cat_box.text_frame
     tf_c.word_wrap = True
     p_c = tf_c.paragraphs[0]
-    p_c.text = "UNIVERSITY OF MUMBAI  |  DEPARTMENT OF MATHEMATICS & STATISTICS  |  AVISHKAR CATEGORY 3"
+    p_c.text = "FINANCIAL DECISION SUPPORT SYSTEM (FDSS)  |  MATHEMATICAL & NUMERICAL METHODS"
     p_c.font.size = Pt(8.5)
     p_c.font.bold = True
     p_c.font.color.rgb = RGBColor(2, 132, 199)  # Light Blue
@@ -577,7 +567,6 @@ def add_clean_card(slide, left, top, width, height, title, bullet_points, bg_rgb
     tf.margin_top = Inches(0.25)
     tf.margin_bottom = Inches(0.25)
     
-    # Header
     p_head = tf.paragraphs[0]
     p_head.text = title
     p_head.font.size = Pt(13)
@@ -630,39 +619,32 @@ def generate_pptx(pptx_path):
     # SLIDE 1: TITLE SLIDE
     # --------------------------------------------------------------------------
     s1 = prs.slides.add_slide(blank_layout)
-    tb = s1.shapes.add_textbox(Inches(1.0), Inches(1.3), Inches(11.333), Inches(4.5))
+    tb = s1.shapes.add_textbox(Inches(1.0), Inches(1.8), Inches(11.333), Inches(4.0))
     tf = tb.text_frame
     tf.word_wrap = True
     
     p = tf.paragraphs[0]
-    p.text = "APPLIED MATHEMATICS & COMPUTATIONAL FINANCE SEMINAR"
-    p.font.size = Pt(11)
+    p.text = "Financial Decision Support System (FDSS)"
+    p.font.size = Pt(34)
+    p.font.bold = True
+    p.font.color.rgb = RGBColor(10, 37, 64)
+    p.space_after = Pt(10)
+    
+    p = tf.add_paragraph()
+    p.text = "Numerical Methods and Monte Carlo Simulation"
+    p.font.size = Pt(18)
+    p.font.color.rgb = RGBColor(51, 65, 85)
+    p.space_after = Pt(45)
+    
+    p = tf.add_paragraph()
+    p.text = "By Atharv Ranade, Danish Shaikh, and Abhijeet"
+    p.font.size = Pt(14)
     p.font.bold = True
     p.font.color.rgb = RGBColor(2, 132, 199)
-    p.space_after = Pt(12)
+    p.space_after = Pt(6)
     
     p = tf.add_paragraph()
-    p.text = "Financial Decision Support System (FDSS)"
-    p.font.size = Pt(32)
-    p.font.bold = True
-    p.font.color.rgb = RGBColor(10, 37, 64)
-    p.space_after = Pt(8)
-    
-    p = tf.add_paragraph()
-    p.text = "A Mathematical & Stochastic Framework for Retail Financial Risk Modeling"
-    p.font.size = Pt(16)
-    p.font.color.rgb = RGBColor(51, 65, 85)
-    p.space_after = Pt(35)
-    
-    p = tf.add_paragraph()
-    p.text = "Atharv Ranade  |  Department of Mathematics & Statistics, University of Mumbai"
-    p.font.size = Pt(13)
-    p.font.bold = True
-    p.font.color.rgb = RGBColor(10, 37, 64)
-    p.space_after = Pt(5)
-    
-    p = tf.add_paragraph()
-    p.text = "Research Category: Pure Sciences (Category 3 — Mathematics & Statistics)  •  Avishkar Research Convention"
+    p.text = "Applied Mathematics, Numerical Analysis & Stochastic Asset Modeling"
     p.font.size = Pt(11)
     p.font.color.rgb = RGBColor(100, 116, 139)
 
@@ -688,13 +670,13 @@ def generate_pptx(pptx_path):
                       "Jensen's Inequality: Non-linear compounding under variance invalidates simple average projections.")
 
     # --------------------------------------------------------------------------
-    # SLIDE 3: HYPOTHESIS & OBJECTIVES
+    # SLIDE 3: HYPOTHESIS & METHODOLOGY
     # --------------------------------------------------------------------------
     s3 = prs.slides.add_slide(blank_layout)
     add_clean_header(s3, "Research Hypothesis & Applied Mathematics Approach", "Grounding retail financial planning in rigorous numerical analysis and probability theory")
     add_hero_equation(s3, 0.8, 1.8, 11.7, 1.3,
                       "\"Replacing static scalar estimates with numerical root-finding and continuous stochastic processes equips investors with true distribution-aware risk modeling.\"",
-                      "Central Research Hypothesis  |  Department of Mathematics & Statistics, University of Mumbai",
+                      "Central Research Hypothesis",
                       bg_rgb=(240, 249, 255), border_rgb=(186, 230, 253))
     add_clean_card(s3, 0.8, 3.35, 3.7, 3.65, "1. Analytical Theory", [
         "Formulate capital accumulation using classical ODEs.",
@@ -839,7 +821,7 @@ def generate_pptx(pptx_path):
                       "Mathematical reproducibility standard: rigorous verification across all parameter boundaries.")
 
     # --------------------------------------------------------------------------
-    # SLIDE 10: CONCLUSION & IMPACT
+    # SLIDE 10: CONCLUSION & VIVA
     # --------------------------------------------------------------------------
     s10 = prs.slides.add_slide(blank_layout)
     add_clean_header(s10, "Academic Contributions & Societal Impact", "Completed milestones, consumer protection relevance, and open-source availability")
@@ -856,12 +838,12 @@ def generate_pptx(pptx_path):
         "Open-source on GitHub under MIT License for public verification."
     ])
     add_hero_equation(s10, 0.8, 5.85, 11.7, 1.15,
-                      "Thank You!   |   Open for Questions & Mathematical Defense",
-                      "Atharv Ranade  •  Department of Mathematics & Statistics  •  University of Mumbai",
+                      "Thank You!   |   Open for Questions & Discussion",
+                      "Atharv Ranade   •   Danish Shaikh   •   Abhijeet",
                       bg_rgb=(240, 249, 255), border_rgb=(186, 230, 253))
 
     prs.save(pptx_path)
-    print(f"Generated Elegant PPTX: {pptx_path}")
+    print(f"Generated Clean PPTX: {pptx_path}")
 
 if __name__ == "__main__":
     generate_pdf(PDF_PATH)
