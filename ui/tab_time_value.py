@@ -120,7 +120,7 @@ def render_tab_time_value(curr_sym: str):
             title="Capital Growth Trajectory: Linear vs. Exponential vs. Continuous",
             xaxis_title="Investment Horizon (Years)",
             yaxis_title=f"Terminal Portfolio Value ({curr_sym})",
-            height=340
+            height=400
         )
         fig_tvm.update_layout(**layout)
         st.plotly_chart(fig_tvm, use_container_width=True)
@@ -150,7 +150,7 @@ def render_tab_time_value(curr_sym: str):
             title="Frequency Asymptote: Approaching Euler's Limit ($e^{rt}$)",
             xaxis_title="Compounding Regimes",
             yaxis_title=f"Terminal Wealth ({curr_sym})",
-            height=260
+            height=300
         )
         fig_bar.update_layout(**bar_layout)
         st.plotly_chart(fig_bar, use_container_width=True)

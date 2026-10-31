@@ -126,7 +126,7 @@ def render_tab_capital_budgeting(curr_sym: str):
             title="Net Present Value Profile Curve & Zero-Crossing Root",
             xaxis_title="Discount Rate (%)",
             yaxis_title=f"Net Present Value ({curr_sym})",
-            height=320
+            height=380
         )
         fig_npv.update_layout(**layout)
         st.plotly_chart(fig_npv, use_container_width=True)
@@ -158,7 +158,7 @@ def render_tab_capital_budgeting(curr_sym: str):
             title="NPV Sensitivity Matrix (Hurdle Rate vs. Initial Capital Investment)",
             xaxis_title="Cost of Capital (Discount Rate)",
             yaxis_title="Initial Outlay Scale",
-            height=280
+            height=320
         )
         fig_heat.update_layout(**heat_layout)
         st.plotly_chart(fig_heat, use_container_width=True)

@@ -155,7 +155,7 @@ def render_tab_loans(curr_sym: str):
             title="Monthly Payment Composition: The 'Interest Crossover' Transition",
             xaxis_title="Tenure Month",
             yaxis_title=f"Monthly Split ({curr_sym})",
-            height=300
+            height=360
         )
         fig_breakdown.update_layout(**layout1)
         st.plotly_chart(fig_breakdown, use_container_width=True)
@@ -169,7 +169,7 @@ def render_tab_loans(curr_sym: str):
             title="Outstanding Debt Balance: Standard vs. Accelerated Prepayment",
             xaxis_title="Tenure Month",
             yaxis_title=f"Principal Balance ({curr_sym})",
-            height=280
+            height=330
         )
         fig_bal.update_layout(**layout2)
         st.plotly_chart(fig_bal, use_container_width=True)

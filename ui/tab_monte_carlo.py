@@ -141,7 +141,7 @@ def render_tab_monte_carlo(curr_sym: str):
             title=f"Geometric Brownian Motion Simulation: {mc_paths:,} Vectorized Trajectories ($T={mc_years}$ Yrs)",
             xaxis_title="Time Horizon (Years)",
             yaxis_title=f"Portfolio Valuation ({curr_sym})",
-            height=340
+            height=420
         )
         fig_fan.update_layout(**layout1)
         st.plotly_chart(fig_fan, use_container_width=True)

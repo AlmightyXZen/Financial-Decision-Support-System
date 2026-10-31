@@ -140,7 +140,7 @@ def render_tab_investments(curr_sym: str):
             title="Wealth Accumulation: Nominal Corpus vs. Inflation-Adjusted Reality",
             xaxis_title="Investment Horizon (Years)",
             yaxis_title=f"Portfolio Valuation ({curr_sym})",
-            height=340
+            height=400
         )
         fig_sip.update_layout(**layout)
         st.plotly_chart(fig_sip, use_container_width=True)
