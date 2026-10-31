@@ -1,225 +1,198 @@
 # Financial Decision Support System (FDSS)
-### *A Mathematical & Stochastic Framework for Financial Analysis and Decision Support*
+### *A Quantitative Financial Mathematics, Numerical Root-Finding & Stochastic Simulation Studio*
 
-[![Python Version](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Research Convention](https://img.shields.io/badge/Research-Avishkar%20Convention%20(MU)-purple.svg)](https://mu.ac.in/)
-[![Domain](https://img.shields.io/badge/Domain-Quantitative%20Finance%20%7C%20Applied%20Math-orange.svg)](#)
+[![Python Version](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Streamlit App](https://img.shields.io/badge/Streamlit-1.31%2B-FF4B4B?logo=streamlit&logoColor=white)](https://streamlit.io/)
+[![Unit Tests](https://img.shields.io/badge/Tests-38%2F38%20Passing-10B981?logo=pytest&logoColor=white)](#automated-test-suite)
+[![License: MIT](https://img.shields.io/badge/License-MIT-38BDF8.svg)](LICENSE)
+[![Architecture](https://img.shields.io/badge/Architecture-First--Principles%20Core-818CF8)](#mathematical-pillars)
 
 Developed by **Atharv Ranade**  
-*Department of Mathematics, University of Mumbai*  
-*Focus: Pure Mathematics, Statistics & Quantitative Finance*
+*Focus: Pure Mathematics, Statistics & Quantitative Financial Modeling*
 
 ---
 
-## 1. Project Motivation & Philosophy
+## 1. System Overview & Philosophy
 
-Most commercial and online financial calculators operate on a dangerous assumption: **deterministic certainty**. They present investors with static formulas—promising that an annual return of $12\%$ compounded over 20 years will yield an exact rupee figure. In real capital markets, returns are neither constant nor guaranteed; they are governed by stochastic processes, volatility drag, and macroeconomic uncertainty.
+Most commercial financial calculators rely on a dangerous fallacy: **deterministic certainty**. They present static formulas promising that an annual return of $12\%$ compounded over 20 years will yield an exact scalar figure. In real capital markets, returns are neither constant nor guaranteed; they are governed by stochastic differential equations, structural volatility drag, and macroeconomic inflation erosion.
 
-The **Financial Decision Support System (FDSS)** is designed to bridge pure mathematical theory with applied financial engineering. Rather than presenting a single hypothetical outcome, this system treats financial decisions as **probabilistic distributions**. It integrates:
+The **Financial Decision Support System (FDSS)** bridges pure mathematical analysis with modern software engineering. Rather than presenting a single hypothetical outcome, this studio models financial dynamics using:
 
-1. **Analytical Financial Mathematics:** Exact closed-form formulas for time value of money, amortization schedules, and real purchasing power.
-2. **Numerical Analysis:** Root-finding algorithms (Newton–Raphson and Bisection methods) to solve non-linear cash flow equations where closed-form algebraic solutions are mathematically impossible.
-3. **Stochastic Simulation:** Monte Carlo modeling based on Geometric Brownian Motion (GBM) to simulate thousands of plausible market trajectories, computing downside tail risks and the empirical probability of achieving financial milestones.
-
-This repository is built as an official submission for the **Avishkar Research Convention** (University of Mumbai / Maharashtra State Inter-University Convention) and serves as an evolving, lifelong open-source foundation for advanced research in **Quantitative Finance and Computational Mathematics**.
+1. **Analytical Real Analysis & Calculus:** Exact closed-form equations for time value of money, continuous Euler limits, and finite geometric series loan amortization.
+2. **Numerical Analysis & Root-Finding:** High-precision Newton–Raphson iteration with analytical first derivatives to compute internal yields (IRR) where the **Abel–Ruffini Theorem** proves closed-form algebraic solutions are impossible.
+3. **Stochastic Calculus (Itô's Lemma):** Vectorized Geometric Brownian Motion (GBM) simulation modeling thousands of market trajectories, quantifying empirical Value at Risk (VaR), Conditional VaR (Expected Shortfall), and goal attainment probabilities.
 
 ---
 
-## 2. System Architecture
+## 2. Interactive Web Application
 
-The project is structured into modular layers, separating pure mathematical logic from data manipulation, testing, and presentation:
+FDSS features a high-performance web dashboard built with **Streamlit** and **Plotly**, styled with a dark slate glassmorphic design system:
+
+* **Sleek FinTech Design:** High-density stat KPI cards with live deltas, multi-currency toggles (`₹ INR`, `$ USD`, `€ EUR`, `£ GBP`), and Plotly charts with unified crosshairs.
+* **Instant In-Memory Caching (`@st.cache_data`):** Heavy 5,000-path Monte Carlo simulations and multi-decade amortization tables recalculate instantaneously.
+* **One-Click Pre-Sets & Milestones:** Pre-loaded macro market scenarios, debt stress labs, and retirement FIRE milestone trackers.
+* **Data Portability:** Direct CSV download for all monthly amortization schedules and risk simulations.
+
+---
+
+## 3. Mathematical Pillars
+
+### Layer 1: Time Value of Money & Asymptotic Yield Curvature
+Compounding is analyzed from discrete periodic and continuous real analysis viewpoints:
+* **Discrete Compounding:** $A(t) = P \left(1 + \frac{r}{m}\right)^{mt}$
+* **Continuous Compounding (Euler's Limit):** $\lim_{m \to \infty} P \left(1 + \frac{r}{m}\right)^{mt} = P e^{rt}$
+* **Autonomous Differential Equation:** $\frac{dA}{dt} = r A(t), \quad A(0) = P$
+* **Effective Annual Rate (EAR):** $\text{EAR} = \left(1 + \frac{r}{m}\right)^m - 1 \xrightarrow{m \to \infty} e^r - 1$
+* **Exact Capital Doubling Horizon:** $t_{\text{double}} = \frac{\ln 2}{r}$ (benchmarked against the empirical Rule of 72: $72 / 100r$).
+
+### Layer 2: Debt Amortization Mechanics & The Negative Amortization Boundary
+Loans are modeled via finite geometric series discounting:
+* **Closed-Form Monthly Installment (EMI):**
+  $$E = P \cdot \frac{\frac{r}{12}\left(1 + \frac{r}{12}\right)^n}{\left(1 + \frac{r}{12}\right)^n - 1}$$
+* **Negative Amortization Singularity Theorem:** A loan converges toward zero if and only if:
+  $$E > P \cdot \frac{r}{12}$$
+  If payment $E \le P \cdot \frac{r}{12}$, the unpaid interest capitalizes into the principal, causing debt to diverge:
+  $$\lim_{k \to \infty} B_k = +\infty$$
+* **Prepayment Acceleration:** Exact analytics showing interest savings and months shaved from the tenure.
+
+### Layer 3: Wealth Accumulation, Step-Up SIP & Exact Fisher Inflation
+* **Annuity-Due SIP Accumulation:** Investments committed at the beginning of each period:
+  $$S_n = P(1 + j)\frac{(1 + j)^n - 1}{j}, \quad j = \frac{r}{12}$$
+* **Step-Up Escalation:** Annual contribution increases by $g\%$ to match career earnings growth.
+* **The Exact Fisher Equation:** Exposing the mathematical flaw in linear return subtraction ($r - i$):
+  $$1 + r_n = (1 + r_r)(1 + i) \implies r_r = \frac{1 + r_n}{1 + i} - 1$$
+* **Monetary Purchasing Power Half-Life:** The exact time required for currency to lose half its real value under constant inflation:
+  $$t_{1/2} = \frac{\ln 2}{\ln(1 + i)}$$
+
+### Layer 4: Capital Budgeting & Newton–Raphson Numerical Root-Finding
+For multi-period cash flows $\{C_0, C_1, \dots, C_T\}$, finding the Internal Rate of Return ($r^*$) requires solving the polynomial root problem:
+$$f(r) = \text{NPV}(r) = \sum_{t=0}^T \frac{C_t}{(1 + r)^t} = 0$$
+
+By Galois Theory and the **Abel–Ruffini Theorem**, general polynomials of degree $T \ge 5$ have **no algebraic radical solution**. Calculating internal yield mathematically mandates numerical analysis:
+* **Newton–Raphson Method:** Quadratic convergence using the analytical first derivative:
+  $$r_{k+1} = r_k - \frac{f(r_k)}{f'(r_k)}, \quad f'(r) = -\sum_{t=1}^T \frac{t \cdot C_t}{(1 + r)^{t+1}}$$
+* **Bisection Safeguard:** Bracket interval halving on $[a, b]$ where $f(a) \cdot f(b) < 0$, guaranteeing convergence if derivatives oscillate.
+* **2D Sensitivity Matrix:** Real-time heatmap of Net Present Value across hurdle rates and capital expenditure shifts.
+
+### Layer 5: Itô Stochastic Calculus & Monte Carlo Risk Lab
+Asset price trajectories are governed by continuous-time stochastic differential equations (SDEs):
+$$dS_t = \mu S_t dt + \sigma S_t dW_t$$
+
+Discretized exactly under **Itô's Lemma** with standard normal variate $Z \sim \mathcal{N}(0, 1)$:
+$$S_{t+\Delta t} = S_t \exp\left[\left(\mu - \frac{1}{2}\sigma^2\right)\Delta t + \sigma \sqrt{\Delta t} Z\right]$$
+
+* **Structural Volatility Drag:** Demonstrating why geometric compounding underperforms arithmetic expectation:
+  $$\Delta \mu = -\frac{1}{2}\sigma^2, \quad \text{Median}(S_T) = S_0 e^{(\mu - \frac{1}{2}\sigma^2)T} < \mathbb{E}[S_T] = S_0 e^{\mu T}$$
+* **Downside Tail Risk (VaR & CVaR):** 95% Value at Risk floor and Conditional VaR (Expected Shortfall in the worst 5% tail).
+* **Empirical Milestone Probability:** $\hat{P}(S_T \ge \text{Goal}) = \frac{1}{M}\sum_{m=1}^M \mathbf{1}_{\{S_{T, m} \ge \text{Goal}\}}$.
+
+---
+
+## 4. System Architecture
 
 ```
 Financial-Decision-Support-System/
-├── .gitignore                      # Git exclusion rules for clean version control
-├── requirements.txt                # Production and development dependencies
-├── README.md                       # Research, theoretical, and technical overview
-├── app.py                          # Interactive Streamlit application interface
+├── app.py                          # Master application router & shell layout
+├── requirements.txt                # Production Python dependencies
+├── README.md                       # Comprehensive engineering & mathematical manual
+├── .streamlit/
+│   └── config.toml                 # Production dark theme & server deployment settings
 │
-├── models/                         # Mathematical and numerical computation core
+├── ui/                             # Modular presentation layer
 │   ├── __init__.py
+│   ├── styles.py                   # Central CSS, stat card renderers & Plotly theme
+│   ├── tab_time_value.py           # Module 1: Time Value & Doubling Time (Rule of 72)
+│   ├── tab_loans.py                # Module 2: Loan Amortization, Payoff Calendar & CSV Export
+│   ├── tab_investments.py          # Module 3: Wealth Accumulation & FIRE Milestones
+│   ├── tab_capital_budgeting.py    # Module 4: Scenario Analysis & 2D Sensitivity Heatmaps
+│   └── tab_monte_carlo.py          # Module 5: Vectorized Stochastic Risk Terminal
+│
+├── models/                         # First-principles computational core (zero black boxes)
+│   ├── __init__.py                 # Clean API exports
 │   ├── time_value.py               # SI, CI, continuous compounding, EAR, PV/FV
-│   ├── loans_and_credit.py         # Closed-form EMI, loan amortization schedules
-│   ├── investment_plans.py         # SIP (annuity-due), SWP, inflation discounting
-│   ├── capital_budgeting.py        # NPV, numerical IRR (Newton-Raphson & Bisection)
-│   └── monte_carlo.py              # Geometric Brownian Motion, path & terminal simulation
+│   ├── loans_and_credit.py         # EMI, negative amortization boundary, schedules
+│   ├── investment_plans.py         # Annuity-due SIP, step-up escalation, Fisher inflation
+│   ├── capital_budgeting.py        # Multi-period NPV, Newton-Raphson & history solver
+│   └── monte_carlo.py              # Vectorized GBM paths, volatility drag, VaR & CVaR
 │
 ├── tests/                          # Automated mathematical verification suite
-│   ├── __init__.py
-│   ├── test_time_value.py          # Analytical benchmarks & boundary tests
-│   ├── test_loans.py               # Principal/interest balance verification
-│   ├── test_capital_budgeting.py   # Root-finding convergence & tolerance checks
-│   └── test_monte_carlo.py         # Seed reproducibility & statistical validation
+│   ├── test_time_value.py          # 13 tests: Monotonicity, Euler limits, inversion
+│   ├── test_loans.py               # 7 tests: Hand benchmarks, divergence, prepayment
+│   ├── test_investments.py         # 6 tests: Step-up superiority, half-life, Fisher exactness
+│   ├── test_capital_budgeting.py   # 6 tests: Quadratic convergence, Abel-Ruffini, payback
+│   └── test_monte_carlo.py         # 6 tests: CLT convergence, reproducibility, VaR bounds
 │
-├── theory_and_derivations/         # 12-chapter textbook mathematical reference series
-│   ├── chapters/                   # Modular chapter generator scripts (Ch01 - Ch12)
-│   ├── build_all_chapters.py       # Master monograph compilation engine
-│   ├── styles.py                   # Textbook typography & layout framework
-│   ├── README.md                   # Syllabus, proofs, and theory-to-software mapping
-│   └── *.pdf                       # 12 production-grade textbook PDFs (56 pages total)
-│
-└── docs/                           # Academic papers, derivations, and convention notes
-    ├── mathematical_specifications.md
-    └── avishkar_synopsis.md
+└── theory_and_derivations/         # 12-volume textbook mathematical monograph series
+    ├── chapters/                   # Modular PDF chapter compilation scripts
+    ├── build_all_chapters.py       # Master compilation pipeline
+    └── *.pdf                       # 12 compiled textbook PDFs (56 pages total)
 ```
 
 ---
 
-## 3. Mathematical Foundations
+## 5. Quickstart & Installation
 
-### Layer 1: Time Value of Money & Discrete Limits
-Interest compounding is analyzed from both discrete algebraic and continuous real analysis viewpoints:
-* **Discrete Compounding ($n$ times/year):**
-  $$A(t) = P \left(1 + \frac{r}{n}\right)^{nt}$$
-* **Continuous Compounding ($n \to \infty$):**
-  $$\lim_{n \to \infty} P \left(1 + \frac{r}{n}\right)^{nt} = P e^{rt}$$
-* **Effective Annual Rate (EAR):**
-  $$\text{EAR} = \left(1 + \frac{r}{n}\right)^n - 1 \quad \implies \quad \text{EAR}_{\text{cont}} = e^r - 1$$
+### Local Setup
+Ensure you have Python 3.10+ installed:
 
-### Layer 2: Numerical Root-Finding for Yield Analysis (IRR)
-For irregular cash flows $\{C_0, C_1, \dots, C_T\}$, finding the Internal Rate of Return ($r^*$) requires solving:
-$$f(r) = \sum_{t=0}^T \frac{C_t}{(1 + r)^t} = 0$$
-
-Since $f(r) = 0$ is a high-degree polynomial, Galois theory (the Abel–Ruffini theorem) proves that general algebraic radical solutions do not exist for $T > 4$. FDSS implements:
-* **Newton–Raphson Method:** Fast quadratic convergence using the analytical first derivative:
-  $$r_{k+1} = r_k - \frac{f(r_k)}{f'(r_k)}, \quad f'(r) = -\sum_{t=1}^T \frac{t \cdot C_t}{(1+r)^{t+1}}$$
-* **Bisection Fallback:** Bracket-based interval halving on $[a, b]$ where $f(a) \cdot f(b) < 0$ ensuring guaranteed convergence when derivatives oscillate.
-
-### Layer 3: Stochastic Modeling (Geometric Brownian Motion)
-Market asset returns and portfolio paths are modeled using continuous-time stochastic calculus (Itô's Lemma):
-$$dS_t = \mu S_t dt + \sigma S_t dW_t$$
-Discretized over interval $\Delta t$ with standard normal variate $Z \sim \mathcal{N}(0, 1)$:
-$$S_{t+\Delta t} = S_t \exp\left[\left(\mu - \frac{1}{2}\sigma^2\right)\Delta t + \sigma \sqrt{\Delta t} Z\right]$$
-
-By generating $M = 10,000+$ independent stochastic paths, the system computes:
-1. **Terminal Wealth Density:** The probability density function of terminal portfolio value.
-2. **Empirical Probability of Target Achievement:**
-   $$\hat{P}(S_T \ge \text{Target}) = \frac{1}{M}\sum_{m=1}^M \mathbf{1}_{\{S_{T, m} \ge \text{Target}\}}$$
-3. **Downside Risk & Value at Risk (VaR):** Quantifying maximum expected loss at the 95th percentile confidence level.
-
-### Dedicated Mathematical Monograph Series (`theory_and_derivations/`)
-
-The theoretical proofs, ODE derivations, and step-by-step arithmetic hand solutions for every algorithm are compiled into a standalone 12-chapter textbook monograph series in [`theory_and_derivations/`](theory_and_derivations/README.md) (56 pages total):
-
-| Chapter | Document Title | Pages | Key Proofs & Analytical Contributions |
-| :---: | :--- | :---: | :--- |
-| **01** | [Simple Interest & Linear Accumulation](theory_and_derivations/01_Simple_Interest.pdf) | 4 | ODE $dA/dt = Pr$, Bernoulli convexity theorem, non-subadditivity proof |
-| **02** | [Compound Interest & Geometric Accumulation](theory_and_derivations/02_Compound_Interest.pdf) | 5 | Geometric progression, frequency arbitrage proof, binomial expansions |
-| **03** | [Continuous Compounding & Infinitesimal Calculus](theory_and_derivations/03_Continuous_Compounding.pdf) | 4 | Euler's limit $\lim (1+r/m)^{mt} = e^{rt}$, homogeneous ODE $dA/dt = rA$ |
-| **04** | [Present Value, Future Value & Discounting](theory_and_derivations/04_Present_Value_and_Future_Value.pdf) | 4 | Stochastic discount factor $v(t)$, negative exponential asymptotic decay |
-| **05** | [Nominal vs. Effective Annual Rate (EAR)](theory_and_derivations/05_Effective_Annual_Rate.pdf) | 4 | Frequency divergence spread, APY regulatory standardization |
-| **06** | [Equated Monthly Installment (EMI) & Debt Amortization](theory_and_derivations/06_Equated_Monthly_Installment_EMI.pdf) | 6 | Annuity discounting, finite geometric sum proof, negative amortization bounds |
-| **07** | [Systematic Investment Plan (SIP) & Annuity Wealth Accumulation](theory_and_derivations/07_Systematic_Investment_Plan_SIP.pdf) | 6 | Annuity-due future value, Dollar-Cost Averaging, harmonic mean pricing advantage |
-| **08** | [Inflation, Real Purchasing Power & The Fisher Equation](theory_and_derivations/08_Inflation_and_Purchasing_Power.pdf) | 4 | Exact Fisher relation $(1+r_n)=(1+r_r)(1+i)$, purchasing power half-life $t_{1/2}$ |
-| **09** | [Net Present Value (NPV) & Capital Budgeting](theory_and_derivations/09_Net_Present_Value_NPV.pdf) | 4 | Multi-period DCF, Hurdle rate / WACC, convexity of NPV curve |
-| **10** | [Internal Rate of Return (IRR) & Root Finding](theory_and_derivations/10_Internal_Rate_of_Return_IRR.pdf) | 5 | Abel-Ruffini theorem, Newton-Raphson iteration, Descartes' rule of signs |
-| **11** | [Geometric Brownian Motion (GBM) & Itô's Lemma](theory_and_derivations/11_Geometric_Brownian_Motion.pdf) | 4 | Continuous SDE $dS = \mu S dt + \sigma S dW$, Itô's Lemma, Volatility drag $\Delta \mu = -\sigma^2/2$ |
-| **12** | [Monte Carlo Simulation & Quantitative Risk Analysis](theory_and_derivations/12_Monte_Carlo_Simulation.pdf) | 6 | SLLN, Central Limit Theorem $\mathcal{O}(1/\sqrt{M})$, Empirical VaR & CVaR |
-
-To build or recompile all 12 chapters locally:
 ```bash
-python theory_and_derivations/build_all_chapters.py
+# Clone the repository
+git clone https://github.com/AlmightyXZen/Financial-Decision-Support-System.git
+cd Financial-Decision-Support-System
+
+# Create and activate virtual environment
+python -m venv .venv
+# On Windows:
+.\.venv\Scripts\Activate.ps1
+# On macOS/Linux:
+source .venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Launch the interactive web studio
+streamlit run app.py
+```
+
+The application will open automatically in your browser at `http://localhost:8501`.
+
+---
+
+## 6. Automated Test Suite
+
+Every financial model is verified against closed-form analytical benchmarks and IEEE 754 edge cases:
+
+```bash
+pytest -v
+```
+
+```
+============================= test session starts =============================
+platform win32 -- Python 3.14.5, pytest-9.1.1
+rootdir: C:\Atharv Ranade\Atharv\Avishkar\Financial-Decision-Support-System
+
+tests/test_capital_budgeting.py ......                                   [ 15%]
+tests/test_investments.py ......                                         [ 31%]
+tests/test_loans.py .......                                              [ 50%]
+tests/test_monte_carlo.py ......                                         [ 65%]
+tests/test_time_value.py .............                                   [100%]
+
+============================= 38 passed in 0.64s ==============================
 ```
 
 ---
 
-## 4. Verification & Testing Methodology
+## 7. Cloud Deployment
 
-Academic research requires uncompromising reproducibility. Every model in this system is verified against three standards:
+This repository is pre-configured with [`.streamlit/config.toml`](.streamlit/config.toml) for zero-configuration, one-click deployment:
 
-1. **Analytical Hand Calculations:** Simple test vectors solved manually on paper to confirm raw formula accuracy.
-2. **Independent Benchmarking:** Deterministic models are cross-checked against standard Microsoft Excel financial functions (`PMT`, `PV`, `FV`, `IRR`) with a floating-point tolerance of $\epsilon \le 10^{-5}$.
-3. **Automated Unit Testing (`pytest`):** Comprehensive unit tests checking:
-   * Standard inputs (typical investment/loan scenarios)
-   * Boundary inputs ($r = 0$, $t = 0$, high-frequency compounding)
-   * Exception handling (negative principals, nonsensical tenures, zero division)
-   * Seed consistency for Monte Carlo reproducibility
-
----
-
-## 5. Getting Started
-
-### Prerequisites
-* Python 3.10+ (tested on Python 3.14)
-* Git
-
-### Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/AlmightyXZen/Financial-Decision-Support-System.git
-   cd Financial-Decision-Support-System
-   ```
-
-2. Create and activate a virtual environment:
-   ```bash
-   # Windows (PowerShell)
-   python -m venv venv
-   .\venv\Scripts\Activate.ps1
-
-   # Linux / macOS
-   python3 -m venv venv
-   source venv/bin/activate
-   ```
-
-3. Install required dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. Run the automated test suite:
-   ```bash
-   pytest
-   ```
-
-5. Launch the interactive dashboard:
-   ```bash
-   streamlit run app.py
-   ```
-
----
-
-## 6. Long-Term Roadmap & Research Horizon
-
-This project is developed with a long-term academic trajectory targeting **M.Sc. programs in Quantitative Finance, Computational Finance, and Financial Mathematics** in Europe (Universities of Padova, Bologna, Trento, and Pavia).
-
-```
-Phase 1: Avishkar Convention Edition (Current)
-├── Analytical TVM & Amortization Schedules
-├── Numerical Root-Finding for Cash Flow Yields (IRR)
-├── Monte Carlo Simulation Engine (GBM Wealth Paths)
-└── Interactive Streamlit Decision Support Dashboard
-
-Phase 2: Modern Portfolio Theory (Post-Avishkar)
-├── Markowitz Mean-Variance Optimization
-├── Efficient Frontier Construction using Quadratic Programming
-└── Capital Asset Pricing Model (CAPM) & Sharpe Ratio Maximization
-
-Phase 3: Quantitative Risk & Derivative Pricing
-├── Parametric & Historical Value at Risk (VaR) / Conditional VaR (CVaR)
-├── Black-Scholes-Merton European Option Pricing Engine
-└── Analytical Greeks Calculation (Delta, Gamma, Vega, Theta, Rho)
-```
-
----
-
-## 7. Citation & Academic Reference
-
-If you reference this work or build upon this codebase for academic research, please cite:
-
-```bibtex
-@misc{ranade2026fdss,
-  author = {Ranade, Atharv},
-  title = {Financial Decision Support System: A Mathematical and Stochastic Framework for Financial Analysis},
-  year = {2026},
-  publisher = {GitHub},
-  howpublished = {\url{https://github.com/AlmightyXZen/Financial-Decision-Support-System}},
-  note = {Avishkar Research Convention, Department of Students' Development, University of Mumbai}
-}
-```
+* **Streamlit Community Cloud:** Connect your GitHub account, select repository `AlmightyXZen/Financial-Decision-Support-System`, branch `main`, and main file `app.py`.
+* **Render / Railway / Cloud VM:** Set build command to `pip install -r requirements.txt` and start command to `streamlit run app.py --server.port $PORT --server.headless true`.
 
 ---
 
 ## 8. License
 
-This project is open-source and licensed under the **MIT License**. See the `LICENSE` file for full details.
+Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
+
+Copyright © 2026 **Atharv Ranade**. All rights reserved.
