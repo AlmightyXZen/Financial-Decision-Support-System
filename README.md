@@ -3,9 +3,10 @@
 
 [![Python Version](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![Streamlit App](https://img.shields.io/badge/Streamlit-1.31%2B-FF4B4B?logo=streamlit&logoColor=white)](https://streamlit.io/)
-[![Unit Tests](https://img.shields.io/badge/Tests-38%2F38%20Passing-10B981?logo=pytest&logoColor=white)](#automated-test-suite)
+[![CI Build](https://github.com/AlmightyXZen/Financial-Decision-Support-System/actions/workflows/ci.yml/badge.svg)](https://github.com/AlmightyXZen/Financial-Decision-Support-System/actions)
+[![Unit Tests](https://img.shields.io/badge/Tests-38%2F38%20Passing-10B981?logo=pytest&logoColor=white)](#6-automated-test-suite)
 [![License: MIT](https://img.shields.io/badge/License-MIT-38BDF8.svg)](LICENSE)
-[![Architecture](https://img.shields.io/badge/Architecture-First--Principles%20Core-818CF8)](#mathematical-pillars)
+[![Architecture](https://img.shields.io/badge/Architecture-First--Principles%20Core-818CF8)](#3-mathematical-pillars)
 
 Developed by **Atharv Ranade**  
 *Focus: Pure Mathematics, Statistics & Quantitative Financial Modeling*
@@ -169,7 +170,7 @@ pytest -v
 ```
 ============================= test session starts =============================
 platform win32 -- Python 3.14.5, pytest-9.1.1
-rootdir: C:\Atharv Ranade\Atharv\Avishkar\Financial-Decision-Support-System
+rootdir: Financial-Decision-Support-System
 
 tests/test_capital_budgeting.py ......                                   [ 15%]
 tests/test_investments.py ......                                         [ 31%]

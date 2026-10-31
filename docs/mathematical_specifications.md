@@ -1,6 +1,6 @@
 # Mathematical Specifications & Algorithmic Blueprint
 
-This document outlines the rigorous mathematical and numerical specifications powering the **Financial Decision Support System (FDSS)**. It serves as both the technical appendix for the **Avishkar Research Convention** submission and the theoretical foundation for academic portfolio review.
+This document outlines the rigorous mathematical and numerical specifications powering the **Financial Decision Support System (FDSS)**. It serves as the formal technical appendix and theoretical foundation for the computational models.
 
 ---
 
