@@ -15,7 +15,7 @@ from models.capital_budgeting import (
     internal_rate_of_return_with_history,
     discounted_payback_period,
 )
-from ui.styles import render_stat_card, format_currency, format_percentage, plotly_base_layout
+from ui.styles import render_stat_card, render_chart_header, format_currency, format_percentage, plotly_base_layout
 
 
 def render_tab_capital_budgeting(curr_sym: str):
@@ -122,11 +122,15 @@ def render_tab_capital_budgeting(curr_sym: str):
         fig_npv.add_trace(go.Scatter(x=[hurdle_pct], y=[npv_res], mode="markers+text", marker=dict(color="#F59E0B", size=10), text=["Hurdle"], textposition="top right", name="Hurdle Rate"))
         fig_npv.add_trace(go.Scatter(x=[irr_res * 100], y=[0.0], mode="markers+text", marker=dict(color="#10B981", size=12, symbol="star"), text=[f"IRR: {irr_res*100:.2f}%"], textposition="bottom right", name="IRR Root"))
 
+        render_chart_header(
+            "Net Present Value Profile Curve & Zero-Crossing Root",
+            "Continuous yield function f(r) plotted against cost of capital and Newton–Raphson IRR root"
+        )
         layout = plotly_base_layout(
-            title="Net Present Value Profile Curve & Zero-Crossing Root",
             xaxis_title="Discount Rate (%)",
             yaxis_title=f"Net Present Value ({curr_sym})",
-            height=380
+            height=360,
+            show_legend=True
         )
         fig_npv.update_layout(**layout)
         st.plotly_chart(fig_npv, use_container_width=True)
@@ -154,11 +158,15 @@ def render_tab_capital_budgeting(curr_sym: str):
             texttemplate="%{text}",
             textfont={"size": 11},
         ))
+        render_chart_header(
+            "2D NPV Sensitivity Matrix",
+            "Simultaneous evaluation across discount rate shifts and initial capital outlay variance"
+        )
         heat_layout = plotly_base_layout(
-            title="NPV Sensitivity Matrix (Hurdle Rate vs. Initial Capital Investment)",
             xaxis_title="Cost of Capital (Discount Rate)",
             yaxis_title="Initial Outlay Scale",
-            height=320
+            height=300,
+            show_legend=False
         )
         fig_heat.update_layout(**heat_layout)
         st.plotly_chart(fig_heat, use_container_width=True)

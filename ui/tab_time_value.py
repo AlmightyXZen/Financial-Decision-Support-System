@@ -15,7 +15,7 @@ from models.time_value import (
     continuous_compounding_amount,
     nominal_to_effective_rate,
 )
-from ui.styles import render_stat_card, format_currency, format_percentage, plotly_base_layout
+from ui.styles import render_stat_card, render_chart_header, format_currency, format_percentage, plotly_base_layout
 
 
 def render_tab_time_value(curr_sym: str):
@@ -116,16 +116,24 @@ def render_tab_time_value(curr_sym: str):
         fig_tvm.add_trace(go.Scatter(x=t_arr, y=y_comp, mode="lines", name=f"Discrete ({freq_label.split()[0]})", line=dict(color="#38BDF8", width=3)))
         fig_tvm.add_trace(go.Scatter(x=t_arr, y=y_cont, mode="lines", name="Continuous (Euler ODE)", line=dict(color="#10B981", width=2, dash="dot")))
 
+        render_chart_header(
+            "Capital Growth Trajectory",
+            "Linear Subadditivity (Simple) vs. Exponential Expansion (Discrete) vs. Continuous (Euler Limit)"
+        )
         layout = plotly_base_layout(
-            title="Capital Growth Trajectory: Linear vs. Exponential vs. Continuous",
             xaxis_title="Investment Horizon (Years)",
             yaxis_title=f"Terminal Portfolio Value ({curr_sym})",
-            height=400
+            height=380,
+            show_legend=True
         )
         fig_tvm.update_layout(**layout)
         st.plotly_chart(fig_tvm, use_container_width=True)
 
         # Plot 2: Compounding Frequency Monotonicity
+        render_chart_header(
+            "Frequency Asymptote: Convergence to Euler's Ceiling",
+            "Terminal wealth across compounding frequencies approaching the continuous ODE ceiling P · e^(rt)"
+        )
         freq_keys = [1, 2, 4, 12, 52, 365, 1000]
         freq_names = ["Annual (1)", "Semi (2)", "Quarterly (4)", "Monthly (12)", "Weekly (52)", "Daily (365)", "Ultra (1000)"]
         freq_wealths = [compound_interest_amount(p_val, r_val, t_val, compounding_frequency=f) for f in freq_keys]
@@ -147,10 +155,10 @@ def render_tab_time_value(curr_sym: str):
             annotation_position="top left"
         )
         bar_layout = plotly_base_layout(
-            title="Frequency Asymptote: Approaching Euler's Limit ($e^{rt}$)",
             xaxis_title="Compounding Regimes",
             yaxis_title=f"Terminal Wealth ({curr_sym})",
-            height=300
+            height=280,
+            show_legend=False
         )
         fig_bar.update_layout(**bar_layout)
         st.plotly_chart(fig_bar, use_container_width=True)

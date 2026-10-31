@@ -86,44 +86,44 @@ h4, h5, .section-heading {
     letter-spacing: -0.01em !important;
     color: #F1F5F9 !important;
     margin-bottom: 1.2rem !important;
-    margin-top: 0.5rem !important;
+    margin-top: 0.6rem !important;
 }
 
 /* Preset Buttons Container */
 div[data-testid="stHorizontalBlock"]:has(button) {
     margin-top: 0.4rem;
-    margin-bottom: 1.6rem;
+    margin-bottom: 1.8rem;
     gap: 12px;
 }
 
 /* Form Input Element Spacing */
 div[data-testid="stSlider"] {
-    margin-bottom: 1.4rem;
+    margin-bottom: 1.5rem;
 }
 div[data-testid="stNumberInput"] {
-    margin-bottom: 1.4rem;
+    margin-bottom: 1.5rem;
 }
 div[data-testid="stSelectbox"] {
-    margin-bottom: 1.4rem;
+    margin-bottom: 1.5rem;
 }
 div[data-testid="stTextInput"] {
-    margin-bottom: 1.4rem;
+    margin-bottom: 1.5rem;
 }
 
-/* Refined Stat Cards with Generous Breathing Room */
+/* Refined Stat Cards */
 .fdss-card {
     background: var(--card-bg);
     border: 1px solid var(--border-subtle);
-    border-radius: 14px;
-    padding: 1.2rem 1.35rem;
+    border-radius: 12px;
+    padding: 1.15rem 1.25rem;
     backdrop-filter: blur(12px);
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 6px 24px -2px rgba(0, 0, 0, 0.40);
+    box-shadow: 0 4px 18px -2px rgba(0, 0, 0, 0.40);
     margin-bottom: 1.8rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 118px;
+    min-height: 120px;
 }
 
 .fdss-card:hover {
@@ -133,23 +133,25 @@ div[data-testid="stTextInput"] {
     box-shadow: 0 8px 30px -4px rgba(56, 189, 248, 0.15);
 }
 
-.card-label {
-    font-size: 0.76rem;
-    text-transform: uppercase;
-    font-weight: 700;
-    color: var(--text-muted);
-    letter-spacing: 0.06em;
+.card-top {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-bottom: 0.45rem;
+    gap: 6px;
+    margin-bottom: 0.35rem;
+}
+
+.card-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
     line-height: 1.3;
 }
 
 .card-value {
-    font-size: 1.68rem;
+    font-size: 1.62rem;
     font-weight: 700;
     color: #FFFFFF;
     font-family: 'JetBrains Mono', 'Segoe UI Mono', monospace;
@@ -159,23 +161,19 @@ div[data-testid="stTextInput"] {
 }
 
 .card-subtext {
-    font-size: 0.78rem;
+    font-size: 0.77rem;
     color: var(--text-muted);
-    margin-top: 0.4rem;
-    line-height: 1.4;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    line-height: 1.35;
 }
 
 /* Micro Badges & Deltas */
 .delta-badge {
     display: inline-block;
-    padding: 3px 8px;
+    padding: 2px 7px;
     border-radius: 5px;
-    font-size: 0.72rem;
+    font-size: 0.70rem;
     font-weight: 700;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.02em;
     white-space: nowrap;
 }
 .delta-green { background: rgba(16, 185, 129, 0.16); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.35); }
@@ -183,14 +181,28 @@ div[data-testid="stTextInput"] {
 .delta-blue { background: rgba(56, 189, 248, 0.16); color: #38BDF8; border: 1px solid rgba(56, 189, 248, 0.35); }
 .delta-amber { background: rgba(245, 158, 11, 0.16); color: #F59E0B; border: 1px solid rgba(245, 158, 11, 0.35); }
 
+/* Clean Chart Heading Outside Plotly */
+.chart-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #F8FAFC;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.2rem;
+}
+.chart-subtitle {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 0.6rem;
+}
+
 /* Chart Container Spacing */
 div[data-testid="stPlotlyChart"] {
-    margin-top: 1.2rem;
+    margin-top: 0.5rem;
     margin-bottom: 2.2rem;
     background: rgba(14, 27, 49, 0.3);
     border: 1px solid var(--border-subtle);
     border-radius: 12px;
-    padding: 8px;
+    padding: 10px;
 }
 
 /* Tabs Styling */
@@ -198,7 +210,7 @@ div[data-testid="stPlotlyChart"] {
     gap: 12px;
     border-bottom: 1px solid var(--border-subtle);
     padding-bottom: 6px;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.6rem;
 }
 .stTabs [data-baseweb="tab"] {
     background: transparent;
@@ -264,8 +276,8 @@ def render_stat_card(
 
     html = f"""
     <div class="fdss-card">
-        <div class="card-label">
-            <span>{label}</span>
+        <div class="card-top">
+            <span class="card-label">{label}</span>
             {delta_html}
         </div>
         <div class="card-value"{color_style}>{value}</div>
@@ -275,26 +287,29 @@ def render_stat_card(
     st.markdown(html, unsafe_allow_html=True)
 
 
+def render_chart_header(title: str, subtitle: Optional[str] = None):
+    """Renders a clean HTML header above the chart, completely eliminating canvas collisions."""
+    sub_html = f'<div class="chart-subtitle">{subtitle}</div>' if subtitle else ""
+    html = f"""
+    <div style="margin-top: 1.2rem; margin-bottom: 0.4rem;">
+        <div class="chart-title">{title}</div>
+        {sub_html}
+    </div>
+    """
+    st.markdown(html, unsafe_allow_html=True)
+
+
 def plotly_base_layout(
-    title: str,
-    xaxis_title: str,
-    yaxis_title: str,
-    height: int = 400
+    xaxis_title: str = "",
+    yaxis_title: str = "",
+    height: int = 380,
+    show_legend: bool = True
 ) -> Dict[str, Any]:
     """
     Returns a unified dark terminal Plotly layout dictionary.
-    Guarantees that the legend is placed safely below the chart (y=-0.22)
-    and the title is at the top left (y=0.98), completely eliminating overlap!
+    Guarantees zero overlap by placing the legend below the chart and letting HTML handle titles.
     """
-    return dict(
-        title=dict(
-            text=f"<b>{title}</b>",
-            font=dict(color="#F8FAFC", size=13),
-            x=0.01,
-            y=0.97,
-            xanchor="left",
-            yanchor="top"
-        ),
+    layout = dict(
         xaxis=dict(
             title=dict(text=xaxis_title, font=dict(color="#94A3B8", size=12)),
             gridcolor="rgba(255, 255, 255, 0.06)",
@@ -309,8 +324,13 @@ def plotly_base_layout(
         ),
         template="plotly_dark",
         paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="rgba(14, 27, 49, 0.30)",
-        legend=dict(
+        plot_bgcolor="rgba(14, 27, 49, 0.25)",
+        hovermode="x unified",
+        margin=dict(l=45, r=20, t=15, b=65),
+        height=height,
+    )
+    if show_legend:
+        layout["legend"] = dict(
             orientation="h",
             yanchor="top",
             y=-0.22,
@@ -320,8 +340,9 @@ def plotly_base_layout(
             bgcolor="rgba(14, 27, 49, 0.65)",
             bordercolor="rgba(255, 255, 255, 0.08)",
             borderwidth=1
-        ),
-        hovermode="x unified",
-        margin=dict(l=25, r=20, t=55, b=65),
-        height=height,
-    )
+        )
+    else:
+        layout["showlegend"] = False
+        layout["margin"] = dict(l=45, r=20, t=15, b=40)
+
+    return layout

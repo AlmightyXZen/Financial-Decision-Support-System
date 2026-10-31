@@ -15,7 +15,7 @@ from models.monte_carlo import (
     calculate_value_at_risk,
     compute_simulation_statistics,
 )
-from ui.styles import render_stat_card, format_currency, format_percentage, plotly_base_layout
+from ui.styles import render_stat_card, render_chart_header, format_currency, format_percentage, plotly_base_layout
 
 
 @st.cache_data(show_spinner=False)
@@ -137,16 +137,24 @@ def render_tab_monte_carlo(curr_sym: str):
         fig_fan.add_trace(go.Scatter(x=time_grid, y=p95_path, mode="lines", name="95th %ile Upper Bound", line=dict(color="#818CF8", width=2, dash="dot")))
         fig_fan.add_hline(y=mc_target, line_dash="solid", line_color="#F59E0B", annotation_text=f"Target: {format_currency(mc_target, curr_sym)}", annotation_position="top left")
 
+        render_chart_header(
+            "Geometric Brownian Motion Simulation",
+            f"{mc_paths:,} Vectorized Stochastic Trajectories • Horizon T = {mc_years} Years"
+        )
         layout1 = plotly_base_layout(
-            title=f"Geometric Brownian Motion Simulation: {mc_paths:,} Vectorized Trajectories ($T={mc_years}$ Yrs)",
             xaxis_title="Time Horizon (Years)",
             yaxis_title=f"Portfolio Valuation ({curr_sym})",
-            height=420
+            height=400,
+            show_legend=True
         )
         fig_fan.update_layout(**layout1)
         st.plotly_chart(fig_fan, use_container_width=True)
 
         # Plot 2: Terminal Wealth Distribution Histogram
+        render_chart_header(
+            "Terminal Wealth Distribution & Downside Tail Risk",
+            f"Ensemble probability density across {mc_paths:,} simulated terminal outcomes"
+        )
         fig_hist = go.Figure()
         fig_hist.add_trace(go.Histogram(
             x=terminal_wealths, nbinsx=50,
@@ -158,10 +166,10 @@ def render_tab_monte_carlo(curr_sym: str):
         fig_hist.add_vline(x=stats_dict["sample_median"], line_dash="dot", line_color="#10B981", line_width=2, annotation_text="Median", annotation_position="bottom right")
 
         layout2 = plotly_base_layout(
-            title="Terminal Wealth Frequency Distribution at Horizon T",
             xaxis_title=f"Terminal Value ({curr_sym})",
             yaxis_title="Path Frequency",
-            height=260
+            height=280,
+            show_legend=False
         )
         fig_hist.update_layout(**layout2)
         st.plotly_chart(fig_hist, use_container_width=True)

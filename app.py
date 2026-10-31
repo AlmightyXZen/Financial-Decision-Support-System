@@ -2,6 +2,7 @@
 FDSS | Financial Decision Support System
 A Modern Quantitative Financial Analytics & Stochastic Simulation Web Studio.
 Author: Atharv Ranade
+Version: 1.2.0 (High-Density Spacing & Collision-Free Canvas Layout)
 """
 
 import streamlit as st

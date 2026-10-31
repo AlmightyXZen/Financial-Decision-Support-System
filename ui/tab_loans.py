@@ -15,7 +15,7 @@ from models.loans_and_credit import (
     generate_amortization_schedule,
     calculate_prepayment_savings,
 )
-from ui.styles import render_stat_card, format_currency, plotly_base_layout
+from ui.styles import render_stat_card, render_chart_header, format_currency, plotly_base_layout
 
 
 @st.cache_data(show_spinner=False)
@@ -151,25 +151,33 @@ def render_tab_loans(curr_sym: str):
                 annotation_position="top right"
             )
 
+        render_chart_header(
+            "Monthly Payment Breakdown: Principal vs. Interest Split",
+            "The interest-to-principal crossover trajectory over the loan tenure"
+        )
         layout1 = plotly_base_layout(
-            title="Monthly Payment Composition: The 'Interest Crossover' Transition",
             xaxis_title="Tenure Month",
             yaxis_title=f"Monthly Split ({curr_sym})",
-            height=360
+            height=340,
+            show_legend=True
         )
         fig_breakdown.update_layout(**layout1)
         st.plotly_chart(fig_breakdown, use_container_width=True)
 
         # Plot 2: Outstanding Balance Trajectory (Baseline vs Prepayment)
+        render_chart_header(
+            "Loan Principal Balance Trajectory",
+            f"Comparing standard amortization vs. accelerated prepayment (+{format_currency(prepay_val, curr_sym)}/mo)"
+        )
         fig_bal = go.Figure()
         fig_bal.add_trace(go.Scatter(x=df_base["Month"], y=df_base["Closing_Balance"], mode="lines", name="Standard EMI", line=dict(color="#F43F5E", width=2.5)))
         fig_bal.add_trace(go.Scatter(x=df_prep["Month"], y=df_prep["Closing_Balance"], mode="lines", name=f"Accelerated (+{format_currency(prepay_val, curr_sym)}/mo)", line=dict(color="#38BDF8", width=2.5, dash="dash")))
 
         layout2 = plotly_base_layout(
-            title="Outstanding Debt Balance: Standard vs. Accelerated Prepayment",
             xaxis_title="Tenure Month",
             yaxis_title=f"Principal Balance ({curr_sym})",
-            height=330
+            height=300,
+            show_legend=True
         )
         fig_bal.update_layout(**layout2)
         st.plotly_chart(fig_bal, use_container_width=True)

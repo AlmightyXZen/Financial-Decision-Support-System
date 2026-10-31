@@ -15,7 +15,7 @@ from models.investment_plans import (
     real_rate_of_return,
     purchasing_power_half_life,
 )
-from ui.styles import render_stat_card, format_currency, format_percentage, plotly_base_layout
+from ui.styles import render_stat_card, render_chart_header, format_currency, format_percentage, plotly_base_layout
 
 
 def render_tab_investments(curr_sym: str):
@@ -136,11 +136,15 @@ def render_tab_investments(curr_sym: str):
         fig_sip.add_trace(go.Scatter(x=years_scan, y=capital_series, mode="lines", name="Cumulative Capital Invested", line=dict(color="#64748B", width=1.5, dash="dot")))
         fig_sip.add_hline(y=fire_milestone, line_dash="solid", line_color="#818CF8", annotation_text=f"Milestone Target: {format_currency(fire_milestone, curr_sym)}", annotation_position="top left")
 
+        render_chart_header(
+            "Wealth Accumulation Trajectory: Nominal vs. Inflation-Adjusted Reality",
+            "Fixed contributions vs. escalating Step-Up compounding discounted by the Fisher equation"
+        )
         layout = plotly_base_layout(
-            title="Wealth Accumulation: Nominal Corpus vs. Inflation-Adjusted Reality",
             xaxis_title="Investment Horizon (Years)",
             yaxis_title=f"Portfolio Valuation ({curr_sym})",
-            height=400
+            height=380,
+            show_legend=True
         )
         fig_sip.update_layout(**layout)
         st.plotly_chart(fig_sip, use_container_width=True)
