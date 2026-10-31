@@ -21,16 +21,14 @@ from ui.styles import render_stat_card, render_chart_header, format_currency, fo
 def render_tab_capital_budgeting(curr_sym: str):
     """Renders the Capital Budgeting & IRR module."""
     
-    # Presets
-    col_pre, _ = st.columns([3, 1])
-    with col_pre:
-        b_cols = st.columns(3)
-        if b_cols[0].button("🚀 Enterprise SaaS Expansion", use_container_width=True):
-            st.session_state["cb_flow"] = "-500000, 100000, 180000, 240000, 320000, 420000"
-        if b_cols[1].button("🏭 Manufacturing Line", use_container_width=True):
-            st.session_state["cb_flow"] = "-2000000, 350000, 500000, 650000, 800000, 950000"
-        if b_cols[2].button("⚡ Renewable Solar Farm", use_container_width=True):
-            st.session_state["cb_flow"] = "-1500000, 200000, 250000, 300000, 350000, 400000, 450000"
+    # Preset quick-fill triggers across full container width
+    b_cols = st.columns(3)
+    if b_cols[0].button("🚀 SaaS Expansion ($500k Outlay)", use_container_width=True):
+        st.session_state["cb_flow"] = "-500000, 100000, 180000, 240000, 320000, 420000"
+    if b_cols[1].button("🏭 Manufacturing Line ($2M Outlay)", use_container_width=True):
+        st.session_state["cb_flow"] = "-2000000, 350000, 500000, 650000, 800000, 950000"
+    if b_cols[2].button("⚡ Solar Farm ($1.5M Outlay)", use_container_width=True):
+        st.session_state["cb_flow"] = "-1500000, 200000, 250000, 300000, 350000, 400000, 450000"
 
     flow_default = st.session_state.get("cb_flow", "-500000, 100000, 180000, 240000, 320000, 420000")
 
@@ -73,8 +71,9 @@ def render_tab_capital_budgeting(curr_sym: str):
         npv_res, irr_res, irr_trace, payback_res, pi_res = 0.0, 0.0, [], None, 1.0
 
     with col2:
-        k1, k2, k3, k4 = st.columns(4)
-        with k1:
+        # High-Density 2x2 Responsive Metric Grid
+        r1_c1, r1_c2 = st.columns(2)
+        with r1_c1:
             npv_color = "#10B981" if npv_res >= 0 else "#F43F5E"
             render_stat_card(
                 label="Net Present Value (NPV)",
@@ -84,7 +83,7 @@ def render_tab_capital_budgeting(curr_sym: str):
                 delta_type="green" if npv_res >= 0 else "red",
                 value_color=npv_color
             )
-        with k2:
+        with r1_c2:
             irr_color = "#10B981" if irr_res >= hurdle_rate else "#F43F5E"
             render_stat_card(
                 label="Internal Rate of Return (IRR)",
@@ -94,20 +93,22 @@ def render_tab_capital_budgeting(curr_sym: str):
                 delta_type="green" if irr_res >= hurdle_rate else "red",
                 value_color=irr_color
             )
-        with k3:
+
+        r2_c1, r2_c2 = st.columns(2)
+        with r2_c1:
             render_stat_card(
                 label="Discounted Payback",
                 value=f"{payback_res:.2f} Yrs" if payback_res else "Never",
                 subtext="Capital Breakeven Period",
-                delta="Discounted",
+                delta="Discounted Horizon",
                 delta_type="blue"
             )
-        with k4:
+        with r2_c2:
             render_stat_card(
                 label="Profitability Index (PI)",
                 value=f"{pi_res:.2f}x",
                 subtext="Accept Project" if pi_res >= 1.0 else "Reject Project",
-                delta="PI >= 1.0" if pi_res >= 1.0 else "PI < 1.0",
+                delta="PI ≥ 1.0 Accretive" if pi_res >= 1.0 else "PI < 1.0 Dilutive",
                 delta_type="green" if pi_res >= 1.0 else "red",
                 value_color="#38BDF8"
             )

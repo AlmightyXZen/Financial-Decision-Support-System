@@ -21,18 +21,16 @@ from ui.styles import render_stat_card, render_chart_header, format_currency, fo
 def render_tab_time_value(curr_sym: str):
     """Renders the Time Value & Yields module."""
     
-    # Preset quick-fill triggers
-    col_pre, _ = st.columns([3, 1])
-    with col_pre:
-        p_cols = st.columns(4)
-        if p_cols[0].button("🏛️ Sovereign Bond (7.1%)", use_container_width=True):
-            st.session_state["tvm_r_val"] = 7.1
-        if p_cols[1].button("🏦 Fixed Deposit (8.5%)", use_container_width=True):
-            st.session_state["tvm_r_val"] = 8.5
-        if p_cols[2].button("📈 Corporate Debt (11.5%)", use_container_width=True):
-            st.session_state["tvm_r_val"] = 11.5
-        if p_cols[3].button("🚀 Venture Note (18.0%)", use_container_width=True):
-            st.session_state["tvm_r_val"] = 18.0
+    # Preset quick-fill triggers across full container width
+    p_cols = st.columns(4)
+    if p_cols[0].button("🏛️ Sovereign Bond (7.1%)", use_container_width=True):
+        st.session_state["tvm_r_val"] = 7.1
+    if p_cols[1].button("🏦 Fixed Deposit (8.5%)", use_container_width=True):
+        st.session_state["tvm_r_val"] = 8.5
+    if p_cols[2].button("📈 Corporate Debt (11.5%)", use_container_width=True):
+        st.session_state["tvm_r_val"] = 11.5
+    if p_cols[3].button("🚀 Venture Note (18.0%)", use_container_width=True):
+        st.session_state["tvm_r_val"] = 18.0
 
     default_r = st.session_state.get("tvm_r_val", 10.0)
 
@@ -59,7 +57,7 @@ def render_tab_time_value(curr_sym: str):
         exact_double_yrs = math.log(2.0) / r_val if r_val > 0 else float("inf")
         rule_72_yrs = 72.0 / r_pct if r_pct > 0 else float("inf")
         st.markdown("---")
-        st.caption(f"⏱️ **Capital Doubling Horizon:** **{exact_double_yrs:.2f} yrs** (Exact: $\\frac{{\\ln 2}}{{r}}$) vs. **{rule_72_yrs:.2f} yrs** (Rule of 72)")
+        st.caption(f"⏱️ **Capital Doubling Horizon:** **{exact_double_yrs:.2f} yrs** (Exact: $\\ln(2)/r$) vs. **{rule_72_yrs:.2f} yrs** (Rule of 72: $72/r_{{\\%}}$)")
 
     # Core Calculations
     a_simple = simple_interest_amount(p_val, r_val, t_val)
@@ -70,38 +68,41 @@ def render_tab_time_value(curr_sym: str):
     euler_gap = a_cont - a_compound
 
     with col2:
-        k1, k2, k3, k4 = st.columns(4)
-        with k1:
+        # High-Density 2x2 Responsive Metric Grid
+        r1_c1, r1_c2 = st.columns(2)
+        with r1_c1:
             render_stat_card(
                 label="Simple Interest",
                 value=format_currency(a_simple, curr_sym),
                 subtext="Linear Baseline",
-                delta="Linear",
+                delta="Linear Baseline",
                 delta_type="amber"
             )
-        with k2:
+        with r1_c2:
             render_stat_card(
                 label="Discrete Compound",
                 value=format_currency(a_compound, curr_sym),
                 subtext=f"+{format_currency(comp_bonus, curr_sym)} vs Simple",
-                delta=f"+{(comp_bonus/p_val)*100:.1f}%",
+                delta=f"+{(comp_bonus/p_val)*100:.1f}% Yield",
                 delta_type="blue"
             )
-        with k3:
+
+        r2_c1, r2_c2 = st.columns(2)
+        with r2_c1:
             render_stat_card(
                 label="Continuous Limit",
                 value=format_currency(a_cont, curr_sym),
                 subtext="Theoretical Euler Ceiling",
-                delta="Optimal",
+                delta="Euler Ceiling",
                 delta_type="green",
                 value_color="#10B981"
             )
-        with k4:
+        with r2_c2:
             render_stat_card(
                 label="Effective APY (EAR)",
                 value=format_percentage(ear),
                 subtext=f"Nominal: {r_pct:.1f}%",
-                delta=f"+{(ear - r_val)*100:.2f}%",
+                delta=f"+{(ear - r_val)*100:.2f}% Comp Bonus",
                 delta_type="blue"
             )
 
@@ -143,7 +144,9 @@ def render_tab_time_value(curr_sym: str):
             x=freq_names,
             y=freq_wealths,
             text=[format_currency(v, curr_sym) for v in freq_wealths],
-            textposition="auto",
+            textposition="inside",
+            insidetextanchor="middle",
+            textfont=dict(size=11, color="#FFFFFF", family="JetBrains Mono, monospace"),
             marker=dict(color=freq_wealths, colorscale="Tealgrn"),
             name="Terminal Wealth"
         ))
@@ -152,7 +155,8 @@ def render_tab_time_value(curr_sym: str):
             line_dash="dash",
             line_color="#F43F5E",
             annotation_text=f"Euler Ceiling: {format_currency(a_cont, curr_sym)}",
-            annotation_position="top left"
+            annotation_position="top left",
+            annotation_font=dict(size=11, color="#F43F5E")
         )
         bar_layout = plotly_base_layout(
             xaxis_title="Compounding Regimes",
@@ -160,5 +164,6 @@ def render_tab_time_value(curr_sym: str):
             height=280,
             show_legend=False
         )
+        bar_layout["yaxis"]["range"] = [0, a_cont * 1.15]
         fig_bar.update_layout(**bar_layout)
         st.plotly_chart(fig_bar, use_container_width=True)

@@ -21,19 +21,17 @@ from ui.styles import render_stat_card, render_chart_header, format_currency, fo
 def render_tab_investments(curr_sym: str):
     """Renders the Wealth Accumulation & SIP Planner module."""
     
-    # Presets
-    col_pre, _ = st.columns([3, 1])
-    with col_pre:
-        s_cols = st.columns(3)
-        if s_cols[0].button("🌱 Conservative Index (10% return, 5% step-up)", use_container_width=True):
-            st.session_state["sip_r_val"] = 10.0
-            st.session_state["sip_step_val"] = 5.0
-        if s_cols[1].button("🚀 Growth Equity (13% return, 10% step-up)", use_container_width=True):
-            st.session_state["sip_r_val"] = 13.0
-            st.session_state["sip_step_val"] = 10.0
-        if s_cols[2].button("🔥 Aggressive FIRE (15% return, 15% step-up)", use_container_width=True):
-            st.session_state["sip_r_val"] = 15.0
-            st.session_state["sip_step_val"] = 15.0
+    # Preset quick-fill triggers across full container width
+    s_cols = st.columns(3)
+    if s_cols[0].button("🌱 Conservative (10% Ret, 5% Step)", use_container_width=True):
+        st.session_state["sip_r_val"] = 10.0
+        st.session_state["sip_step_val"] = 5.0
+    if s_cols[1].button("🚀 Growth Equity (13% Ret, 10% Step)", use_container_width=True):
+        st.session_state["sip_r_val"] = 13.0
+        st.session_state["sip_step_val"] = 10.0
+    if s_cols[2].button("🔥 Aggressive FIRE (15% Ret, 15% Step)", use_container_width=True):
+        st.session_state["sip_r_val"] = 15.0
+        st.session_state["sip_step_val"] = 15.0
 
     r_default = st.session_state.get("sip_r_val", 12.0)
     step_default = st.session_state.get("sip_step_val", 10.0)
@@ -82,16 +80,17 @@ def render_tab_investments(curr_sym: str):
             })
 
     with col2:
-        k1, k2, k3, k4 = st.columns(4)
-        with k1:
+        # High-Density 2x2 Responsive Metric Grid
+        r1_c1, r1_c2 = st.columns(2)
+        with r1_c1:
             render_stat_card(
                 label="Fixed SIP Corpus",
                 value=format_currency(sip_base["future_value"], curr_sym),
                 subtext=f"Capital: {format_currency(sip_base['total_invested'], curr_sym)}",
-                delta="Flat",
+                delta="Flat Baseline",
                 delta_type="amber"
             )
-        with k2:
+        with r1_c2:
             render_stat_card(
                 label=f"Step-Up Corpus (+{sip_step_pct:.0f}%)",
                 value=format_currency(sip_step_sum["future_value"], curr_sym),
@@ -100,21 +99,23 @@ def render_tab_investments(curr_sym: str):
                 delta_type="green",
                 value_color="#10B981"
             )
-        with k3:
+
+        r2_c1, r2_c2 = st.columns(2)
+        with r2_c1:
             render_stat_card(
                 label="Fisher Real Return",
                 value=format_percentage(r_fisher),
                 subtext=f"Nominal {sip_r_pct:.1f}% - Inf {sip_inf_pct:.1f}%",
-                delta="Inflation-Adjusted",
+                delta="Real Rate",
                 delta_type="blue"
             )
-        with k4:
-            hit_subtext = f"Achieved in Year {milestone_hit_year}" if milestone_hit_year else "Beyond Current Horizon"
+        with r2_c2:
+            hit_subtext = f"Achieved in Year {milestone_hit_year}" if milestone_hit_year else "Beyond Horizon"
             render_stat_card(
                 label="Milestone Target",
                 value=f"{format_currency(fire_milestone, curr_sym)}",
                 subtext=hit_subtext,
-                delta=f"Year {milestone_hit_year}" if milestone_hit_year else "Not reached",
+                delta=f"Year {milestone_hit_year}" if milestone_hit_year else "Pending",
                 delta_type="green" if milestone_hit_year else "red",
                 value_color="#38BDF8"
             )

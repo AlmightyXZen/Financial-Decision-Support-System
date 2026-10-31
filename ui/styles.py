@@ -92,8 +92,27 @@ h4, h5, .section-heading {
 /* Preset Buttons Container */
 div[data-testid="stHorizontalBlock"]:has(button) {
     margin-top: 0.4rem;
-    margin-bottom: 1.8rem;
-    gap: 12px;
+    margin-bottom: 1.6rem;
+    gap: 10px;
+}
+
+div[data-testid="stHorizontalBlock"] button {
+    font-size: 0.82rem !important;
+    padding: 8px 10px !important;
+    white-space: normal !important;
+    min-height: 42px !important;
+    line-height: 1.25 !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    border: 1px solid var(--border-subtle) !important;
+    background: rgba(14, 27, 49, 0.6) !important;
+    transition: all 0.2s ease !important;
+}
+
+div[data-testid="stHorizontalBlock"] button:hover {
+    border-color: var(--accent-blue) !important;
+    background: rgba(56, 189, 248, 0.12) !important;
+    color: #FFFFFF !important;
 }
 
 /* Form Input Element Spacing */
@@ -115,15 +134,16 @@ div[data-testid="stTextInput"] {
     background: var(--card-bg);
     border: 1px solid var(--border-subtle);
     border-radius: 12px;
-    padding: 1.15rem 1.25rem;
+    padding: 1rem 1.15rem;
     backdrop-filter: blur(12px);
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 0 4px 18px -2px rgba(0, 0, 0, 0.40);
-    margin-bottom: 1.8rem;
+    margin-bottom: 1.2rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 120px;
+    min-height: 108px;
+    box-sizing: border-box;
 }
 
 .fdss-card:hover {
@@ -136,9 +156,9 @@ div[data-testid="stTextInput"] {
 .card-top {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    gap: 6px;
-    margin-bottom: 0.35rem;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 0.25rem;
 }
 
 .card-label {
@@ -147,23 +167,32 @@ div[data-testid="stTextInput"] {
     font-weight: 700;
     color: var(--text-muted);
     letter-spacing: 0.05em;
-    line-height: 1.3;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .card-value {
-    font-size: 1.62rem;
+    font-size: clamp(1.3rem, 1.8vw, 1.6rem);
     font-weight: 700;
     color: #FFFFFF;
     font-family: 'JetBrains Mono', 'Segoe UI Mono', monospace;
     letter-spacing: -0.02em;
-    line-height: 1.25;
-    margin: 0.35rem 0;
+    line-height: 1.2;
+    margin: 0.25rem 0;
+    white-space: nowrap !important;
+    text-transform: none !important;
 }
 
 .card-subtext {
-    font-size: 0.77rem;
+    font-size: 0.76rem;
     color: var(--text-muted);
-    line-height: 1.35;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: none !important;
 }
 
 /* Micro Badges & Deltas */
@@ -171,10 +200,11 @@ div[data-testid="stTextInput"] {
     display: inline-block;
     padding: 2px 7px;
     border-radius: 5px;
-    font-size: 0.70rem;
+    font-size: 0.68rem;
     font-weight: 700;
     letter-spacing: 0.02em;
     white-space: nowrap;
+    text-transform: none !important;
 }
 .delta-green { background: rgba(16, 185, 129, 0.16); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.35); }
 .delta-red { background: rgba(244, 63, 94, 0.16); color: #F43F5E; border: 1px solid rgba(244, 63, 94, 0.35); }
@@ -307,7 +337,7 @@ def plotly_base_layout(
 ) -> Dict[str, Any]:
     """
     Returns a unified dark terminal Plotly layout dictionary.
-    Guarantees zero overlap by placing the legend below the chart and letting HTML handle titles.
+    Places horizontal legends at the top of the canvas, below the decoupled HTML header.
     """
     layout = dict(
         xaxis=dict(
@@ -326,23 +356,23 @@ def plotly_base_layout(
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(14, 27, 49, 0.25)",
         hovermode="x unified",
-        margin=dict(l=45, r=20, t=15, b=65),
+        margin=dict(l=48, r=20, t=35, b=45),
         height=height,
     )
     if show_legend:
         layout["legend"] = dict(
             orientation="h",
-            yanchor="top",
-            y=-0.22,
+            yanchor="bottom",
+            y=1.02,
             xanchor="center",
             x=0.5,
             font=dict(size=11, color="#CBD5E1"),
-            bgcolor="rgba(14, 27, 49, 0.65)",
+            bgcolor="rgba(14, 27, 49, 0.70)",
             bordercolor="rgba(255, 255, 255, 0.08)",
             borderwidth=1
         )
     else:
         layout["showlegend"] = False
-        layout["margin"] = dict(l=45, r=20, t=15, b=40)
+        layout["margin"] = dict(l=48, r=20, t=15, b=40)
 
     return layout

@@ -26,22 +26,20 @@ def get_cached_monte_carlo_paths(s0: float, mu: float, sigma: float, t_years: fl
 def render_tab_monte_carlo(curr_sym: str):
     """Renders the Monte Carlo Stochastic Risk Lab module."""
     
-    # Presets
-    col_pre, _ = st.columns([3, 1])
-    with col_pre:
-        m_cols = st.columns(4)
-        if m_cols[0].button("🚀 Tech Bull (18% μ, 16% σ)", use_container_width=True):
-            st.session_state["mc_mu_val"] = 18.0
-            st.session_state["mc_sigma_val"] = 16.0
-        if m_cols[1].button("📉 2008 Crash Shock (-4% μ, 34% σ)", use_container_width=True):
-            st.session_state["mc_mu_val"] = -4.0
-            st.session_state["mc_sigma_val"] = 34.0
-        if m_cols[2].button("🌪️ Stagflation (4% μ, 24% σ)", use_container_width=True):
-            st.session_state["mc_mu_val"] = 4.0
-            st.session_state["mc_sigma_val"] = 24.0
-        if m_cols[3].button("🛡️ All-Weather (9% μ, 11% σ)", use_container_width=True):
-            st.session_state["mc_mu_val"] = 9.0
-            st.session_state["mc_sigma_val"] = 11.0
+    # Preset quick-fill triggers across full container width
+    m_cols = st.columns(4)
+    if m_cols[0].button("🚀 Tech Bull (18% μ, 16% σ)", use_container_width=True):
+        st.session_state["mc_mu_val"] = 18.0
+        st.session_state["mc_sigma_val"] = 16.0
+    if m_cols[1].button("📉 2008 Crash (-4% μ, 34% σ)", use_container_width=True):
+        st.session_state["mc_mu_val"] = -4.0
+        st.session_state["mc_sigma_val"] = 34.0
+    if m_cols[2].button("🌪️ Stagflation (4% μ, 24% σ)", use_container_width=True):
+        st.session_state["mc_mu_val"] = 4.0
+        st.session_state["mc_sigma_val"] = 24.0
+    if m_cols[3].button("🛡️ All-Weather (9% μ, 11% σ)", use_container_width=True):
+        st.session_state["mc_mu_val"] = 9.0
+        st.session_state["mc_sigma_val"] = 11.0
 
     mu_default = st.session_state.get("mc_mu_val", 12.0)
     sigma_default = st.session_state.get("mc_sigma_val", 18.0)
@@ -78,38 +76,41 @@ def render_tab_monte_carlo(curr_sym: str):
     risk_dict = calculate_value_at_risk(terminal_wealths, s0=mc_s0, confidence_level=0.95)
 
     with col2:
-        k1, k2, k3, k4 = st.columns(4)
-        with k1:
+        # High-Density 2x2 Responsive Metric Grid
+        r1_c1, r1_c2 = st.columns(2)
+        with r1_c1:
             render_stat_card(
                 label="Expected Mean",
                 value=format_currency(stats_dict["sample_mean"], curr_sym),
                 subtext=f"Median: {format_currency(stats_dict['sample_median'], curr_sym)}",
-                delta=f"+{((stats_dict['sample_mean']/mc_s0)-1)*100:.1f}%",
+                delta=f"+{((stats_dict['sample_mean']/mc_s0)-1)*100:.1f}% Drift",
                 delta_type="green" if stats_dict["sample_mean"] >= mc_s0 else "red",
                 value_color="#10B981"
             )
-        with k2:
+        with r1_c2:
             render_stat_card(
                 label="Volatility Drag",
                 value=f"{drag_dict['annual_volatility_drag_percent']:.2f}%/yr",
                 subtext=f"Gap: {format_currency(drag_dict['monetary_wealth_gap'], curr_sym)}",
-                delta="Penalty -½ σ²",
+                delta="-½ σ² Drag",
                 delta_type="red",
                 value_color="#F43F5E"
             )
-        with k3:
+
+        r2_c1, r2_c2 = st.columns(2)
+        with r2_c1:
             goal_color = "#10B981" if goal_prob >= 0.70 else ("#F59E0B" if goal_prob >= 0.40 else "#F43F5E")
             render_stat_card(
                 label="Goal Attainment",
                 value=format_percentage(goal_prob),
                 subtext=f"Target: {format_currency(mc_target, curr_sym)}",
-                delta="P(Wealth >= Goal)",
+                delta="P(S_T ≥ Goal)",
                 delta_type="green" if goal_prob >= 0.50 else "amber",
                 value_color=goal_color
             )
-        with k4:
+        with r2_c2:
             render_stat_card(
-                label="95% Value at Risk (VaR)",
+                label="95% VaR Floor",
                 value=format_currency(risk_dict["cutoff_price"], curr_sym),
                 subtext=f"Max Tail Loss: {format_currency(risk_dict['value_at_risk'], curr_sym)}",
                 delta="5th %ile Floor",
