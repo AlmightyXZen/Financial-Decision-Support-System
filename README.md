@@ -1,15 +1,18 @@
 # Financial Decision Support System (FDSS)
 ### *A Quantitative Financial Mathematics, Numerical Root-Finding & Stochastic Simulation Studio*
 
+[![Live Web Application](https://img.shields.io/badge/Live_App-Launch_Studio-38BDF8?style=for-the-badge&logo=streamlit&logoColor=070F1E)](https://financial-decision-support-system.streamlit.app/)
+
 [![Python Version](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-[![Streamlit App](https://img.shields.io/badge/Streamlit-1.31%2B-FF4B4B?logo=streamlit&logoColor=white)](https://streamlit.io/)
+[![Streamlit Cloud](https://img.shields.io/badge/Streamlit-Live%20on%20Cloud-FF4B4B?logo=streamlit&logoColor=white)](https://financial-decision-support-system.streamlit.app/)
 [![CI Build](https://github.com/AlmightyXZen/Financial-Decision-Support-System/actions/workflows/ci.yml/badge.svg)](https://github.com/AlmightyXZen/Financial-Decision-Support-System/actions)
 [![Unit Tests](https://img.shields.io/badge/Tests-38%2F38%20Passing-10B981?logo=pytest&logoColor=white)](#6-automated-test-suite)
 [![License: MIT](https://img.shields.io/badge/License-MIT-38BDF8.svg)](LICENSE)
 [![Architecture](https://img.shields.io/badge/Architecture-First--Principles%20Core-818CF8)](#3-mathematical-pillars)
 
 Developed by **Atharv Ranade**  
-*Focus: Pure Mathematics, Statistics & Quantitative Financial Modeling*
+*Focus: Pure Mathematics, Statistics & Quantitative Financial Modeling*  
+**🌐 Live Production Studio:** [financial-decision-support-system.streamlit.app](https://financial-decision-support-system.streamlit.app/)
 
 ---
 
@@ -183,12 +186,14 @@ tests/test_time_value.py .............                                   [100%]
 
 ---
 
-## 7. Cloud Deployment
+## 7. Cloud Deployment & Live Studio Access
 
-This repository is pre-configured with [`.streamlit/config.toml`](.streamlit/config.toml) for zero-configuration, one-click deployment:
+The production application is continuously deployed and accessible globally:
 
-* **Streamlit Community Cloud:** Connect your GitHub account, select repository `AlmightyXZen/Financial-Decision-Support-System`, branch `main`, and main file `app.py`.
-* **Render / Railway / Cloud VM:** Set build command to `pip install -r requirements.txt` and start command to `streamlit run app.py --server.port $PORT --server.headless true`.
+👉 **[financial-decision-support-system.streamlit.app](https://financial-decision-support-system.streamlit.app/)**
+
+* **Continuous Deployment (CI/CD):** Any commit pushed to the `main` branch automatically triggers an instant rebuild and deployment on Streamlit Community Cloud.
+* **Alternative Cloud Infrastructure:** Pre-configured with [`.streamlit/config.toml`](.streamlit/config.toml) for containerized deployment on Render, Railway, or AWS.
 
 ---
 
