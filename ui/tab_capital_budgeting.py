@@ -181,3 +181,13 @@ def render_tab_capital_budgeting(curr_sym: str):
             trace_df["r_k (%)"] = (trace_df["r_k"] * 100).round(4)
             trace_df["npv_k"] = trace_df["npv_k"].round(2)
             st.dataframe(trace_df[["iteration", "r_k (%)", "npv_k", "method"]], use_container_width=True)
+
+    # In-Tab Methodology & Interpretation Notes
+    with st.expander("📘 Module Methodology & Mathematical Notes: Multi-Period NPV & Newton–Raphson"):
+        st.markdown(
+            """
+            - **Net Present Value (NPV):** Evaluates whether an investment generates value beyond the cost of capital: $\\text{NPV}(r) = \\sum_{t=0}^T \\frac{C_t}{(1 + r)^t}$. Accept if $\\text{NPV} \\ge 0$.
+            - **Newton–Raphson Root-Finding:** When degree $T \\ge 5$, Galois theory and the Abel–Ruffini theorem prove no general algebraic closed form exists. The system uses Newton–Raphson iteration $r_{k+1} = r_k - \\frac{f(r_k)}{f'(r_k)}$, converging quadratically to the true internal rate of return.
+            - **Profitability Index (PI):** Measures return per unit of capital invested: $\\text{PI} = \\frac{\\text{PV}(\\text{Future Inflows})}{|C_0|}$. Project is accretive if $\\text{PI} \\ge 1.0$.
+            """
+        )

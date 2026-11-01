@@ -174,3 +174,13 @@ def render_tab_time_value(curr_sym: str):
         bar_layout["yaxis"]["range"] = [0, a_cont * 1.15]
         fig_bar.update_layout(**bar_layout)
         st.plotly_chart(fig_bar, use_container_width=True)
+
+    # In-Tab Methodology & Interpretation Notes
+    with st.expander("📘 Module Methodology & Mathematical Notes: Compounding Regimes & Euler's Ceiling"):
+        st.markdown(
+            """
+            - **Discrete Compounding:** $A(t) = P(1 + r/m)^{mt}$. As frequency $m$ increases from annual ($m=1$) to daily ($m=365$), interest earns interest earlier, raising effective yield (EAR).
+            - **Euler Limit Ceiling:** No discrete compounding regime can grow without bound; as $m \\to \\infty$, terminal wealth converges to the theoretical ceiling $P \\cdot e^{rt}$.
+            - **Capital Doubling Horizon:** The exact doubling time under continuous compounding is $\\tau = \\frac{\\ln(2)}{r}$. The retail Rule of 72 approximation $\\tau \\approx \\frac{72}{r_{\\%}}$ provides an intuitive mental shortcut.
+            """
+        )

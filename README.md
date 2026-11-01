@@ -1,7 +1,7 @@
 # Financial Decision Support System (FDSS)
-### *A Quantitative Financial Mathematics, Numerical Root-Finding & Stochastic Simulation Studio*
+### *A Quantitative Financial Mathematics, Numerical Root-Finding & Stochastic Simulation System*
 
-[![Live Web Application](https://img.shields.io/badge/Live_App-Launch_Studio-38BDF8?style=for-the-badge&logo=streamlit&logoColor=070F1E)](https://financial-decision-support-system.streamlit.app/)
+[![Live Web Application](https://img.shields.io/badge/Live_App-Launch_System-38BDF8?style=for-the-badge&logo=streamlit&logoColor=070F1E)](https://financial-decision-support-system.streamlit.app/)
 
 [![Python Version](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![Streamlit Cloud](https://img.shields.io/badge/Streamlit-Live%20on%20Cloud-FF4B4B?logo=streamlit&logoColor=white)](https://financial-decision-support-system.streamlit.app/)
@@ -12,7 +12,7 @@
 
 Developed by **Atharv Ranade**  
 *Focus: Pure Mathematics, Statistics & Quantitative Financial Modeling*  
-**🌐 Live Production Studio:** [financial-decision-support-system.streamlit.app](https://financial-decision-support-system.streamlit.app/)
+**🌐 Live Production System:** [financial-decision-support-system.streamlit.app](https://financial-decision-support-system.streamlit.app/)
 
 ---
 
@@ -20,7 +20,7 @@ Developed by **Atharv Ranade**
 
 Most commercial financial calculators rely on a dangerous fallacy: **deterministic certainty**. They present static formulas promising that an annual return of $12\%$ compounded over 20 years will yield an exact scalar figure. In real capital markets, returns are neither constant nor guaranteed; they are governed by stochastic differential equations, structural volatility drag, and macroeconomic inflation erosion.
 
-The **Financial Decision Support System (FDSS)** bridges pure mathematical analysis with modern software engineering. Rather than presenting a single hypothetical outcome, this studio models financial dynamics using:
+The **Financial Decision Support System (FDSS)** bridges pure mathematical analysis with modern software engineering. Rather than presenting a single hypothetical outcome, this system models financial dynamics using:
 
 1. **Analytical Real Analysis & Calculus:** Exact closed-form equations for time value of money, continuous Euler limits, and finite geometric series loan amortization.
 2. **Numerical Analysis & Root-Finding:** High-precision Newton–Raphson iteration with analytical first derivatives to compute internal yields (IRR) where the **Abel–Ruffini Theorem** proves closed-form algebraic solutions are impossible.
@@ -154,7 +154,7 @@ source .venv/bin/activate
 # Install dependencies
 pip install -r requirements.txt
 
-# Launch the interactive web studio
+# Launch the interactive web system
 streamlit run app.py
 ```
 
@@ -186,7 +186,7 @@ tests/test_time_value.py .............                                   [100%]
 
 ---
 
-## 7. Cloud Deployment & Live Studio Access
+## 7. Cloud Deployment & Live System Access
 
 The production application is continuously deployed and accessible globally:
 

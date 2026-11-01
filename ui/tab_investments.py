@@ -154,3 +154,13 @@ def render_tab_investments(curr_sym: str):
     with st.expander("📅 View Milestone Checkpoints (5-Year Intervals)"):
         chk_df = pd.DataFrame(checkpoints)
         st.dataframe(chk_df, use_container_width=True)
+
+    # In-Tab Methodology & Interpretation Notes
+    with st.expander("📘 Module Methodology & Mathematical Notes: Step-Up Compounding & Fisher Relation"):
+        st.markdown(
+            """
+            - **Step-Up Escalation:** Adding an annual contribution step-up (e.g. $+10\\%$/year) substantially outperforms a flat SIP because incremental savings compound over remaining years.
+            - **Fisher Inflation Discounting:** The Irving Fisher relation $(1 + r_{\\text{nominal}}) = (1 + r_{\\text{real}})(1 + i)$ models the true purchasing power of the terminal corpus.
+            - **Purchasing Power Half-Life:** Inflation degrades purchasing power exponentially; at $6\\%$ inflation, purchasing power halves every $\\tau_{1/2} = \\frac{\\ln(2)}{\\ln(1.06)} \\approx 11.9$ years.
+            """
+        )

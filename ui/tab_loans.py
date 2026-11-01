@@ -220,3 +220,13 @@ def render_tab_loans(curr_sym: str):
                 mime="text/csv",
                 use_container_width=True
             )
+
+    # In-Tab Methodology & Interpretation Notes
+    with st.expander("📘 Module Methodology & Mathematical Notes: Amortization & Negative Boundary"):
+        st.markdown(
+            """
+            - **Equated Monthly Installment (EMI):** $\\text{EMI} = P \\cdot \\frac{r_m (1 + r_m)^n}{(1 + r_m)^n - 1}$. Early payments are dominated by interest; as principal decreases, principal repayment accelerates exponentially.
+            - **Negative Amortization Divergence:** If monthly payment falls below monthly interest accrual $\\frac{P \\cdot r}{12}$, the remaining interest capitalizes onto the principal, causing the debt balance to diverge toward infinity.
+            - **Accelerated Payoff:** Every extra prepayment is subtracted directly from outstanding principal, shortening the amortization tail and dramatically cutting cumulative interest cost.
+            """
+        )

@@ -1,8 +1,8 @@
 """
 FDSS | Financial Decision Support System
-A Modern Quantitative Financial Analytics & Stochastic Simulation Web Studio.
+A Modern Quantitative Financial Analytics & Stochastic Simulation System.
 Author: Atharv Ranade
-Version: 1.2.0 (High-Density Spacing & Collision-Free Canvas Layout)
+Version: 1.3.0 (Comprehensive Documentation & System Manual Integration)
 """
 
 import streamlit as st
@@ -12,10 +12,11 @@ from ui.tab_loans import render_tab_loans
 from ui.tab_investments import render_tab_investments
 from ui.tab_capital_budgeting import render_tab_capital_budgeting
 from ui.tab_monte_carlo import render_tab_monte_carlo
+from ui.tab_user_guide import render_tab_user_guide
 
 # Page Configuration
 st.set_page_config(
-    page_title="FDSS | Quantitative Finance Studio",
+    page_title="FDSS | Financial Decision Support System",
     page_icon="⚡",
     layout="wide",
     initial_sidebar_state="collapsed",
@@ -66,9 +67,9 @@ with st.sidebar:
     )
 
     st.markdown("---")
-    st.markdown("##### About the Studio")
+    st.markdown("##### About FDSS")
     st.caption(
-        "FDSS is a quantitative finance platform combining first-principles calculus, "
+        "FDSS is a quantitative finance decision system combining first-principles calculus, "
         "numerical root-finding (Newton–Raphson), and Itô stochastic simulation. "
         "Zero third-party financial black boxes."
     )
@@ -82,7 +83,7 @@ st.markdown(
             <div class="brand-pill">⚡ FDSS</div>
             <div>
                 <div class="brand-title">Financial Decision Support System</div>
-                <div class="brand-subtitle">Quantitative Analytics & Stochastic Simulation Studio</div>
+                <div class="brand-subtitle">Quantitative Analytics & Stochastic Simulation System</div>
             </div>
         </div>
     </div>
@@ -91,12 +92,13 @@ st.markdown(
 )
 
 # Main Navigation Tabs
-tab1, tab2, tab3, tab4, tab5 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
     "Time Value & Yields",
     "Debt & Amortization",
     "Wealth & SIP Planner",
     "Capital Budgeting & IRR",
     "Monte Carlo Risk Lab",
+    "📖 User Guide & Documentation",
 ])
 
 with tab1:
@@ -114,11 +116,14 @@ with tab4:
 with tab5:
     render_tab_monte_carlo(curr_sym)
 
+with tab6:
+    render_tab_user_guide(curr_sym)
+
 # Minimalist App Footer
 st.markdown(
     """
     <div class="app-footer">
-        FDSS Quantitative Finance Studio • © 2026 Atharv Ranade. All rights reserved.
+        Financial Decision Support System (FDSS) • © 2026 Atharv Ranade. All rights reserved.
     </div>
     """,
     unsafe_allow_html=True,

@@ -174,3 +174,13 @@ def render_tab_monte_carlo(curr_sym: str):
         )
         fig_hist.update_layout(**layout2)
         st.plotly_chart(fig_hist, use_container_width=True)
+
+    # In-Tab Methodology & Interpretation Notes
+    with st.expander("📘 Module Methodology & Mathematical Notes: Itô SDE & Volatility Drag"):
+        st.markdown(
+            """
+            - **Geometric Brownian Motion (GBM):** Models equity asset valuation via the stochastic differential equation $dS_t = \\mu S_t dt + \\sigma S_t dW_t$.
+            - **Volatility Drag Penalty:** While arithmetic average drift is $\\mu$, compound geometric median trajectory expands at only $\\mu - \\frac{1}{2}\\sigma^2$. Higher volatility reduces compound wealth.
+            - **95% Value at Risk (VaR):** The empirical 5th percentile worst-case terminal portfolio valuation across simulated trajectories.
+            """
+        )

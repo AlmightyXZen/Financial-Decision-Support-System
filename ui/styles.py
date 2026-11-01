@@ -1,6 +1,6 @@
 """
 ui/styles.py
-Central Styling, Custom CSS & Reusable Component Helpers for FDSS Studio.
+Central Styling, Custom CSS & Reusable Component Helpers for FDSS System.
 Author: Atharv Ranade
 """
 
