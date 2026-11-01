@@ -71,7 +71,7 @@ with st.sidebar:
     st.markdown(
         """<div style="font-size: 0.78rem; color: #94A3B8; line-height: 1.55;">
 <b>FDSS</b> is an open-source quantitative decision engine authored by 
-<b>Atharv Ranade</b> (BSc Mathematics &amp; Statistics, University of Mumbai).<br><br>
+<b>Atharv Ranade</b>.<br><br>
 Designed to replace opaque commercial calculators with transparent first-principles mathematical derivations—spanning 
 real analysis, numerical root-finding (Newton-Raphson &amp; Brent's method), and Itô stochastic calculus.<br><br>
 <a href="https://github.com/AlmightyXZen/Financial-Decision-Support-System" target="_blank" style="color: #38BDF8; text-decoration: none; font-weight: 500;">

@@ -11,7 +11,6 @@
 [![Architecture](https://img.shields.io/badge/Architecture-First--Principles%20Core-818CF8)](#3-mathematical-pillars)
 
 Developed by **Atharv Ranade**  
-*Focus: Pure Mathematics, Statistics & Quantitative Financial Modeling*  
 **🌐 Live Production System:** [financial-decision-support-system.streamlit.app](https://financial-decision-support-system.streamlit.app/)
 
 ---

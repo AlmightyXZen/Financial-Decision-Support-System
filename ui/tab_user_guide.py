@@ -19,7 +19,7 @@ def render_tab_user_guide(curr_sym: str):
 </div>
 <p style="color: #CBD5E1; font-size: 0.92rem; line-height: 1.6; margin-top: 0.8rem; margin-bottom: 0;">
 The <b>Financial Decision Support System (FDSS)</b> is an open-source quantitative finance engine 
-authored by <b>Atharv Ranade</b> (BSc Mathematics &amp; Statistics, University of Mumbai). 
+authored by <b>Atharv Ranade</b>. 
 Unlike conventional consumer financial tools that rely on opaque black-box APIs, every model in FDSS is derived 
 directly from first-principles calculus, differential equations, and rigorous probability theory.
 </p>
@@ -254,7 +254,7 @@ Download complete month-by-month loan amortization schedules in raw CSV.
             """<div style="background: rgba(14, 27, 49, 0.65); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 1.2rem; height: 100%;">
 <div style="font-weight: 700; color: #FFFFFF; font-size: 1rem; margin-bottom: 0.6rem;">Open Source & Attribution</div>
 <ul style="color: #CBD5E1; font-size: 0.85rem; line-height: 1.7; padding-left: 1.2rem; margin: 0;">
-<li><b>Author:</b> Atharv Ranade (BSc Mathematics & Statistics, University of Mumbai)</li>
+<li><b>Author:</b> Atharv Ranade</li>
 <li><b>License:</b> MIT License (Open Source, Free for Academic & Commercial Use)</li>
 <li><b>Source Code:</b> <a href="https://github.com/AlmightyXZen/Financial-Decision-Support-System" target="_blank" style="color: #38BDF8; text-decoration: none;">GitHub: AlmightyXZen/Financial-Decision-Support-System</a></li>
 <li><b>Feedback & Issues:</b> <a href="https://github.com/AlmightyXZen/Financial-Decision-Support-System/issues" target="_blank" style="color: #38BDF8; text-decoration: none;">Submit Issue / Feedback</a></li>
