@@ -23,13 +23,13 @@ def render_tab_investments(curr_sym: str):
     
     # Preset quick-fill triggers across full container width
     s_cols = st.columns(3)
-    if s_cols[0].button("🌱 Conservative (10% Ret, 5% Step)", use_container_width=True):
+    if s_cols[0].button("Conservative Index (10% | 5% Step)", use_container_width=True):
         st.session_state["sip_r_val"] = 10.0
         st.session_state["sip_step_val"] = 5.0
-    if s_cols[1].button("🚀 Growth Equity (13% Ret, 10% Step)", use_container_width=True):
+    if s_cols[1].button("Growth Portfolio (13% | 10% Step)", use_container_width=True):
         st.session_state["sip_r_val"] = 13.0
         st.session_state["sip_step_val"] = 10.0
-    if s_cols[2].button("🔥 Aggressive FIRE (15% Ret, 15% Step)", use_container_width=True):
+    if s_cols[2].button("Aggressive FIRE (15% | 15% Step)", use_container_width=True):
         st.session_state["sip_r_val"] = 15.0
         st.session_state["sip_step_val"] = 15.0
 
@@ -87,8 +87,7 @@ def render_tab_investments(curr_sym: str):
                 label="Fixed SIP Corpus",
                 value=format_currency(sip_base["future_value"], curr_sym),
                 subtext=f"Capital: {format_currency(sip_base['total_invested'], curr_sym)}",
-                delta="Flat Baseline",
-                delta_type="amber"
+                delta=None
             )
         with r1_c2:
             render_stat_card(
@@ -106,7 +105,7 @@ def render_tab_investments(curr_sym: str):
                 label="Fisher Real Return",
                 value=format_percentage(r_fisher),
                 subtext=f"Nominal {sip_r_pct:.1f}% - Inf {sip_inf_pct:.1f}%",
-                delta="Real Rate",
+                delta=f"Drag: -{sip_inf_pct:.1f}%",
                 delta_type="blue"
             )
         with r2_c2:
@@ -151,16 +150,16 @@ def render_tab_investments(curr_sym: str):
         st.plotly_chart(fig_sip, use_container_width=True)
 
     # Checkpoint Table
-    with st.expander("📅 View Milestone Checkpoints (5-Year Intervals)"):
+    with st.expander("Milestone Checkpoints (5-Year Intervals)"):
         chk_df = pd.DataFrame(checkpoints)
         st.dataframe(chk_df, use_container_width=True)
 
     # In-Tab Methodology & Interpretation Notes
-    with st.expander("📘 Module Methodology & Mathematical Notes: Step-Up Compounding & Fisher Relation"):
+    with st.expander("Module Methodology & Mathematical Notes: Step-Up Compounding & Fisher Relation"):
         st.markdown(
             """
-            - **Step-Up Escalation:** Adding an annual contribution step-up (e.g. $+10\\%$/year) substantially outperforms a flat SIP because incremental savings compound over remaining years.
-            - **Fisher Inflation Discounting:** The Irving Fisher relation $(1 + r_{\\text{nominal}}) = (1 + r_{\\text{real}})(1 + i)$ models the true purchasing power of the terminal corpus.
-            - **Purchasing Power Half-Life:** Inflation degrades purchasing power exponentially; at $6\\%$ inflation, purchasing power halves every $\\tau_{1/2} = \\frac{\\ln(2)}{\\ln(1.06)} \\approx 11.9$ years.
+            - **Step-Up Annuity Dynamics:** An annual contribution escalation transforms the static annuity series into a geometric-arithmetic progression: $C_k = C_0 (1 + g)^{\\lfloor (k-1)/12 \\rfloor}$. Because incremental contributions enter earlier than in lump-sum adjustments, the terminal corpus expands super-linearly, counteracting lifestyle inflation drag.
+            - **Exact Fisher Relation vs. Linear Approximation:** Elementary rules of thumb often estimate real return as $r - i$. The exact Irving Fisher equation $(1 + r_{\\text{nominal}}) = (1 + r_{\\text{real}})(1 + i) \\implies r_{\\text{real}} = \\frac{1 + r_{\\text{nominal}}}{1 + i} - 1$ accounts for cross-product erosion, which compounds significantly across 20–30 year investment horizons.
+            - **Purchasing Power Half-Life:** The exact time in years for currency to lose $50\\%$ of real purchasing power under steady inflation $i$ is $\\tau_{1/2} = \\frac{\\ln(2)}{\\ln(1 + i)}$. At $6\\%$ persistent inflation, real purchasing power decays by half every $11.9$ years.
             """
         )

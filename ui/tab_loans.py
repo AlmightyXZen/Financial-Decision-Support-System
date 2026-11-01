@@ -31,15 +31,15 @@ def render_tab_loans(curr_sym: str):
     p1_str = format_currency(3500000.0, curr_sym)
     p2_str = format_currency(1000000.0, curr_sym)
     p3_str = format_currency(500000.0, curr_sym)
-    if l_cols[0].button(f"🏡 Home Loan ({p1_str} @ 8.5%, 20Y)", use_container_width=True):
+    if l_cols[0].button(f"Home Mortgage ({p1_str} @ 8.5%, 20Y)", use_container_width=True):
         st.session_state["loan_p_val"] = 3500000.0
         st.session_state["loan_r_val"] = 8.5
         st.session_state["loan_t_val"] = 20
-    if l_cols[1].button(f"🚗 Auto Loan ({p2_str} @ 9.2%, 5Y)", use_container_width=True):
+    if l_cols[1].button(f"Auto Financing ({p2_str} @ 9.2%, 5Y)", use_container_width=True):
         st.session_state["loan_p_val"] = 1000000.0
         st.session_state["loan_r_val"] = 9.2
         st.session_state["loan_t_val"] = 5
-    if l_cols[2].button(f"💼 Personal Note ({p3_str} @ 12.5%, 3Y)", use_container_width=True):
+    if l_cols[2].button(f"Unsecured Credit ({p3_str} @ 12.5%, 3Y)", use_container_width=True):
         st.session_state["loan_p_val"] = 500000.0
         st.session_state["loan_r_val"] = 12.5
         st.session_state["loan_t_val"] = 3
@@ -66,7 +66,7 @@ def render_tab_loans(curr_sym: str):
         st.markdown(
             f"""
             <div style="background: rgba(14, 27, 49, 0.70); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 0.65rem 0.85rem; margin-top: 0.6rem; margin-bottom: 0.8rem; font-size: 0.8rem; color: #94A3B8; display: flex; align-items: center; justify-content: space-between;">
-                <span>⚠️ <b>Interest-Only Accrual:</b></span>
+                <span><b>Interest-Only Accrual Threshold:</b></span>
                 <span style="color: #F8FAFC; font-weight: 700; font-family: 'JetBrains Mono', monospace;">{format_currency(base_monthly_interest, curr_sym)}/mo</span>
                 <span style="font-size: 0.75rem; color: #94A3B8;">({frac_accrual})</span>
             </div>
@@ -77,9 +77,9 @@ def render_tab_loans(curr_sym: str):
         test_pmt = st.number_input("Stress Test Custom Monthly Payment", min_value=500.0, max_value=float(base_monthly_interest * 2.5), value=float(round(base_monthly_interest * 0.9, -2)), step=500.0)
         neg_check = check_negative_amortization(loan_p, loan_r, test_pmt)
         if neg_check["is_negative_amortization"]:
-            st.error(f"🚨 **Divergence Warning:** Payment is below monthly interest accrual ({format_currency(base_monthly_interest, curr_sym)}). Outstanding balance diverges to infinity.")
+            st.error(f"**Divergence Alert:** Scheduled payment is below the monthly interest accrual ({format_currency(base_monthly_interest, curr_sym)}). Unpaid interest capitalizes, causing principal to diverge to infinity.")
         else:
-            st.success(f"✅ **Amortizing:** Net principal reduction of {format_currency(neg_check['net_principal_reduction'], curr_sym)} per month.")
+            st.success(f"**Amortizing:** Net principal reduction of {format_currency(neg_check['net_principal_reduction'], curr_sym)} per month.")
 
     # Generate schedules
     base_emi = calculate_emi(loan_p, loan_r, loan_months)
@@ -112,8 +112,7 @@ def render_tab_loans(curr_sym: str):
                 label="Total Interest (Base)",
                 value=format_currency(savings["original_total_interest"], curr_sym),
                 subtext=f"{(savings['original_total_interest']/loan_p)*100:.1f}% of principal cost",
-                delta="Baseline Cost",
-                delta_type="amber"
+                delta=None
             )
 
         r2_c1, r2_c2 = st.columns(2)
@@ -197,7 +196,7 @@ def render_tab_loans(curr_sym: str):
         st.plotly_chart(fig_bal, use_container_width=True)
 
     # Annual Summary Table & CSV Export
-    with st.expander("📊 View Annual Schedule & Export Full CSV"):
+    with st.expander("Annual Schedule & Export Full CSV"):
         df_base["Year"] = (df_base["Month"] - 1) // 12 + 1
         annual_df = df_base.groupby("Year").agg({
             "Principal_Paid": "sum",
@@ -214,7 +213,7 @@ def render_tab_loans(curr_sym: str):
             st.markdown("##### Export Data")
             csv_data = df_base.to_csv(index=False).encode("utf-8")
             st.download_button(
-                label="📥 Download Full Month-by-Month CSV",
+                label="Download Month-by-Month Schedule (CSV)",
                 data=csv_data,
                 file_name="loan_amortization_schedule.csv",
                 mime="text/csv",
@@ -222,11 +221,11 @@ def render_tab_loans(curr_sym: str):
             )
 
     # In-Tab Methodology & Interpretation Notes
-    with st.expander("📘 Module Methodology & Mathematical Notes: Amortization & Negative Boundary"):
+    with st.expander("Module Methodology & Mathematical Notes: Amortization & Negative Boundary"):
         st.markdown(
             """
-            - **Equated Monthly Installment (EMI):** $\\text{EMI} = P \\cdot \\frac{r_m (1 + r_m)^n}{(1 + r_m)^n - 1}$. Early payments are dominated by interest; as principal decreases, principal repayment accelerates exponentially.
-            - **Negative Amortization Divergence:** If monthly payment falls below monthly interest accrual $\\frac{P \\cdot r}{12}$, the remaining interest capitalizes onto the principal, causing the debt balance to diverge toward infinity.
-            - **Accelerated Payoff:** Every extra prepayment is subtracted directly from outstanding principal, shortening the amortization tail and dramatically cutting cumulative interest cost.
+            - **Equated Monthly Installment (EMI):** $\\text{EMI} = P \\cdot \\frac{r_m (1 + r_m)^n}{(1 + r_m)^n - 1}$. The calculation follows the monthly reducing balance convention codified under central banking standards (RBI / Basel). In early installments, the interest component $\\frac{P_k \\cdot r}{12}$ dominates; as principal decreases, principal amortization accelerates exponentially.
+            - **Negative Amortization Divergence:** If monthly payment falls below monthly interest accrual $\\frac{P \\cdot r}{12}$, unpaid interest capitalizes directly into the loan balance. The loan diverges toward infinity: $\\lim_{k \\to \\infty} B_k = +\\infty$.
+            - **Prepayment Acceleration Dynamics:** When prepayments are introduced, FDSS holds the nominal EMI constant rather than reducing monthly outflow. Consequently, all additional cash flow applies directly to reducing the remaining balance, contracting the tenure geometrically and eliminating compound interest from the longest-dated tail installments.
             """
         )

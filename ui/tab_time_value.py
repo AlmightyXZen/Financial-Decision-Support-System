@@ -30,13 +30,13 @@ def render_tab_time_value(curr_sym: str):
     
     # Preset quick-fill triggers across full container width
     p_cols = st.columns(4)
-    if p_cols[0].button("🏛️ Sovereign Bond (7.1%)", use_container_width=True):
+    if p_cols[0].button("Sovereign Bond (7.1%)", use_container_width=True):
         st.session_state["tvm_r_val"] = 7.1
-    if p_cols[1].button("🏦 Fixed Deposit (8.5%)", use_container_width=True):
+    if p_cols[1].button("Fixed Deposit (8.5%)", use_container_width=True):
         st.session_state["tvm_r_val"] = 8.5
-    if p_cols[2].button("📈 Corporate Debt (11.5%)", use_container_width=True):
+    if p_cols[2].button("Corporate Debt (11.5%)", use_container_width=True):
         st.session_state["tvm_r_val"] = 11.5
-    if p_cols[3].button("🚀 Venture Note (18.0%)", use_container_width=True):
+    if p_cols[3].button("High-Yield Note (18.0%)", use_container_width=True):
         st.session_state["tvm_r_val"] = 18.0
 
     default_r = st.session_state.get("tvm_r_val", 10.0)
@@ -81,9 +81,8 @@ def render_tab_time_value(curr_sym: str):
             render_stat_card(
                 label="Simple Interest",
                 value=format_currency(a_simple, curr_sym),
-                subtext="Linear Baseline",
-                delta="Linear Baseline",
-                delta_type="amber"
+                subtext="Linear Non-Compounding",
+                delta=None
             )
         with r1_c2:
             render_stat_card(
@@ -99,9 +98,8 @@ def render_tab_time_value(curr_sym: str):
             render_stat_card(
                 label="Continuous Limit",
                 value=format_currency(a_cont, curr_sym),
-                subtext="Theoretical Euler Ceiling",
-                delta="Euler Ceiling",
-                delta_type="green",
+                subtext="Euler Asymptotic Bound",
+                delta=None,
                 value_color="#10B981"
             )
         with r2_c2:
@@ -110,7 +108,7 @@ def render_tab_time_value(curr_sym: str):
                 value=format_percentage(ear),
                 subtext=f"Nominal: {r_pct:.1f}%",
                 delta=f"+{(ear - r_val)*100:.2f}% Comp Bonus",
-                delta_type="blue"
+                delta_type="green"
             )
 
         # Plot 1: Capital Trajectory Curves
@@ -176,11 +174,11 @@ def render_tab_time_value(curr_sym: str):
         st.plotly_chart(fig_bar, use_container_width=True)
 
     # In-Tab Methodology & Interpretation Notes
-    with st.expander("📘 Module Methodology & Mathematical Notes: Compounding Regimes & Euler's Ceiling"):
+    with st.expander("Module Methodology & Mathematical Notes: Compounding Regimes & Euler's Ceiling"):
         st.markdown(
             """
-            - **Discrete Compounding:** $A(t) = P(1 + r/m)^{mt}$. As frequency $m$ increases from annual ($m=1$) to daily ($m=365$), interest earns interest earlier, raising effective yield (EAR).
-            - **Euler Limit Ceiling:** No discrete compounding regime can grow without bound; as $m \\to \\infty$, terminal wealth converges to the theoretical ceiling $P \\cdot e^{rt}$.
-            - **Capital Doubling Horizon:** The exact doubling time under continuous compounding is $\\tau = \\frac{\\ln(2)}{r}$. The retail Rule of 72 approximation $\\tau \\approx \\frac{72}{r_{\\%}}$ provides an intuitive mental shortcut.
+            - **Discrete Compounding:** $A(t) = P(1 + r/m)^{mt}$. As compounding frequency $m$ increases from annual ($m=1$) to daily ($m=365$), interest earns interest earlier, raising effective yield (EAR).
+            - **Euler Limit Ceiling:** No discrete compounding regime can grow without bound; as $m \\to \\infty$, terminal wealth converges asymptotically to the theoretical ceiling $P \\cdot e^{rt}$ derived from the continuous differential equation $\\frac{dA}{dt} = rA$.
+            - **Exact Doubling Time vs. Rule of 72:** The exact analytical doubling time under continuous compounding is $\\tau = \\frac{\\ln(2)}{r} \\approx \\frac{0.6931}{r}$. The commercial Rule of 72 uses $72$ rather than $69.3$ because $72$ has 12 distinct divisors ($\\{1, 2, 3, 4, 6, 8, 9, 12, 18, 24, 36, 72\\}$), allowing rapid mental calculation. For interest rates between $4\\%$ and $12\\%$, the approximation error is under $1.5\\%$; for higher rates ($>15\\%$), the approximation overestimates doubling time due to truncated terms in the Taylor expansion $\\ln(1+r) = r - \\frac{r^2}{2} + \\frac{r^3}{3} - \\dots$.
             """
         )

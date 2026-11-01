@@ -26,11 +26,11 @@ def render_tab_capital_budgeting(curr_sym: str):
     c1_str = format_currency(500000.0, curr_sym)
     c2_str = format_currency(2000000.0, curr_sym)
     c3_str = format_currency(1500000.0, curr_sym)
-    if b_cols[0].button(f"🚀 SaaS Expansion ({c1_str} Outlay)", use_container_width=True):
+    if b_cols[0].button(f"Enterprise SaaS ({c1_str} Outlay)", use_container_width=True):
         st.session_state["cb_flow"] = "-500000, 100000, 180000, 240000, 320000, 420000"
-    if b_cols[1].button(f"🏭 Manufacturing Line ({c2_str} Outlay)", use_container_width=True):
+    if b_cols[1].button(f"Manufacturing Plant ({c2_str} Outlay)", use_container_width=True):
         st.session_state["cb_flow"] = "-2000000, 350000, 500000, 650000, 800000, 950000"
-    if b_cols[2].button(f"⚡ Solar Farm ({c3_str} Outlay)", use_container_width=True):
+    if b_cols[2].button(f"Infrastructure Project ({c3_str} Outlay)", use_container_width=True):
         st.session_state["cb_flow"] = "-1500000, 200000, 250000, 300000, 350000, 400000, 450000"
 
     flow_default = st.session_state.get("cb_flow", "-500000, 100000, 180000, 240000, 320000, 420000")
@@ -103,8 +103,7 @@ def render_tab_capital_budgeting(curr_sym: str):
                 label="Discounted Payback",
                 value=f"{payback_res:.2f} Yrs" if payback_res else "Never",
                 subtext="Capital Breakeven Period",
-                delta="Discounted Horizon",
-                delta_type="blue"
+                delta=None
             )
         with r2_c2:
             render_stat_card(
@@ -140,7 +139,7 @@ def render_tab_capital_budgeting(curr_sym: str):
         st.plotly_chart(fig_npv, use_container_width=True)
 
     # Sensitivity Heatmap Matrix (NPV vs Discount Rate & Capex Shift)
-    with st.expander("🔬 2D Sensitivity Matrix: Hurdle Rate vs. Initial Capital Outlay"):
+    with st.expander("2D Sensitivity Matrix: Hurdle Rate vs. Initial Capital Outlay"):
         rates_test = [0.08, 0.10, 0.12, 0.14, 0.16, 0.18]
         capex_multipliers = [0.80, 0.90, 1.00, 1.10, 1.20]
         
@@ -183,11 +182,11 @@ def render_tab_capital_budgeting(curr_sym: str):
             st.dataframe(trace_df[["iteration", "r_k (%)", "npv_k", "method"]], use_container_width=True)
 
     # In-Tab Methodology & Interpretation Notes
-    with st.expander("📘 Module Methodology & Mathematical Notes: Multi-Period NPV & Newton–Raphson"):
+    with st.expander("Module Methodology & Mathematical Notes: Multi-Period NPV & Newton–Raphson"):
         st.markdown(
             """
-            - **Net Present Value (NPV):** Evaluates whether an investment generates value beyond the cost of capital: $\\text{NPV}(r) = \\sum_{t=0}^T \\frac{C_t}{(1 + r)^t}$. Accept if $\\text{NPV} \\ge 0$.
-            - **Newton–Raphson Root-Finding:** When degree $T \\ge 5$, Galois theory and the Abel–Ruffini theorem prove no general algebraic closed form exists. The system uses Newton–Raphson iteration $r_{k+1} = r_k - \\frac{f(r_k)}{f'(r_k)}$, converging quadratically to the true internal rate of return.
-            - **Profitability Index (PI):** Measures return per unit of capital invested: $\\text{PI} = \\frac{\\text{PV}(\\text{Future Inflows})}{|C_0|}$. Project is accretive if $\\text{PI} \\ge 1.0$.
+            - **Net Present Value (NPV):** Evaluates absolute enterprise wealth creation: $\\text{NPV}(r) = \\sum_{t=0}^T \\frac{C_t}{(1 + r)^t}$. If $\\text{NPV} \\ge 0$, the project generates returns exceeding the hurdle rate cost of capital.
+            - **Newton–Raphson Root-Finding:** For multi-period projects ($T \\ge 5$), the Abel–Ruffini theorem precludes closed-form algebraic solutions. FDSS solves $\\text{NPV}(r^*) = 0$ numerically via Newton–Raphson updates $r_{k+1} = r_k - \\frac{f(r_k)}{f'(r_k)}$, utilizing the exact analytical derivative $f'(r) = -\\sum_{t=1}^T \\frac{t \\cdot C_t}{(1 + r)^{t+1}}$ with quadratic convergence.
+            - **Descartes' Rule of Signs & The Multiple IRR Hazard:** When cash flows alternate signs more than once (e.g. initial capex $<0$, positive operational inflows $>0$, followed by plant decommissioning costs $<0$), the polynomial can yield multiple real roots or none at all. In non-conventional cash flow profiles, Net Present Value (NPV) remains the mathematically decisive criterion.
             """
         )

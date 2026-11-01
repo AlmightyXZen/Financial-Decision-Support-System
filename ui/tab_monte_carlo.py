@@ -28,16 +28,16 @@ def render_tab_monte_carlo(curr_sym: str):
     
     # Preset quick-fill triggers across full container width
     m_cols = st.columns(4)
-    if m_cols[0].button("🚀 Tech Bull (18% μ, 16% σ)", use_container_width=True):
+    if m_cols[0].button("Bull Market Regime (18% μ, 16% σ)", use_container_width=True):
         st.session_state["mc_mu_val"] = 18.0
         st.session_state["mc_sigma_val"] = 16.0
-    if m_cols[1].button("📉 2008 Crash (-4% μ, 34% σ)", use_container_width=True):
+    if m_cols[1].button("2008 Financial Crisis (-4% μ, 34% σ)", use_container_width=True):
         st.session_state["mc_mu_val"] = -4.0
         st.session_state["mc_sigma_val"] = 34.0
-    if m_cols[2].button("🌪️ Stagflation (4% μ, 24% σ)", use_container_width=True):
+    if m_cols[2].button("Stagflationary Shock (4% μ, 24% σ)", use_container_width=True):
         st.session_state["mc_mu_val"] = 4.0
         st.session_state["mc_sigma_val"] = 24.0
-    if m_cols[3].button("🛡️ All-Weather (9% μ, 11% σ)", use_container_width=True):
+    if m_cols[3].button("Balanced All-Weather (9% μ, 11% σ)", use_container_width=True):
         st.session_state["mc_mu_val"] = 9.0
         st.session_state["mc_sigma_val"] = 11.0
 
@@ -176,11 +176,11 @@ def render_tab_monte_carlo(curr_sym: str):
         st.plotly_chart(fig_hist, use_container_width=True)
 
     # In-Tab Methodology & Interpretation Notes
-    with st.expander("📘 Module Methodology & Mathematical Notes: Itô SDE & Volatility Drag"):
+    with st.expander("Module Methodology & Mathematical Notes: Itô SDE & Volatility Drag"):
         st.markdown(
             """
-            - **Geometric Brownian Motion (GBM):** Models equity asset valuation via the stochastic differential equation $dS_t = \\mu S_t dt + \\sigma S_t dW_t$.
-            - **Volatility Drag Penalty:** While arithmetic average drift is $\\mu$, compound geometric median trajectory expands at only $\\mu - \\frac{1}{2}\\sigma^2$. Higher volatility reduces compound wealth.
-            - **95% Value at Risk (VaR):** The empirical 5th percentile worst-case terminal portfolio valuation across simulated trajectories.
+            - **Geometric Brownian Motion (GBM):** Models asset valuation via the stochastic differential equation $dS_t = \\mu S_t dt + \\sigma S_t dW_t$. Under Itô's lemma, the exact discrete simulation step is $S_{t+\\Delta t} = S_t \\exp\\left( (\\mu - \\frac{1}{2}\\sigma^2)\\Delta t + \\sigma \\sqrt{\\Delta t} Z \\right)$.
+            - **Volatility Drag Penalty:** While the arithmetic expected value is $\\mathbb{E}[S_T] = S_0 e^{\\mu T}$, the compound geometric median path expands at only $\\mu - \\frac{1}{2}\\sigma^2$. Higher volatility shifts the terminal distribution's positive skew, causing median realized outcomes to lag the arithmetic mean.
+            - **Model Boundaries & Fat-Tail Limitations:** Standard GBM assumes independent Gaussian increments ($dW_t$) and stationary volatility. Real-world financial assets exhibit leptokurtosis ("fat tails"), volatility clustering (ARCH/GARCH dynamics), and jump discontinuities during systemic market shocks. Empirical tail risks (VaR) in severe crises frequently exceed pure log-normal predictions.
             """
         )

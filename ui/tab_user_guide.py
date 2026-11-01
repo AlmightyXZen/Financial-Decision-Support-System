@@ -14,16 +14,13 @@ def render_tab_user_guide(curr_sym: str):
     st.markdown(
         """
         <div style="background: rgba(14, 27, 49, 0.7); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 1.5rem 1.8rem; margin-bottom: 2rem;">
-            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 0.5rem;">
-                <span style="font-size: 1.8rem;">📖</span>
-                <div>
-                    <h3 style="margin: 0; color: #FFFFFF; font-weight: 800; font-size: 1.4rem;">FDSS System Manual & User Guide</h3>
-                    <div style="color: #94A3B8; font-size: 0.88rem;">First-Principles Calculus, Numerical Root-Finding & Itô Stochastic Simulation</div>
-                </div>
+            <div style="margin-bottom: 0.5rem;">
+                <h3 style="margin: 0; color: #FFFFFF; font-weight: 800; font-size: 1.4rem;">FDSS System Manual & User Guide</h3>
+                <div style="color: #94A3B8; font-size: 0.88rem; margin-top: 0.2rem;">First-Principles Calculus, Numerical Root-Finding & Itô Stochastic Simulation</div>
             </div>
             <p style="color: #CBD5E1; font-size: 0.92rem; line-height: 1.6; margin-top: 0.8rem; margin-bottom: 0;">
                 The <b>Financial Decision Support System (FDSS)</b> is an open-source quantitative finance engine 
-                developed by <b>Atharv Ranade</b> (BSc Mathematics & Statistics, University of Mumbai). 
+                authored by <b>Atharv Ranade</b> (BSc Mathematics & Statistics, University of Mumbai). 
                 Unlike conventional consumer financial tools that rely on opaque black-box APIs, every model in FDSS is derived 
                 directly from first-principles calculus, differential equations, and rigorous probability theory.
             </p>
@@ -33,7 +30,7 @@ def render_tab_user_guide(curr_sym: str):
     )
 
     # Section 1: 3-Step Quick Start
-    render_chart_header("🚀 Quick-Start Guide", "Master the system workflow in three straightforward steps")
+    render_chart_header("Quick-Start Guide", "Three-step operational workflow for quantitative financial analysis")
     
     col_q1, col_q2, col_q3 = st.columns(3)
     with col_q1:
@@ -46,7 +43,7 @@ def render_tab_user_guide(curr_sym: str):
                 </div>
                 <div style="font-size: 1.05rem; font-weight: 700; color: #FFFFFF; margin-bottom: 0.4rem;">Configure Currency & Scale</div>
                 <div class="guide-card-text">
-                    Open the sidebar (chevron icon) to select from <b>15 global currencies</b> (USD, INR, EUR, GBP, JPY, etc.) 
+                    Open the sidebar to select from <b>15 global currencies</b> (USD, INR, EUR, GBP, JPY, etc.) 
                     and toggle between <b>International (M / B)</b> and <b>Indian Vedic (L / Cr)</b> number systems.
                 </div>
             </div>
@@ -61,10 +58,10 @@ def render_tab_user_guide(curr_sym: str):
                     <span class="card-label">STEP 2</span>
                     <span class="delta-badge delta-green">ENGINES</span>
                 </div>
-                <div style="font-size: 1.05rem; font-weight: 700; color: #FFFFFF; margin-bottom: 0.4rem;">Load Presets or Custom Inputs</div>
+                <div style="font-size: 1.05rem; font-weight: 700; color: #FFFFFF; margin-bottom: 0.4rem;">Select Engine & Calibrate Inputs</div>
                 <div class="guide-card-text">
-                    Switch between the 5 analytical tabs. Click any one-touch <b>scenario preset button</b> 
-                    (e.g. <i>Tech Bull</i>, <i>2008 Crash</i>, <i>Home Loan</i>) to auto-populate historical parameters, or adjust input sliders directly.
+                    Navigate through the analytical tabs. Click calibrated <b>scenario preset buttons</b> 
+                    (e.g. <i>Bull Market</i>, <i>2008 Financial Crisis</i>, <i>Home Mortgage</i>) or fine-tune parameters using interactive sliders.
                 </div>
             </div>
             """,
@@ -78,10 +75,10 @@ def render_tab_user_guide(curr_sym: str):
                     <span class="card-label">STEP 3</span>
                     <span class="delta-badge delta-amber">ANALYTICS</span>
                 </div>
-                <div style="font-size: 1.05rem; font-weight: 700; color: #FFFFFF; margin-bottom: 0.4rem;">Inspect Metrics & Export CSV</div>
+                <div style="font-size: 1.05rem; font-weight: 700; color: #FFFFFF; margin-bottom: 0.4rem;">Evaluate Metrics & Export Schedules</div>
                 <div class="guide-card-text">
-                    Examine high-density <b>2×2 metric grids</b>, interactive Plotly curvature charts, 2D sensitivity matrices, 
-                    and download full month-by-month loan amortization schedules in raw CSV.
+                    Analyze analytical KPI cards, interactive Plotly curvature charts, and 2D sensitivity matrices. 
+                    Download complete month-by-month loan amortization schedules in raw CSV.
                 </div>
             </div>
             """,
@@ -91,10 +88,10 @@ def render_tab_user_guide(curr_sym: str):
     st.markdown("---")
 
     # Section 2: Module-by-Module Operational Guide & Mathematics
-    render_chart_header("📐 Module Specifications & Mathematical Foundations", "In-depth functional overview and governing equations for all 5 core engines")
+    render_chart_header("Module Specifications & Mathematical Foundations", "In-depth functional overview and governing equations for all 5 core engines")
 
     # Module 1
-    with st.expander("🏛️ Module 1: Time Value of Money & Asymptotic Yield Curvature", expanded=True):
+    with st.expander("Module 1: Time Value of Money & Asymptotic Yield Curvature", expanded=True):
         st.markdown(
             f"""
             #### Overview & Use-Cases
@@ -121,7 +118,7 @@ def render_tab_user_guide(curr_sym: str):
         )
 
     # Module 2
-    with st.expander("🏡 Module 2: Consumer Debt, Amortization Mechanics & Prepayment Acceleration", expanded=False):
+    with st.expander("Module 2: Consumer Debt, Amortization Mechanics & Prepayment Acceleration", expanded=False):
         st.markdown(
             f"""
             #### Overview & Use-Cases
@@ -147,7 +144,7 @@ def render_tab_user_guide(curr_sym: str):
         )
 
     # Module 3
-    with st.expander("🌱 Module 3: Wealth Accumulation, Step-Up SIP & Fisher Inflation", expanded=False):
+    with st.expander("Module 3: Wealth Accumulation, Step-Up SIP & Fisher Inflation", expanded=False):
         st.markdown(
             f"""
             #### Overview & Use-Cases
@@ -173,7 +170,7 @@ def render_tab_user_guide(curr_sym: str):
         )
 
     # Module 4
-    with st.expander("🚀 Module 4: Capital Budgeting, Multi-Period NPV & Newton–Raphson IRR", expanded=False):
+    with st.expander("Module 4: Capital Budgeting, Multi-Period NPV & Newton–Raphson IRR", expanded=False):
         st.markdown(
             f"""
             #### Overview & Use-Cases
@@ -200,7 +197,7 @@ def render_tab_user_guide(curr_sym: str):
         )
 
     # Module 5
-    with st.expander("⚡ Module 5: Vectorized Itô Geometric Brownian Motion & Stochastic Risk Lab", expanded=False):
+    with st.expander("Module 5: Vectorized Itô Geometric Brownian Motion & Stochastic Risk Lab", expanded=False):
         st.markdown(
             f"""
             #### Overview & Use-Cases
@@ -230,7 +227,7 @@ def render_tab_user_guide(curr_sym: str):
     st.markdown("---")
 
     # Section 3: Financial Decision Matrix
-    render_chart_header("🧭 Decision Matrix: Which Engine Should I Use?", "A quick-reference problem-to-solution mapping for common financial decisions")
+    render_chart_header("Decision Matrix: Problem-to-Module Mapping", "A quick-reference problem-to-solution mapping for common financial decisions")
 
     decision_data = [
         {"Goal / Decision": "Comparing Bank FDs vs. Corporate Debt Yields", "Recommended Engine": "Time Value & Yields (Tab 1)", "Key Focus Metric": "Effective APY (EAR) & Euler Ceiling"},
@@ -245,18 +242,18 @@ def render_tab_user_guide(curr_sym: str):
     st.markdown("---")
 
     # Section 4: System Architecture & Verification
-    render_chart_header("🛡️ System Architecture & Verification Integrity", "Zero financial black boxes, verified via continuous automated testing")
+    render_chart_header("System Architecture & Verification Integrity", "Mathematical specifications verified via automated test suites")
 
     v_c1, v_c2 = st.columns(2)
     with v_c1:
         st.markdown(
             """
             <div style="background: rgba(14, 27, 49, 0.65); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 1.2rem; height: 100%;">
-                <div style="font-weight: 700; color: #FFFFFF; font-size: 1rem; margin-bottom: 0.6rem;">🔬 Rigorous Verification Suite</div>
+                <div style="font-weight: 700; color: #FFFFFF; font-size: 1rem; margin-bottom: 0.6rem;">Automated Verification Suite</div>
                 <ul style="color: #CBD5E1; font-size: 0.85rem; line-height: 1.7; padding-left: 1.2rem; margin: 0;">
                     <li><b>38 / 38 Unit Tests Passing:</b> 100% automated coverage across all 5 financial engines.</li>
                     <li><b>Multi-Python CI/CD:</b> GitHub Actions workflow continuously verified on Python 3.10, 3.11, and 3.12.</li>
-                    <li><b>Numerical Stability:</b> Boundary guards for zero division, negative amortization, and Newton-Raphson divergence.</li>
+                    <li><b>Numerical Stability:</b> Explicit boundary guards for zero division, negative amortization, and Newton-Raphson divergence.</li>
                 </ul>
             </div>
             """,
@@ -266,11 +263,12 @@ def render_tab_user_guide(curr_sym: str):
         st.markdown(
             """
             <div style="background: rgba(14, 27, 49, 0.65); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 1.2rem; height: 100%;">
-                <div style="font-weight: 700; color: #FFFFFF; font-size: 1rem; margin-bottom: 0.6rem;">🌐 Open Source & Attribution</div>
+                <div style="font-weight: 700; color: #FFFFFF; font-size: 1rem; margin-bottom: 0.6rem;">Open Source & Attribution</div>
                 <ul style="color: #CBD5E1; font-size: 0.85rem; line-height: 1.7; padding-left: 1.2rem; margin: 0;">
                     <li><b>Author:</b> Atharv Ranade (BSc Mathematics & Statistics, University of Mumbai)</li>
                     <li><b>License:</b> MIT License (Open Source, Free for Academic & Commercial Use)</li>
                     <li><b>Source Code:</b> <a href="https://github.com/AlmightyXZen/Financial-Decision-Support-System" target="_blank" style="color: #38BDF8; text-decoration: none;">GitHub: AlmightyXZen/Financial-Decision-Support-System</a></li>
+                    <li><b>Feedback & Issues:</b> <a href="https://github.com/AlmightyXZen/Financial-Decision-Support-System/issues" target="_blank" style="color: #38BDF8; text-decoration: none;">Submit Issue / Feedback</a></li>
                 </ul>
             </div>
             """,
