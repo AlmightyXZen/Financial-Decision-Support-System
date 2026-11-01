@@ -195,6 +195,17 @@ div[data-testid="stTextInput"] {
     text-transform: none !important;
 }
 
+/* Multi-line Guide Card Typography */
+.guide-card-text {
+    font-size: 0.84rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: unset !important;
+    margin-top: 0.35rem;
+}
+
 /* Micro Badges & Deltas */
 .delta-badge {
     display: inline-block;

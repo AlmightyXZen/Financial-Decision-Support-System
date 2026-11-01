@@ -39,13 +39,13 @@ def render_tab_user_guide(curr_sym: str):
     with col_q1:
         st.markdown(
             """
-            <div class="fdss-card" style="min-height: 160px;">
-                <div class="card-top">
+            <div class="fdss-card" style="min-height: 180px; height: 100%; display: flex; flex-direction: column; justify-content: flex-start;">
+                <div class="card-top" style="margin-bottom: 0.5rem;">
                     <span class="card-label">STEP 1</span>
                     <span class="delta-badge delta-blue">WORKSPACE</span>
                 </div>
-                <div style="font-size: 1.05rem; font-weight: 700; color: #FFFFFF; margin: 0.4rem 0;">Configure Currency & Scale</div>
-                <div class="card-subtext" style="line-height: 1.5;">
+                <div style="font-size: 1.05rem; font-weight: 700; color: #FFFFFF; margin-bottom: 0.4rem;">Configure Currency & Scale</div>
+                <div class="guide-card-text">
                     Open the sidebar (chevron icon) to select from <b>15 global currencies</b> (USD, INR, EUR, GBP, JPY, etc.) 
                     and toggle between <b>International (M / B)</b> and <b>Indian Vedic (L / Cr)</b> number systems.
                 </div>
@@ -56,13 +56,13 @@ def render_tab_user_guide(curr_sym: str):
     with col_q2:
         st.markdown(
             """
-            <div class="fdss-card" style="min-height: 160px;">
-                <div class="card-top">
+            <div class="fdss-card" style="min-height: 180px; height: 100%; display: flex; flex-direction: column; justify-content: flex-start;">
+                <div class="card-top" style="margin-bottom: 0.5rem;">
                     <span class="card-label">STEP 2</span>
                     <span class="delta-badge delta-green">ENGINES</span>
                 </div>
-                <div style="font-size: 1.05rem; font-weight: 700; color: #FFFFFF; margin: 0.4rem 0;">Load Presets or Custom Inputs</div>
-                <div class="card-subtext" style="line-height: 1.5;">
+                <div style="font-size: 1.05rem; font-weight: 700; color: #FFFFFF; margin-bottom: 0.4rem;">Load Presets or Custom Inputs</div>
+                <div class="guide-card-text">
                     Switch between the 5 analytical tabs. Click any one-touch <b>scenario preset button</b> 
                     (e.g. <i>Tech Bull</i>, <i>2008 Crash</i>, <i>Home Loan</i>) to auto-populate historical parameters, or adjust input sliders directly.
                 </div>
@@ -73,13 +73,13 @@ def render_tab_user_guide(curr_sym: str):
     with col_q3:
         st.markdown(
             """
-            <div class="fdss-card" style="min-height: 160px;">
-                <div class="card-top">
+            <div class="fdss-card" style="min-height: 180px; height: 100%; display: flex; flex-direction: column; justify-content: flex-start;">
+                <div class="card-top" style="margin-bottom: 0.5rem;">
                     <span class="card-label">STEP 3</span>
                     <span class="delta-badge delta-amber">ANALYTICS</span>
                 </div>
-                <div style="font-size: 1.05rem; font-weight: 700; color: #FFFFFF; margin: 0.4rem 0;">Inspect Metrics & Export CSV</div>
-                <div class="card-subtext" style="line-height: 1.5;">
+                <div style="font-size: 1.05rem; font-weight: 700; color: #FFFFFF; margin-bottom: 0.4rem;">Inspect Metrics & Export CSV</div>
+                <div class="guide-card-text">
                     Examine high-density <b>2×2 metric grids</b>, interactive Plotly curvature charts, 2D sensitivity matrices, 
                     and download full month-by-month loan amortization schedules in raw CSV.
                 </div>
