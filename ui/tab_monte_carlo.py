@@ -92,7 +92,7 @@ def render_tab_monte_carlo(curr_sym: str):
                 label="Volatility Drag",
                 value=f"{drag_dict['annual_volatility_drag_percent']:.2f}%/yr",
                 subtext=f"Gap: {format_currency(drag_dict['monetary_wealth_gap'], curr_sym)}",
-                delta="-½ σ² Drag",
+                delta="-½ σ<sup>2</sup> Drag",
                 delta_type="red",
                 value_color="#F43F5E"
             )
@@ -104,7 +104,7 @@ def render_tab_monte_carlo(curr_sym: str):
                 label="Goal Attainment",
                 value=format_percentage(goal_prob),
                 subtext=f"Target: {format_currency(mc_target, curr_sym)}",
-                delta="P(S_T ≥ Goal)",
+                delta="P(S<sub>T</sub> ≥ Goal)",
                 delta_type="green" if goal_prob >= 0.50 else "amber",
                 value_color=goal_color
             )
@@ -132,7 +132,7 @@ def render_tab_monte_carlo(curr_sym: str):
         p05_path = np.percentile(paths_matrix, 5, axis=1)
         p95_path = np.percentile(paths_matrix, 95, axis=1)
 
-        fig_fan.add_trace(go.Scatter(x=time_grid, y=mean_path, mode="lines", name="Expected Mean E[S_t]", line=dict(color="#10B981", width=3)))
+        fig_fan.add_trace(go.Scatter(x=time_grid, y=mean_path, mode="lines", name="Expected Mean E[S<sub>T</sub>]", line=dict(color="#10B981", width=3)))
         fig_fan.add_trace(go.Scatter(x=time_grid, y=median_path, mode="lines", name="Median Path (50th %)", line=dict(color="#38BDF8", width=2.5)))
         fig_fan.add_trace(go.Scatter(x=time_grid, y=p05_path, mode="lines", name="5th %ile (95% VaR Floor)", line=dict(color="#F43F5E", width=2, dash="dash")))
         fig_fan.add_trace(go.Scatter(x=time_grid, y=p95_path, mode="lines", name="95th %ile Upper Bound", line=dict(color="#818CF8", width=2, dash="dot")))

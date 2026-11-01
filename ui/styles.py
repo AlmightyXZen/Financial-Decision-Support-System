@@ -220,9 +220,29 @@ div[data-testid="stTextInput"] {
     margin-bottom: 0.2rem;
 }
 .chart-subtitle {
-    font-size: 0.8rem;
+    font-size: 0.82rem;
     color: var(--text-muted);
     margin-bottom: 0.6rem;
+    line-height: 1.4;
+}
+
+/* Mathematical Exponents & Subscripts Typography */
+sup {
+    font-size: 0.72em;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+    top: -0.42em;
+    font-family: inherit;
+}
+
+sub {
+    font-size: 0.72em;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+    bottom: -0.22em;
+    font-family: inherit;
 }
 
 /* Chart Container Spacing */

@@ -59,7 +59,7 @@ def render_tab_loans(curr_sym: str):
         # Negative Amortization Boundary Watch
         base_monthly_interest = (loan_p * loan_r) / 12.0
         st.markdown("---")
-        st.caption(f"⚠️ **Interest-Only Threshold:** {format_currency(base_monthly_interest, curr_sym)}/mo")
+        st.caption(f"⚠️ **Interest-Only Accrual Threshold:** {format_currency(base_monthly_interest, curr_sym)}/mo ($\\frac{{P \\cdot r}}{{12}}$)")
 
         test_pmt = st.number_input("Stress Test Custom Monthly Payment", min_value=500.0, max_value=float(base_monthly_interest * 2.5), value=float(round(base_monthly_interest * 0.9, -2)), step=500.0)
         neg_check = check_negative_amortization(loan_p, loan_r, test_pmt)

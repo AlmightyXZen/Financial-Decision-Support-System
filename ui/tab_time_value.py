@@ -115,7 +115,7 @@ def render_tab_time_value(curr_sym: str):
         fig_tvm = go.Figure()
         fig_tvm.add_trace(go.Scatter(x=t_arr, y=y_simple, mode="lines", name="Simple Interest", line=dict(color="#F59E0B", width=2)))
         fig_tvm.add_trace(go.Scatter(x=t_arr, y=y_comp, mode="lines", name=f"Discrete ({freq_label.split()[0]})", line=dict(color="#38BDF8", width=3)))
-        fig_tvm.add_trace(go.Scatter(x=t_arr, y=y_cont, mode="lines", name="Continuous (Euler ODE)", line=dict(color="#10B981", width=2, dash="dot")))
+        fig_tvm.add_trace(go.Scatter(x=t_arr, y=y_cont, mode="lines", name="Continuous Limit (P·e<sup>rt</sup>)", line=dict(color="#10B981", width=2, dash="dot")))
 
         render_chart_header(
             "Capital Growth Trajectory",
@@ -133,7 +133,7 @@ def render_tab_time_value(curr_sym: str):
         # Plot 2: Compounding Frequency Monotonicity
         render_chart_header(
             "Frequency Asymptote: Convergence to Euler's Ceiling",
-            "Terminal wealth across compounding frequencies approaching the continuous ODE ceiling P · e^(rt)"
+            "Terminal wealth across compounding frequencies approaching the continuous ODE ceiling <i>P</i> &middot; <i>e</i><sup><i>rt</i></sup>"
         )
         freq_keys = [1, 2, 4, 12, 52, 365, 1000]
         freq_names = ["Annual (1)", "Semi (2)", "Quarterly (4)", "Monthly (12)", "Weekly (52)", "Daily (365)", "Ultra (1000)"]

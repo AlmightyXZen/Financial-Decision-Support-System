@@ -36,7 +36,7 @@ def render_tab_capital_budgeting(curr_sym: str):
 
     with col1:
         st.markdown("##### Project Financial Profile")
-        cfs_text = st.text_input("Cash Flows [C_0, C_1, ..., C_T]", value=flow_default, key="cb_cfs_in")
+        cfs_text = st.text_input("Cash Flows [C₀, C₁, ..., C_T]", value=flow_default, key="cb_cfs_in")
         try:
             base_flows = [float(x.strip()) for x in cfs_text.split(",")]
         except Exception:
@@ -118,14 +118,14 @@ def render_tab_capital_budgeting(curr_sym: str):
         npv_curve = [net_present_value(float(r), active_flows) for r in r_grid]
 
         fig_npv = go.Figure()
-        fig_npv.add_trace(go.Scatter(x=r_grid * 100, y=npv_curve, mode="lines", name="NPV Profile f(r)", line=dict(color="#38BDF8", width=2.5)))
+        fig_npv.add_trace(go.Scatter(x=r_grid * 100, y=npv_curve, mode="lines", name="NPV Profile <i>f</i>(<i>r</i>)", line=dict(color="#38BDF8", width=2.5)))
         fig_npv.add_hline(y=0.0, line_dash="solid", line_color="#64748B", line_width=1)
         fig_npv.add_trace(go.Scatter(x=[hurdle_pct], y=[npv_res], mode="markers+text", marker=dict(color="#F59E0B", size=10), text=["Hurdle"], textposition="top right", name="Hurdle Rate"))
         fig_npv.add_trace(go.Scatter(x=[irr_res * 100], y=[0.0], mode="markers+text", marker=dict(color="#10B981", size=12, symbol="star"), text=[f"IRR: {irr_res*100:.2f}%"], textposition="bottom right", name="IRR Root"))
 
         render_chart_header(
             "Net Present Value Profile Curve & Zero-Crossing Root",
-            "Continuous yield function f(r) plotted against cost of capital and Newton–Raphson IRR root"
+            "Continuous yield function <i>f</i>(<i>r</i>) plotted against cost of capital and Newton–Raphson IRR root"
         )
         layout = plotly_base_layout(
             xaxis_title="Discount Rate (%)",

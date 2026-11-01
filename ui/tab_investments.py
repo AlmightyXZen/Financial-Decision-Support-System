@@ -139,7 +139,7 @@ def render_tab_investments(curr_sym: str):
 
         render_chart_header(
             "Wealth Accumulation Trajectory: Nominal vs. Inflation-Adjusted Reality",
-            "Fixed contributions vs. escalating Step-Up compounding discounted by the Fisher equation"
+            "Fixed contributions vs. escalating Step-Up compounding discounted by the Fisher equation (1 + <i>r</i>) = (1 + <i>r</i><sub>real</sub>)(1 + <i>i</i>)"
         )
         layout = plotly_base_layout(
             xaxis_title="Investment Horizon (Years)",
