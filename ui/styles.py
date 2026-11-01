@@ -245,6 +245,91 @@ sub {
     font-family: inherit;
 }
 
+/* Mathematical Vertical Fractions (Numerator over Denominator) */
+.math-frac {
+    display: inline-flex;
+    flex-direction: column;
+    vertical-align: middle;
+    text-align: center;
+    padding: 0 4px;
+    font-family: 'JetBrains Mono', 'Segoe UI Mono', monospace;
+    font-size: 0.82em;
+    line-height: 1.05;
+    margin: 0 3px;
+}
+
+.math-num {
+    border-bottom: 1.5px solid rgba(248, 250, 252, 0.55);
+    padding-bottom: 1.5px;
+    font-size: 0.95em;
+    color: #F8FAFC;
+    font-weight: 600;
+}
+
+.math-denom {
+    padding-top: 1.5px;
+    font-size: 0.95em;
+    color: #94A3B8;
+    font-weight: 600;
+}
+
+/* Mathematical Callout Box */
+.math-callout {
+    background: rgba(14, 27, 49, 0.75);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    margin-top: 0.8rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+.callout-header {
+    font-size: 0.76rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent-blue);
+    margin-bottom: 0.6rem;
+}
+
+.callout-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+.callout-col {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.callout-val {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.callout-eq {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.callout-sep {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    padding: 0 6px;
+    text-transform: uppercase;
+}
+
 /* Chart Container Spacing */
 div[data-testid="stPlotlyChart"] {
     margin-top: 0.5rem;
@@ -396,3 +481,35 @@ def plotly_base_layout(
         layout["margin"] = dict(l=48, r=20, t=15, b=40)
 
     return layout
+
+
+def format_fraction(numerator: str, denominator: str) -> str:
+    """Returns an HTML string rendering a proper vertical mathematical fraction (numerator directly over denominator)."""
+    return f'<span class="math-frac"><span class="math-num">{numerator}</span><span class="math-denom">{denominator}</span></span>'
+
+
+def render_doubling_callout(exact_yrs: float, rule_72_yrs: float):
+    """
+    Renders an institutional mathematical callout box for Capital Doubling Horizon,
+    featuring proper vertical fractions for both the exact Euler ODE solution and Rule of 72.
+    """
+    exact_frac = format_fraction("ln(2)", "<i>r</i>")
+    rule_frac = format_fraction("72", "<i>r</i><sub>%</sub>")
+
+    html = f"""
+    <div class="math-callout">
+        <div class="callout-header">⏱️ Capital Doubling Horizon</div>
+        <div class="callout-body">
+            <div class="callout-col">
+                <span class="callout-val">{exact_yrs:.2f} yrs</span>
+                <span class="callout-eq">Exact: {exact_frac}</span>
+            </div>
+            <div class="callout-sep">vs</div>
+            <div class="callout-col">
+                <span class="callout-val">{rule_72_yrs:.2f} yrs</span>
+                <span class="callout-eq">Rule of 72: {rule_frac}</span>
+            </div>
+        </div>
+    </div>
+    """
+    st.markdown(html, unsafe_allow_html=True)

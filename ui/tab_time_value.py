@@ -15,7 +15,14 @@ from models.time_value import (
     continuous_compounding_amount,
     nominal_to_effective_rate,
 )
-from ui.styles import render_stat_card, render_chart_header, format_currency, format_percentage, plotly_base_layout
+from ui.styles import (
+    render_stat_card,
+    render_chart_header,
+    format_currency,
+    format_percentage,
+    plotly_base_layout,
+    render_doubling_callout,
+)
 
 
 def render_tab_time_value(curr_sym: str):
@@ -57,7 +64,7 @@ def render_tab_time_value(curr_sym: str):
         exact_double_yrs = math.log(2.0) / r_val if r_val > 0 else float("inf")
         rule_72_yrs = 72.0 / r_pct if r_pct > 0 else float("inf")
         st.markdown("---")
-        st.caption(f"⏱️ **Capital Doubling Horizon:** **{exact_double_yrs:.2f} yrs** (Exact: $\\ln(2)/r$) vs. **{rule_72_yrs:.2f} yrs** (Rule of 72: $72/r_{{\\%}}$)")
+        render_doubling_callout(exact_double_yrs, rule_72_yrs)
 
     # Core Calculations
     a_simple = simple_interest_amount(p_val, r_val, t_val)

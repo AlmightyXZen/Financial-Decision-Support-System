@@ -15,7 +15,7 @@ from models.loans_and_credit import (
     generate_amortization_schedule,
     calculate_prepayment_savings,
 )
-from ui.styles import render_stat_card, render_chart_header, format_currency, plotly_base_layout
+from ui.styles import render_stat_card, render_chart_header, format_currency, plotly_base_layout, format_fraction
 
 
 @st.cache_data(show_spinner=False)
@@ -59,7 +59,17 @@ def render_tab_loans(curr_sym: str):
         # Negative Amortization Boundary Watch
         base_monthly_interest = (loan_p * loan_r) / 12.0
         st.markdown("---")
-        st.caption(f"⚠️ **Interest-Only Accrual Threshold:** {format_currency(base_monthly_interest, curr_sym)}/mo ($\\frac{{P \\cdot r}}{{12}}$)")
+        frac_accrual = format_fraction("<i>P</i> &middot; <i>r</i>", "12")
+        st.markdown(
+            f"""
+            <div style="background: rgba(14, 27, 49, 0.70); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 0.65rem 0.85rem; margin-top: 0.6rem; margin-bottom: 0.8rem; font-size: 0.8rem; color: #94A3B8; display: flex; align-items: center; justify-content: space-between;">
+                <span>⚠️ <b>Interest-Only Accrual:</b></span>
+                <span style="color: #F8FAFC; font-weight: 700; font-family: 'JetBrains Mono', monospace;">{format_currency(base_monthly_interest, curr_sym)}/mo</span>
+                <span style="font-size: 0.75rem; color: #94A3B8;">({frac_accrual})</span>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
         test_pmt = st.number_input("Stress Test Custom Monthly Payment", min_value=500.0, max_value=float(base_monthly_interest * 2.5), value=float(round(base_monthly_interest * 0.9, -2)), step=500.0)
         neg_check = check_negative_amortization(loan_p, loan_r, test_pmt)
