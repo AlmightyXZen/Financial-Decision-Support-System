@@ -64,13 +64,11 @@ def render_tab_loans(curr_sym: str):
         st.markdown("---")
         frac_accrual = format_fraction("<i>P</i> &middot; <i>r</i>", "12")
         st.markdown(
-            f"""
-            <div style="background: rgba(14, 27, 49, 0.70); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 0.65rem 0.85rem; margin-top: 0.6rem; margin-bottom: 0.8rem; font-size: 0.8rem; color: #94A3B8; display: flex; align-items: center; justify-content: space-between;">
-                <span><b>Interest-Only Accrual Threshold:</b></span>
-                <span style="color: #F8FAFC; font-weight: 700; font-family: 'JetBrains Mono', monospace;">{format_currency(base_monthly_interest, curr_sym)}/mo</span>
-                <span style="font-size: 0.75rem; color: #94A3B8;">({frac_accrual})</span>
-            </div>
-            """,
+            f"""<div style="background: rgba(14, 27, 49, 0.70); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 0.65rem 0.85rem; margin-top: 0.6rem; margin-bottom: 0.8rem; font-size: 0.8rem; color: #94A3B8; display: flex; align-items: center; justify-content: space-between;">
+<span><b>Interest-Only Accrual Threshold:</b></span>
+<span style="color: #F8FAFC; font-weight: 700; font-family: 'JetBrains Mono', monospace;">{format_currency(base_monthly_interest, curr_sym)}/mo</span>
+<span style="font-size: 0.75rem; color: #94A3B8;">({frac_accrual})</span>
+</div>""",
             unsafe_allow_html=True
         )
 

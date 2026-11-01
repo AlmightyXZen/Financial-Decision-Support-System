@@ -417,7 +417,7 @@ def format_currency(value: float, sym: str = "₹", scale: Optional[str] = None)
         if abs_v >= 1e7:
             return f"{sign}{sym}{abs_v / 1e7:.2f} Cr"
         elif abs_v >= 1e5:
-            return f"{sign}{abs_v / 1e5:.2f} L"
+            return f"{sign}{sym}{abs_v / 1e5:.2f} L"
         else:
             return f"{sign}{sym}{abs_v:,.2f}"
     else:  # International system (M / B)
@@ -443,35 +443,29 @@ def render_stat_card(
     value_color: Optional[str] = None
 ):
     """Renders a sleek, responsive stat KPI card."""
-    delta_html = ""
-    if delta:
-        delta_html = f'<span class="delta-badge delta-{delta_type}">{delta}</span>'
-
+    delta_html = f'<span class="delta-badge delta-{delta_type}">{delta}</span>' if delta else ""
     color_style = f' style="color: {value_color};"' if value_color else ""
     subtext_html = f'<div class="card-subtext">{subtext}</div>' if subtext else ""
 
-    html = f"""
-    <div class="fdss-card">
-        <div class="card-top">
-            <span class="card-label">{label}</span>
-            {delta_html}
-        </div>
-        <div class="card-value"{color_style}>{value}</div>
-        {subtext_html}
-    </div>
-    """
+    html = (
+        f'<div class="fdss-card">'
+        f'<div class="card-top"><span class="card-label">{label}</span>{delta_html}</div>'
+        f'<div class="card-value"{color_style}>{value}</div>'
+        f'{subtext_html}'
+        f'</div>'
+    )
     st.markdown(html, unsafe_allow_html=True)
 
 
 def render_chart_header(title: str, subtitle: Optional[str] = None):
     """Renders a clean HTML header above the chart, completely eliminating canvas collisions."""
     sub_html = f'<div class="chart-subtitle">{subtitle}</div>' if subtitle else ""
-    html = f"""
-    <div style="margin-top: 1.2rem; margin-bottom: 0.4rem;">
-        <div class="chart-title">{title}</div>
-        {sub_html}
-    </div>
-    """
+    html = (
+        f'<div style="margin-top: 1.2rem; margin-bottom: 0.4rem;">'
+        f'<div class="chart-title">{title}</div>'
+        f'{sub_html}'
+        f'</div>'
+    )
     st.markdown(html, unsafe_allow_html=True)
 
 
@@ -537,20 +531,20 @@ def render_doubling_callout(exact_yrs: float, rule_72_yrs: float):
     exact_frac = format_fraction("ln(2)", "<i>r</i>")
     rule_frac = format_fraction("72", "<i>r</i><sub>%</sub>")
 
-    html = f"""
-    <div class="math-callout">
-        <div class="callout-header">⏱️ Capital Doubling Horizon</div>
-        <div class="callout-body">
-            <div class="callout-col">
-                <span class="callout-val">{exact_yrs:.2f} yrs</span>
-                <span class="callout-eq">Exact: {exact_frac}</span>
-            </div>
-            <div class="callout-sep">vs</div>
-            <div class="callout-col">
-                <span class="callout-val">{rule_72_yrs:.2f} yrs</span>
-                <span class="callout-eq">Rule of 72: {rule_frac}</span>
-            </div>
-        </div>
-    </div>
-    """
+    html = (
+        f'<div class="math-callout">'
+        f'<div class="callout-header">Capital Doubling Horizon</div>'
+        f'<div class="callout-body">'
+        f'<div class="callout-col">'
+        f'<span class="callout-val">{exact_yrs:.2f} yrs</span>'
+        f'<span class="callout-eq">Exact: {exact_frac}</span>'
+        f'</div>'
+        f'<div class="callout-sep">vs</div>'
+        f'<div class="callout-col">'
+        f'<span class="callout-val">{rule_72_yrs:.2f} yrs</span>'
+        f'<span class="callout-eq">Rule of 72: {rule_frac}</span>'
+        f'</div>'
+        f'</div>'
+        f'</div>'
+    )
     st.markdown(html, unsafe_allow_html=True)
