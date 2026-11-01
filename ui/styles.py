@@ -379,13 +379,43 @@ def apply_theme():
     st.markdown(CUSTOM_THEME_CSS, unsafe_allow_html=True)
 
 
-def format_currency(value: float, sym: str = "₹") -> str:
-    """Formats numeric values into sleek currency strings (e.g. ₹15.42 L, $1.25 Cr, $45,000.00)."""
-    if abs(value) >= 1e7:
-        return f"{sym}{value / 1e7:.2f} Cr"
-    elif abs(value) >= 1e5:
-        return f"{sym}{value / 1e5:.2f} L"
-    return f"{sym}{value:,.2f}"
+def format_currency(value: float, sym: str = "₹", scale: Optional[str] = None) -> str:
+    """
+    Formats numeric values into sleek currency strings.
+    Supports both Indian Vedic notation (Lakhs, Crores) and International Western notation (Millions, Billions).
+    Automatically defaults based on currency or user's selected preference in session_state.
+    """
+    if scale is None:
+        try:
+            user_choice = st.session_state.get("global_scale_select", "Auto (By Currency)")
+        except Exception:
+            user_choice = "Auto (By Currency)"
+
+        if "Indian" in user_choice:
+            scale = "indian"
+        elif "International" in user_choice:
+            scale = "intl"
+        else:
+            # Auto: INR uses Indian system, all other global currencies use International system
+            scale = "indian" if ("₹" in sym or "INR" in sym) else "intl"
+
+    abs_v = abs(value)
+    sign = "-" if value < 0 else ""
+
+    if scale == "indian":
+        if abs_v >= 1e7:
+            return f"{sign}{sym}{abs_v / 1e7:.2f} Cr"
+        elif abs_v >= 1e5:
+            return f"{sign}{abs_v / 1e5:.2f} L"
+        else:
+            return f"{sign}{sym}{abs_v:,.2f}"
+    else:  # International system (M / B)
+        if abs_v >= 1e9:
+            return f"{sign}{sym}{abs_v / 1e9:.2f}B"
+        elif abs_v >= 1e6:
+            return f"{sign}{sym}{abs_v / 1e6:.2f}M"
+        else:
+            return f"{sign}{sym}{abs_v:,.2f}"
 
 
 def format_percentage(value: float) -> str:

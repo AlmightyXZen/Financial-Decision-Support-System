@@ -23,11 +23,14 @@ def render_tab_capital_budgeting(curr_sym: str):
     
     # Preset quick-fill triggers across full container width
     b_cols = st.columns(3)
-    if b_cols[0].button("🚀 SaaS Expansion ($500k Outlay)", use_container_width=True):
+    c1_str = format_currency(500000.0, curr_sym)
+    c2_str = format_currency(2000000.0, curr_sym)
+    c3_str = format_currency(1500000.0, curr_sym)
+    if b_cols[0].button(f"🚀 SaaS Expansion ({c1_str} Outlay)", use_container_width=True):
         st.session_state["cb_flow"] = "-500000, 100000, 180000, 240000, 320000, 420000"
-    if b_cols[1].button("🏭 Manufacturing Line ($2M Outlay)", use_container_width=True):
+    if b_cols[1].button(f"🏭 Manufacturing Line ({c2_str} Outlay)", use_container_width=True):
         st.session_state["cb_flow"] = "-2000000, 350000, 500000, 650000, 800000, 950000"
-    if b_cols[2].button("⚡ Solar Farm ($1.5M Outlay)", use_container_width=True):
+    if b_cols[2].button(f"⚡ Solar Farm ({c3_str} Outlay)", use_container_width=True):
         st.session_state["cb_flow"] = "-1500000, 200000, 250000, 300000, 350000, 400000, 450000"
 
     flow_default = st.session_state.get("cb_flow", "-500000, 100000, 180000, 240000, 320000, 420000")

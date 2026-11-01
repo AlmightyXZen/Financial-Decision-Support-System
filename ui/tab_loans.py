@@ -28,15 +28,18 @@ def render_tab_loans(curr_sym: str):
     
     # Preset quick-fill triggers across full container width
     l_cols = st.columns(3)
-    if l_cols[0].button("🏡 Home Loan (₹35L @ 8.5%, 20Y)", use_container_width=True):
+    p1_str = format_currency(3500000.0, curr_sym)
+    p2_str = format_currency(1000000.0, curr_sym)
+    p3_str = format_currency(500000.0, curr_sym)
+    if l_cols[0].button(f"🏡 Home Loan ({p1_str} @ 8.5%, 20Y)", use_container_width=True):
         st.session_state["loan_p_val"] = 3500000.0
         st.session_state["loan_r_val"] = 8.5
         st.session_state["loan_t_val"] = 20
-    if l_cols[1].button("🚗 Auto Loan (₹10L @ 9.2%, 5Y)", use_container_width=True):
+    if l_cols[1].button(f"🚗 Auto Loan ({p2_str} @ 9.2%, 5Y)", use_container_width=True):
         st.session_state["loan_p_val"] = 1000000.0
         st.session_state["loan_r_val"] = 9.2
         st.session_state["loan_t_val"] = 5
-    if l_cols[2].button("💼 Personal Note (₹5L @ 12.5%, 3Y)", use_container_width=True):
+    if l_cols[2].button(f"💼 Personal Note ({p3_str} @ 12.5%, 3Y)", use_container_width=True):
         st.session_state["loan_p_val"] = 500000.0
         st.session_state["loan_r_val"] = 12.5
         st.session_state["loan_t_val"] = 3

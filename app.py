@@ -24,17 +24,47 @@ st.set_page_config(
 # Apply global styling
 apply_theme()
 
+# Supported Major Global Currencies
+CURRENCY_CONFIG = {
+    "₹ INR — Indian Rupee": "₹",
+    "$ USD — US Dollar": "$",
+    "€ EUR — Eurozone Euro": "€",
+    "£ GBP — British Pound": "£",
+    "¥ JPY — Japanese Yen": "¥",
+    "CHF — Swiss Franc": "CHF ",
+    "C$ CAD — Canadian Dollar": "C$",
+    "A$ AUD — Australian Dollar": "A$",
+    "S$ SGD — Singapore Dollar": "S$",
+    "HK$ HKD — Hong Kong Dollar": "HK$",
+    "¥ CNY — Chinese Yuan": "CN¥ ",
+    "AED — UAE Dirham": "AED ",
+    "₩ KRW — South Korean Won": "₩",
+    "R$ BRL — Brazilian Real": "R$",
+    "kr SEK — Swedish Krona": "kr ",
+}
+
 # Sidebar Controls
 with st.sidebar:
     st.markdown("### ⚙️ Workspace Settings")
     currency_option = st.selectbox(
         "Currency Display",
-        options=["₹ INR", "$ USD", "€ EUR", "£ GBP"],
+        options=list(CURRENCY_CONFIG.keys()),
         index=0,
-        key="global_currency_select"
+        key="global_currency_select",
+        help="Select presentation currency across all analytical modules."
     )
-    curr_sym = currency_option.split()[0]
-    
+    curr_sym = CURRENCY_CONFIG[currency_option]
+
+    st.markdown("---")
+    st.markdown("##### Denomination Scale")
+    scale_option = st.radio(
+        "Number System",
+        options=["Auto (By Currency)", "International (M / B)", "Indian (L / Cr)"],
+        index=0,
+        key="global_scale_select",
+        help="Switch between International (Thousands, Millions, Billions) and Indian Vedic (Lakhs, Crores) systems."
+    )
+
     st.markdown("---")
     st.markdown("##### About the Studio")
     st.caption(
